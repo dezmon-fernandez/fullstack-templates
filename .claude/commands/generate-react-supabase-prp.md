@@ -73,6 +73,7 @@ Create `PRPs/[name].md` using base template:
 4. **Customize phases** - Adapt code examples to actual feature
 5. **Include AI docs context** - Paste relevant documentation snippets
 6. **Update gotchas** - Add feature-specific warnings discovered
+7. **If fresh project** (no `package.json`) - Verify `.env.local` exists with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. If missing, stop and ask user to create it. Then include Phase 0: Project Scaffolding in the PRP with Vite setup, dependencies, shadcn, and base config.
 
 ### 5. Validate PRP Completeness
 
