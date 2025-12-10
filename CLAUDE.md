@@ -82,10 +82,40 @@ supabase gen types typescript --local > src/shared/types/database.types.ts
 
 ### React 19
 ```typescript
+import { ReactElement } from 'react';
+
+// Use ReactElement, not JSX.Element
 function Component(): ReactElement {
   return <div>...</div>;
 }
+
 // Don't manually memoize - React Compiler handles it
+// No useMemo, useCallback, or React.memo needed
+```
+
+### React 19 Actions
+```typescript
+import { useActionState, ReactElement } from 'react';
+
+function ContactForm(): ReactElement {
+  const [state, submitAction, isPending] = useActionState(
+    async (prevState, formData: FormData) => {
+      const result = schema.safeParse(Object.fromEntries(formData));
+      if (!result.success) return { error: result.error.flatten() };
+      await submitData(result.data);
+      return { success: true };
+    },
+    null
+  );
+
+  return (
+    <form action={submitAction}>
+      <button disabled={isPending}>
+        {isPending ? 'Sending...' : 'Send'}
+      </button>
+    </form>
+  );
+}
 ```
 
 ### TanStack Query v5
@@ -100,6 +130,44 @@ import { createBrowserClient } from '@supabase/ssr';
 // Always index RLS policy columns
 ```
 
+### Zod Validation
+```typescript
+import { z } from 'zod';
+
+// Validate at system boundaries (API responses, form inputs, URL params)
+const userSchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  role: z.enum(['admin', 'user']),
+});
+
+type User = z.infer<typeof userSchema>;
+
+// In hooks/API calls
+const data = userSchema.parse(response);
+```
+
+### Component State Handling
+```typescript
+function FeatureComponent(): ReactElement {
+  const { data, isPending, error } = useQuery({...});
+
+  if (isPending) return <Skeleton />;
+  if (error) return <ErrorMessage error={error} />;
+  if (!data) return <EmptyState />;
+
+  return <FeatureContent data={data} />;
+}
+// Always handle: loading, error, empty, success
+```
+
+### TypeScript
+```typescript
+// No `any` - use `unknown` if type is truly unknown
+// Explicit return types for functions
+// Use z.infer<typeof schema> for types from Zod
+```
+
 ## PRP Workflow
 
 **New App**: Edit `PRPs/INITIAL.md` → `/generate-react-supabase-prp PRPs/INITIAL.md`
@@ -109,6 +177,23 @@ import { createBrowserClient } from '@supabase/ssr';
 **Quick Feature**: `/generate-react-supabase-prp "add dark mode toggle"`
 
 Then execute: `/execute-react-supabase-prp PRPs/[generated-file].md`
+
+## UX Best Practices
+
+- **Keep it simple** - Prefer straightforward layouts over complex nested components
+- **Use shadcn defaults** - Don't customize unless there's a clear reason
+- **Consistent spacing** - Use Tailwind spacing scale consistently (p-4, gap-4, etc.)
+- **Loading states** - Show skeletons for async content, disable buttons during submission
+- **Error states** - Display inline errors near the problem, not just toasts
+- **Mobile first** - Start with mobile layout, add responsive breakpoints as needed
+- **Accessible by default** - Use semantic HTML, proper labels, keyboard navigation
+
+## Code Philosophy
+
+- **Don't over-engineer** - Solve the current problem, not hypothetical future ones
+- **No premature abstractions** - Duplicate code is fine until a pattern emerges 3+ times
+- **Minimal indirection** - Prefer inline logic over layers of helpers and utilities
+- **Delete aggressively** - Remove unused code, don't comment it out "just in case"
 
 ## Common Gotchas
 
