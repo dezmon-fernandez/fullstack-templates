@@ -14,7 +14,7 @@ Path to PRP file (e.g., `PRPs/my-feature.md`)
    - Announce phase and files to create
    - Implement following vertical slice architecture
    - Validate phase completion
-   - **If Route is NEW or MODIFY**: Create or update the specified route file
+   - Phase 6 creates route files that import from features
 
 3. **Per-Phase Testing (CRITICAL)**
 

@@ -3,7 +3,6 @@
 ## Metadata
 - **Feature**: [FEATURE_NAME]
 - **Affected Slices**: [LIST_AFFECTED_FEATURES]
-- **Route**: [NEW: `src/routes/_authenticated/[feature].tsx` | MODIFY: `src/routes/__root.tsx` | NONE]
 - **Database Changes**: [YES_OR_NO]
 - **New Dependencies**: [LIST_OR_NONE]
 
@@ -70,6 +69,8 @@ src/
 - Features → Shared
 - Features → Features
 - Shared → Features NEVER
+
+**Supabase Client**: `import { supabase } from '@/shared/utils/supabase'`
 
 ---
 
@@ -507,32 +508,35 @@ Task 5.1 - Index:
     export type { [Item], Create[Item]Input } from './schemas/[FEATURE].schema';
 ```
 
-### Phase 6: Route Integration (if Route metadata is NEW or MODIFY)
+### Phase 6: Route Integration
+
+> For each feature slice, integrate into a route - create new or modify existing.
 
 ```yaml
-Task 6.1 - Route (use path from Route metadata above):
-  file: [USE_ROUTE_FROM_METADATA]
+# Pattern A: New route
+Task 6.1 - [Feature] Route (NEW):
+  file: src/routes/[ROUTE_PATH].tsx
   content: |
     import { type ReactElement } from 'react';
     import { createFileRoute } from '@tanstack/react-router';
-    import { [Item]List } from '@/features/[FEATURE]';
-    import { Button } from '@/shared/components/button';
+    import { [COMPONENTS] } from '@/features/[FEATURE]';
 
-    export const Route = createFileRoute('[ROUTE_PATH_FROM_METADATA]')({
+    export const Route = createFileRoute('[ROUTE_PATH]')({
       component: [Page],
     });
 
     function [Page](): ReactElement {
       return (
-        <div className="container py-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold">[PAGE_TITLE]</h1>
-            <Button>New [Item]</Button>
-          </div>
-          <[Item]List />
-        </div>
+        [PAGE_LAYOUT_USING_FEATURE_COMPONENTS]
       );
     }
+
+# Pattern B: Modify existing route
+Task 6.2 - [Feature] in [Existing] Route (MODIFY):
+  file: src/routes/[EXISTING_ROUTE].tsx
+  changes:
+    - Add import: import { [COMPONENTS] } from '@/features/[FEATURE]';
+    - Add to JSX: [WHERE_TO_ADD_FEATURE_COMPONENTS]
 ```
 
 ---
