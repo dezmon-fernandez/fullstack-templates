@@ -18,6 +18,11 @@ supabase start
 # Use credentials from terminal output
 ```
 
+Link to your remote Supabase project:
+```bash
+supabase link --project-ref your-project-ref
+```
+
 ### 2. Describe Your App
 
 Edit `PRPs/INITIAL.md` with your app requirements.

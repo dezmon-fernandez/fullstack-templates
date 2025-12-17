@@ -14,6 +14,7 @@ Path to PRP file (e.g., `PRPs/my-feature.md`)
    - Announce phase and files to create
    - Implement following vertical slice architecture
    - Validate phase completion
+   - **If Route is NEW or MODIFY**: Create or update the specified route file
 
 3. **Per-Phase Testing (CRITICAL)**
 
@@ -21,7 +22,7 @@ Path to PRP file (e.g., `PRPs/my-feature.md`)
    |-------|------------|---------|
    | Hooks | **YES** | `pnpm test src/features/[feature]/__tests__/use-*` |
    | Components | **YES** | `pnpm test src/features/[feature]/__tests__/` |
-   | Routes | **YES** | `pnpm test --run` (full suite) |
+   | Routes | Verify | `test -f [route-path] && pnpm build` |
 
    **Do NOT proceed if tests fail.**
 
@@ -36,13 +37,19 @@ Path to PRP file (e.g., `PRPs/my-feature.md`)
 ## Architecture
 
 ```
-features/[name]/
-├── __tests__/
-├── components/
-├── hooks/
-├── schemas/
-├── types/
-└── index.ts
+src/
+├── routes/                      # TanStack Router file-based routing
+│   ├── __root.tsx               # Root layout
+│   ├── _authenticated.tsx       # Auth layout wrapper
+│   └── _authenticated/          # Protected routes
+│       └── [feature].tsx
+└── features/[name]/
+    ├── __tests__/
+    ├── components/
+    ├── hooks/
+    ├── schemas/
+    ├── types/
+    └── index.ts
 ```
 
 **Import Rules:**

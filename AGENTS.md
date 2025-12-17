@@ -179,9 +179,9 @@ function FeatureComponent(): ReactElement {
 Then execute: `/execute-react-supabase-prp PRPs/[generated-file].md`
 
 ## UX Best Practices
-
-- **Visual polish matters** - Customize theme colors, typography, and effects to match the app's aesthetic
-- **Keep layouts simple** - Prefer straightforward layouts over complex nested components
+- **Leverage shadcn structure** - Don't rewrite components; customize via props and Tailwind
+- **Simple component trees** - Prefer flat, readable structures over deep nesting
+- **Make aesthetic choices** - Colors, transitions, and typography should feel intentional, not stock
 - **Consistent spacing** - Use Tailwind spacing scale consistently (p-4, gap-4, etc.)
 - **Loading states** - Show skeletons for async content, disable buttons during submission
 - **Error states** - Display inline errors near the problem, not just toasts

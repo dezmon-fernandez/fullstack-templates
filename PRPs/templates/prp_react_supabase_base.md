@@ -3,6 +3,7 @@
 ## Metadata
 - **Feature**: [FEATURE_NAME]
 - **Affected Slices**: [LIST_AFFECTED_FEATURES]
+- **Route**: [NEW: `src/routes/_authenticated/[feature].tsx` | MODIFY: `src/routes/__root.tsx` | NONE]
 - **Database Changes**: [YES_OR_NO]
 - **New Dependencies**: [LIST_OR_NONE]
 
@@ -506,18 +507,18 @@ Task 5.1 - Index:
     export type { [Item], Create[Item]Input } from './schemas/[FEATURE].schema';
 ```
 
-### Phase 6: Route Integration
+### Phase 6: Route Integration (if Route metadata is NEW or MODIFY)
 
 ```yaml
-Task 6.1 - Route:
-  file: src/routes/_authenticated/[ROUTE].tsx
+Task 6.1 - Route (use path from Route metadata above):
+  file: [USE_ROUTE_FROM_METADATA]
   content: |
     import { type ReactElement } from 'react';
     import { createFileRoute } from '@tanstack/react-router';
     import { [Item]List } from '@/features/[FEATURE]';
     import { Button } from '@/shared/components/button';
 
-    export const Route = createFileRoute('/_authenticated/[ROUTE]')({
+    export const Route = createFileRoute('[ROUTE_PATH_FROM_METADATA]')({
       component: [Page],
     });
 
@@ -548,7 +549,7 @@ Run tests after each phase that introduces testable code:
 | 3. Hooks | **YES** | `pnpm test src/features/[FEATURE]/__tests__/use-*` |
 | 4. Components | **YES** | `pnpm test src/features/[FEATURE]/__tests__/` |
 | 5. Public API | No | - |
-| 6. Routes | **YES** | `pnpm test --run` (full suite) |
+| 6. Routes | Verify | `test -f [route-path] && pnpm build` |
 
 ### Level 1: Build + Tests
 ```bash
