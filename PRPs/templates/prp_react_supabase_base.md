@@ -18,6 +18,7 @@
 | **Routing** | TanStack Router | Latest |
 | **Data Fetching** | TanStack Query | v5 |
 | **UI Components** | shadcn/ui | Latest |
+| **Icons** | Lucide React | Latest |
 | **Styling** | Tailwind CSS | v4 |
 | **Forms** | React Hook Form + Zod | Latest |
 | **Backend** | Supabase | Latest |
@@ -38,6 +39,7 @@
 | Supabase Auth | https://supabase.com/docs/guides/auth |
 | Supabase RLS | https://supabase.com/docs/guides/database/postgres/row-level-security |
 | shadcn/ui | https://ui.shadcn.com/docs |
+| Lucide React | https://lucide.dev/guide/packages/lucide-react |
 | Tailwind v4 | https://tailwindcss.com/docs/installation/vite |
 | React Hook Form | https://react-hook-form.com/docs |
 | Zod | https://zod.dev/?id=basic-usage |

@@ -12,8 +12,9 @@ VITE_SUPABASE_URL=https://xxxxx.supabase.co
 VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
 ```
 
-If using local Supabase:
+If using local Supabase (requires Docker):
 ```bash
+cp supabase/config.example.toml supabase/config.toml
 supabase start
 # Use credentials from terminal output
 ```

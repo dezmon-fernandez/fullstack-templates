@@ -1,0 +1,86 @@
+# ===========================================
+# Supabase Local Development Configuration
+# ===========================================
+# This file is ONLY for local development with `supabase start`
+# It has NO effect on remote/production (supabase.com)
+#
+# To use:
+#   1. Copy this file to config.toml
+#   2. Run `supabase start` (requires Docker)
+#
+# For remote/production, configure settings in the Supabase dashboard:
+#   https://supabase.com/dashboard/project/_/settings
+# ===========================================
+
+project_id = "my-project"
+
+[api]
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+port = 54323
+
+# -------------------------------------------
+# Auth Configuration
+# -------------------------------------------
+[auth]
+# Used for email links (magic link, password reset)
+# Only matters if testing email flows locally - emails go to Inbucket (localhost:54324)
+site_url = "http://localhost:5173"
+
+# Wildcards allow any localhost port - no need to worry about port mismatches
+additional_redirect_urls = ["http://localhost:*", "http://127.0.0.1:*"]
+
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+
+# false = skip email verification locally (just works)
+# Configure via dashboard for production
+enable_confirmations = false
+
+# -------------------------------------------
+# OAuth Providers (optional)
+# -------------------------------------------
+# Uncomment and configure if testing OAuth locally
+# Redirect URLs above already allow any localhost port
+
+# [auth.external.google]
+# enabled = true
+# client_id = "your-google-client-id"
+# secret = "your-google-client-secret"
+
+# [auth.external.github]
+# enabled = true
+# client_id = "your-github-client-id"
+# secret = "your-github-client-secret"
+
+# -------------------------------------------
+# Storage
+# -------------------------------------------
+[storage]
+file_size_limit = "50MiB"
+
+# -------------------------------------------
+# Analytics
+# -------------------------------------------
+[analytics]
+port = 54327
+
+# -------------------------------------------
+# Inbucket (local email testing)
+# -------------------------------------------
+[inbucket]
+port = 54324
+smtp_port = 54325
+pop3_port = 54326

@@ -18,6 +18,7 @@ build/
 # Supabase
 supabase/.branches/
 supabase/.temp/
+supabase/config.toml
 
 # IDE/Editor
 .vscode/
