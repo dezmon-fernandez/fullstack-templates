@@ -1,91 +1,79 @@
-# [Project Name]
+# Quickstart Hub
 
-> Built with the React 19 + Supabase MVP Template
+A collection of AI-powered templates for rapid MVP development with Claude Code.
 
-## Setup
-
-### 1. Supabase Credentials
-
-Make sure `.env.local` has your Supabase credentials:
-```
-VITE_SUPABASE_URL=https://xxxxx.supabase.co
-VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
-```
-
-If using local Supabase (requires Docker):
-```bash
-cp supabase/config.example.toml supabase/config.toml
-supabase start
-# Use credentials from terminal output
-```
-
-Link to your remote Supabase project:
-```bash
-supabase link --project-ref your-project-ref
-```
-
-### 2. Describe Your App
-
-Edit `PRPs/INITIAL.md` with your app requirements.
-
-### 3. Generate & Build
+## Quick Start
 
 ```bash
+# List available templates
+python quickstart.py --list
+
+# Copy a template to start a new project
+python quickstart.py react-spa-supabase ./my-new-app
+
+# With git initialization
+python quickstart.py react-spa-supabase ./my-new-app --with-git
+```
+
+## Available Templates
+
+### react-spa-supabase
+Client-rendered React 19 SPA with Supabase backend.
+
+**Stack:** React 19, Vite, TanStack Router/Query, Supabase, shadcn/ui, Tailwind v4
+
+**Best for:** Dashboards, admin panels, internal tools, apps where SEO doesn't matter.
+
+### tanstack-start-supabase
+Server-rendered React with TanStack Start and Supabase.
+
+**Stack:** React 19, TanStack Start, TanStack Router/Query, Supabase, shadcn/ui, Tailwind v4
+
+**Best for:** Public-facing apps, landing pages, content sites, SEO-critical applications.
+
+## How It Works
+
+Each template includes:
+
+1. **PRP System** - Product Requirement Prompts for AI-driven development
+2. **Claude Commands** - `/generate-*-prp` and `/execute-*-prp` commands
+3. **AGENTS.md** - Guidelines for Claude Code
+4. **Vertical Slice Architecture** - Feature-based code organization
+
+### Workflow
+
+```bash
+# 1. Copy template
+python quickstart.py react-spa-supabase ./my-app
+
+# 2. Navigate and install
+cd my-app
+pnpm install
+
+# 3. Set up Supabase credentials
+cp .env.example .env.local
+# Edit .env.local with your keys
+
+# 4. Describe your app in PRPs/INITIAL.md
+
+# 5. Generate implementation plan
 /generate-react-supabase-prp PRPs/INITIAL.md
-/execute-react-supabase-prp PRPs/[your-app].md
-```
 
-The AI scaffolds everything and builds your app.
+# 6. Execute the plan
+/execute-react-supabase-prp PRPs/[generated].md
 
-### 4. Run
-
-```bash
+# 7. Run
 pnpm dev
 ```
 
-## Adding Features
+## Adding New Templates
 
-```bash
-# Option 1: Edit PRPs/FEATURE.md first
-/generate-react-supabase-prp PRPs/FEATURE.md
+1. Create a folder in `templates/`
+2. Include at minimum:
+   - `README.md` - Setup instructions
+   - `AGENTS.md` - Claude Code guidelines
+   - `CLAUDE.md` - Points to AGENTS.md
+   - `.claude/commands/` - Generate and execute commands
+   - `PRPs/` - Requirement templates
 
-# Option 2: Inline
-/generate-react-supabase-prp "add user profile with avatar"
-
-# Then execute
-/execute-react-supabase-prp PRPs/[feature].md
-```
-
-## Commands
-
-```bash
-pnpm dev              # Dev server
-pnpm build            # Production build
-pnpm test             # Run tests
-pnpm biome check .    # Lint
-pnpm tsc --noEmit     # Type check
-
-supabase start        # Local Supabase
-supabase db reset     # Reset database
-supabase gen types typescript --local > src/shared/types/database.types.ts
-```
-
-## Project Structure
-
-```
-src/
-├── routes/           # TanStack Router
-├── features/         # Vertical slices
-│   └── [feature]/
-│       ├── __tests__/
-│       ├── components/
-│       ├── hooks/
-│       └── index.ts
-└── shared/           # UI, utils
-```
-
-## Docs
-
-- [Supabase](https://supabase.com/docs)
-- [TanStack](https://tanstack.com)
-- [shadcn/ui](https://ui.shadcn.com)
+The quickstart script will automatically discover new templates.
