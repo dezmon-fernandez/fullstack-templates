@@ -29,6 +29,7 @@ coverage/
 # Supabase
 supabase/.branches/
 supabase/.temp/
+supabase/config.toml
 
 # TypeScript
 *.tsbuildinfo
