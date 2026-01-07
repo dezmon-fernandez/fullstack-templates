@@ -355,83 +355,46 @@ Task 3.1 - Server Functions:
       })
 ```
 
-### Phase 4: Routes
+### Phase 4: Feature Slice - Hooks (Optional)
 
-> **Define routes first to establish page structure.** Routes define what data each page needs via loaders and what components will render. Components are stubbed initially, then built in Phase 5.
-
-> **CRITICAL**: Each route task MUST include:
-> 1. Full import list from feature slices
-> 2. Complete loader implementation
-> 3. Complete head/SEO implementation with title, description, og:tags
-> 4. SSR mode explicitly set
-> 5. Component structure (can reference components to be built in Phase 5)
+> **Most features don't need custom hooks.** Call server functions directly in components + `router.invalidate()`. Only create hooks for reusable mutation logic shared across multiple components. TanStack Query is only needed for polling, window focus refetch, or optimistic updates.
 
 ```yaml
-Task 4.X - [Route Name] Route:
-  file: src/routes/[ROUTE_PATH].tsx
-  imports:
-    - createFileRoute from '@tanstack/react-router'
-    - [LIST_ALL_SERVER_FNS] from '@/features/[FEATURE]'
-  loader:
-    calls: [SERVER_FN]({ data: params })
-    returns: { [TYPED_DATA] }
-  head:
-    title: '[PAGE_TITLE] | AppName'
-    meta:
-      - { name: 'description', content: '[DESCRIPTION]' }
-      - { property: 'og:title', content: '[OG_TITLE]' }
-      - { property: 'og:description', content: '[OG_DESC]' }
-    scripts: [JSON-LD if needed]
-  ssr: true | 'data-only' | false
-  components_needed:
-    - [Component1] receives: { [PROP]: loaderData.[FIELD] }
-    - [Component2] receives: { [PROP]: loaderData.[FIELD] }
+Task 4.1 - (Optional) Mutation Hooks:
+  description: Only create if you need reusable mutation logic across components
+  file: src/features/[FEATURE]/hooks/use-[FEATURE].ts
   content: |
-    import { createFileRoute } from '@tanstack/react-router'
-    import { fetch[Items] } from '@/features/[FEATURE]'
-    // Components imported after Phase 5
-    // import { [Item]List, [Item]Form } from '@/features/[FEATURE]'
+    import { useRouter } from '@tanstack/react-router'
+    import { create[Item], delete[Item] } from '../server/[FEATURE].server'
+    import type { Create[Item]Input } from '../schemas/[FEATURE].schema'
 
-    export const Route = createFileRoute('[ROUTE_PATH]')({
-      head: ({ loaderData }) => ({
-        title: `[TITLE] | AppName`,
-        meta: [
-          { name: 'description', content: '[DESCRIPTION]' },
-          { property: 'og:title', content: '[OG_TITLE]' },
-        ],
-      }),
-      ssr: true,
-      loader: () => fetch[Items](),
-      component: [Name]Page,
-    })
+    // Simple mutation hook - calls server fn, invalidates router
+    export function useCreate[Item]() {
+      const router = useRouter()
 
-    function [Name]Page() {
-      const items = Route.useLoaderData()
-      return (
-        <main className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">[PAGE_HEADING]</h1>
-          {/* Components added after Phase 5 */}
-        </main>
-      )
+      return async (input: Create[Item]Input) => {
+        await create[Item]({ data: input })
+        router.invalidate()
+      }
     }
 
-# List ALL routes from requirements:
-routes_needed:
-  - path: /[ROUTE1]
-    layout: _authed (if protected)
-    components: [COMPONENT_LIST]
-  - path: /[ROUTE2]/$id
-    layout: _authed
-    components: [COMPONENT_LIST]
+    export function useDelete[Item]() {
+      const router = useRouter()
+
+      return async (id: string) => {
+        await delete[Item]({ data: { id } })
+        router.invalidate()
+      }
+    }
 ```
 
 ### Phase 5: Feature Slice - Components
 
-> Build components to fulfill the route contracts defined in Phase 4. Components receive data as typed props. Mutations call server functions + `router.invalidate()`.
+> Components receive data as typed props. Mutations call server functions + `router.invalidate()`.
 
 ```yaml
 Task 5.1 - Components:
-  description: Create components needed for the routes. Receive data as props.
+  description: Create components needed for the feature. Receive data as props.
   pattern: |
     import { type ReactElement } from 'react'
     import { useRouter } from '@tanstack/react-router'
@@ -461,24 +424,6 @@ Task 5.1 - Components:
         </ul>
       )
     }
-
-Task 5.2 - Wire Components into Routes:
-  description: Update routes from Phase 4 to import and render the completed components
-  pattern: |
-    // Add imports
-    import { [Item]List, [Item]Form } from '@/features/[FEATURE]'
-
-    // Update component to render feature components
-    function [Name]Page() {
-      const items = Route.useLoaderData()
-      return (
-        <main className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">[PAGE_HEADING]</h1>
-          <[Item]Form />
-          <[Item]List items={items} />
-        </main>
-      )
-    }
 ```
 
 ### Phase 6: Feature Slice - Public API
@@ -496,6 +441,102 @@ Task 6.1 - Export Public API:
 
     // Types
     export type { [Item], Create[Item]Input } from './schemas/[FEATURE].schema'
+```
+
+### Phase 7: Route Integration with SSR
+
+> **CRITICAL**: Each route task MUST include:
+> 1. Full import list from feature slices
+> 2. Complete loader implementation
+> 3. Complete head/SEO implementation with title, description, og:tags
+> 4. **Full component JSX** - NO placeholder comments like `{/* TODO */}` or `{/* Content here */}`
+> 5. All props passed from loader data to components
+> 6. SSR mode explicitly set
+
+**Anti-pattern (REJECT - incomplete routes will fail validation):**
+```tsx
+function Page() {
+  return <div>{/* Content here */}</div>  // ❌ Placeholder comment
+}
+
+function Page() {
+  const data = Route.useLoaderData()
+  return <div>TODO: Add content</div>  // ❌ TODO placeholder
+}
+```
+
+**Required pattern:**
+```tsx
+function Page() {
+  const { items, user } = Route.useLoaderData()
+  return (
+    <div>
+      <Header user={user} />
+      <ItemList items={items} />  {/* ✅ Actual components with typed props */}
+      <CreateItemForm />
+    </div>
+  )
+}
+```
+
+```yaml
+Task 7.X - [Route Name] Route:
+  file: src/routes/[ROUTE_PATH].tsx
+  imports:
+    - createFileRoute from '@tanstack/react-router'
+    - [LIST_ALL_SERVER_FNS] from '@/features/[FEATURE]'
+    - [LIST_ALL_COMPONENTS] from '@/features/[FEATURE]'
+  loader:
+    calls: [SERVER_FN]({ data: params })
+    returns: { [TYPED_DATA] }
+  head:
+    title: '[PAGE_TITLE] | AppName'
+    meta:
+      - { name: 'description', content: '[DESCRIPTION]' }
+      - { property: 'og:title', content: '[OG_TITLE]' }
+      - { property: 'og:description', content: '[OG_DESC]' }
+    scripts: [JSON-LD if needed]
+  ssr: true | 'data-only' | false
+  component:
+    renders:
+      - [Component1] with props: { [PROP]: loaderData.[FIELD] }
+      - [Component2] with props: { [PROP]: loaderData.[FIELD] }
+  content: |
+    import { createFileRoute } from '@tanstack/react-router'
+    import { fetch[Items], [Item]List, [Item]Form } from '@/features/[FEATURE]'
+
+    export const Route = createFileRoute('[ROUTE_PATH]')({
+      head: ({ loaderData }) => ({
+        title: `[TITLE] | AppName`,
+        meta: [
+          { name: 'description', content: '[DESCRIPTION]' },
+          { property: 'og:title', content: '[OG_TITLE]' },
+        ],
+      }),
+      ssr: true,
+      loader: () => fetch[Items](),
+      component: [Name]Page,
+    })
+
+    function [Name]Page() {
+      const items = Route.useLoaderData()
+      return (
+        <main className="container mx-auto p-4">
+          <h1 className="text-2xl font-bold mb-4">[PAGE_HEADING]</h1>
+          <[Item]Form />
+          <[Item]List items={items} />
+        </main>
+      )
+    }
+
+# List ALL routes from requirements:
+routes_needed:
+  - path: /[ROUTE1]
+    layout: _authed (if protected)
+    components: [COMPONENT_LIST]
+  - path: /[ROUTE2]/$id
+    layout: _authed
+    components: [COMPONENT_LIST]
 ```
 
 ---
@@ -528,9 +569,10 @@ For EACH route in `routes_needed`:
 | 1. Database | No | `supabase db reset` |
 | 2. Schemas | No | - |
 | 3. Server Functions | **YES** | `pnpm test src/features/[FEATURE]/__tests__/*server*` |
-| 4. Routes | No | `pnpm dev` (verify routes generate) |
+| 4. Hooks | **YES** | `pnpm test src/features/[FEATURE]/__tests__/use-*` |
 | 5. Components | **YES** | `pnpm test src/features/[FEATURE]/__tests__/` |
-| 6. Public API | **YES** | `pnpm build && pnpm test --run` |
+| 6. Public API | No | - |
+| 7. Routes | **YES** | `pnpm build && pnpm test --run` |
 
 ### Final Validation
 ```bash
