@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environment files (keep .env.example, ignore actual secrets)
+.env
+.env.local
+.env.*.local
+
+# Local settings
+.settings.local
+*.local
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+supabase/config.toml
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Misc
+.cache/
+.turbo/
+.vercel/
