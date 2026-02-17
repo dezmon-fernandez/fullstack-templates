@@ -31,6 +31,13 @@ Server-rendered React with TanStack Start and Supabase.
 
 **Best for:** Public-facing apps, landing pages, content sites, SEO-critical applications.
 
+### next-supabase
+Server-rendered React with Next.js App Router and Supabase.
+
+**Stack:** Next.js 16, React 19, App Router, Server Components, Supabase, shadcn/ui, Tailwind v4
+
+**Best for:** Public-facing apps, e-commerce, content sites, SEO-critical applications, teams familiar with Next.js.
+
 ## How It Works
 
 Each template includes:
