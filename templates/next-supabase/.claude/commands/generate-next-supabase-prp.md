@@ -80,7 +80,7 @@ Create `PRPs/[name].md` using base template:
 6. **Customize phases** - Include Server Actions phase before components
 7. **Include AI docs context** - Paste relevant documentation snippets
 8. **Update gotchas** - Add feature-specific warnings discovered
-9. **If fresh project** (no `package.json`) - Check `.env.local` exists using `test -f .env.local` (never read its contents). If missing, stop and ask user to copy from `.env.example` and add their Supabase keys. Then include Phase 0: Project Scaffolding in the PRP with create-next-app setup, dependencies, shadcn, Supabase clients, and middleware. Note: `src/lib/supabase/server.ts` and `src/lib/supabase/client.ts` already exist - do not overwrite.
+9. **If fresh project** (no `node_modules/`) - Check `.env.local` exists using `test -f .env.local` (never read its contents). If missing, stop and ask user to copy from `.env.example` and add their Supabase keys. Then include Phase 0: Project Setup in the PRP with `pnpm install`, shadcn init, and any additional project-specific dependencies. Note: `package.json`, config files, `src/lib/supabase/server.ts`, `src/lib/supabase/client.ts`, and `src/middleware.ts` already exist in the template - do not overwrite.
 10. **Include visual design spec** - If INITIAL.md provided, extract visual design section. If string input, infer aesthetic from the description or ask user.
 11. **Route integration for every feature (CRITICAL)** - For each feature slice created:
     - Include a dedicated Task in Phase 6 for EACH page

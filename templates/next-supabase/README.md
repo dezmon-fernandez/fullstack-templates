@@ -78,12 +78,16 @@ next-supabase/
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| **Framework** | Next.js | 16.x |
-| **Frontend** | React | 19.x |
-| **Language** | TypeScript | 5.x |
+| **Framework** | Next.js | 16.1.6 |
+| **Frontend** | React | 19.2.3 |
+| **Language** | TypeScript | 5.x (strict) |
+| **Package Manager** | pnpm | 10.x |
 | **UI Components** | shadcn/ui | Latest |
-| **Styling** | Tailwind CSS | v4 |
-| **Backend** | Supabase | Latest |
+| **Styling** | Tailwind CSS | 4.x |
+| **Forms** | React Hook Form + Zod | 7.71.x + 4.3.x |
+| **Backend** | Supabase | 2.95.x |
+| **Linting** | Biome | 2.2.0 |
+| **Testing** | Vitest + Testing Library | 4.x + 16.x |
 
 ## Key Features
 

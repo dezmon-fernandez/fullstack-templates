@@ -14,15 +14,16 @@
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| **Framework** | Next.js | 16.x |
-| **Frontend** | React | 19.x |
+| **Framework** | Next.js | 16.1.6 |
+| **Frontend** | React | 19.2.3 |
 | **Language** | TypeScript | 5.x (strict) |
-| **Package Manager** | pnpm | 9.x |
+| **Package Manager** | pnpm | 10.x |
 | **UI Components** | shadcn/ui | Latest |
-| **Styling** | Tailwind CSS | v4 |
-| **Forms** | React Hook Form + Zod | Latest |
-| **Backend** | Supabase | Latest |
-| **Linting** | Biome | 2.0+ |
+| **Styling** | Tailwind CSS | 4.x |
+| **Forms** | React Hook Form + Zod | 7.71.x + 4.3.x |
+| **Backend** | Supabase | 2.95.x |
+| **Linting** | Biome | 2.2.0 |
+| **Testing** | Vitest + Testing Library | 4.x + 16.x |
 
 ---
 
@@ -183,42 +184,29 @@ Minimize `'use client'` scope. Pass server-fetched data as props to client compo
 
 ---
 
-### Phase 0: Project Scaffolding (if new project)
+### Phase 0: Project Setup (if fresh project)
 
-> Skip if `package.json` exists
+> Skip if `node_modules/` exists (dependencies already installed)
+> The template ships with `package.json`, `tsconfig.json`, `next.config.ts`, `biome.json`, `postcss.config.mjs`, Supabase clients, and middleware pre-configured.
 
 ```yaml
-Task 0.1 - Initialize Next.js:
+Task 0.1 - Install Dependencies:
   commands:
-    - pnpm create next-app@latest [PROJECT_NAME] --typescript --tailwind --eslint=false --app --src-dir --import-alias "@/*"
-    - cd [PROJECT_NAME]
+    - pnpm install
 
-Task 0.2 - Install Dependencies:
-  commands:
-    - pnpm add @supabase/ssr @supabase/supabase-js
-    - pnpm add zod react-hook-form @hookform/resolvers
-    - pnpm add -D @biomejs/biome vitest @testing-library/react @testing-library/dom jsdom
-
-Task 0.3 - Setup shadcn/ui:
+Task 0.2 - Setup shadcn/ui:
   commands:
     - pnpm dlx shadcn@latest init
     - pnpm dlx shadcn@latest add button input card form toast
 
-Task 0.4 - Setup Biome:
+Task 0.3 - Configure Environment:
+  note: Copy .env.example to .env.local and add your Supabase keys
   commands:
-    - npx @biomejs/biome init
-
-Task 0.5 - Configure Environment:
+    - cp .env.example .env.local
   file: .env.local
   content: |
     NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
     NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-
-Task 0.6 - Setup Supabase Clients:
-  note: src/lib/supabase/server.ts and src/lib/supabase/client.ts already exist - do not overwrite
-
-Task 0.7 - Setup Middleware:
-  note: src/middleware.ts already exists - do not overwrite
 ```
 
 ### Phase 1: Database Schema (if needed)
@@ -633,7 +621,7 @@ For EACH page in `pages_needed`:
 ### Per-Phase Testing
 | Phase | Run Tests? | Command |
 |-------|------------|---------|
-| 0. Scaffolding | No | - |
+| 0. Setup | No | `pnpm install` |
 | 1. Database | No | `supabase db reset` |
 | 2. Schemas | No | - |
 | 3. Server Actions | **YES** | `pnpm test src/features/[FEATURE]/__tests__/*action*` |
