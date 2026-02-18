@@ -18,8 +18,11 @@ python quickstart.py next-supabase ./my-new-app --with-git
 Then inside your new project:
 
 ```bash
-pnpm setup    # Install deps, start Supabase, write .env.local
-pnpm dev      # Start dev server
+pnpm setup                                        # Install deps, start Supabase, write .env.local
+# Edit PRPs/INITIAL.md with your app requirements
+/generate-<template>-prp PRPs/INITIAL.md           # Generate implementation plan
+/execute-<template>-prp PRPs/[generated].md        # Build it
+pnpm dev                                           # Start dev server
 ```
 
 ## Available Templates
