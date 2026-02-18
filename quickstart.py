@@ -27,6 +27,8 @@ EXCLUDE = {
     ".vite",
     ".turbo",
     "coverage",
+    "pnpm-lock.yaml",
+    "next-env.d.ts",
 }
 
 
