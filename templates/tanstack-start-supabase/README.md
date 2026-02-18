@@ -129,20 +129,14 @@ export const authMiddleware = createMiddleware().server(
 
 ## Setup After Copying
 
-1. **Copy environment file**
+1. **Run setup** (installs deps, starts Supabase, writes `.env.local`)
    ```bash
-   cp .env.example .env.local
+   pnpm setup
    ```
 
-2. **Add Supabase credentials** to `.env.local`
-   ```
-   VITE_SUPABASE_URL=https://your-project.supabase.co
-   VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
-   ```
+2. **Define your app** in `PRPs/INITIAL.md`
 
-3. **Define your app** in `PRPs/INITIAL.md`
-
-4. **Generate and execute**
+3. **Generate and execute**
    ```bash
    /generate-tanstack-start-prp PRPs/INITIAL.md
    /execute-tanstack-start-prp PRPs/[your-app].md

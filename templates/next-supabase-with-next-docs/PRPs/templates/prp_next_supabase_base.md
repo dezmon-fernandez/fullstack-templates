@@ -29,17 +29,41 @@
 
 ## Documentation References
 
+### Local Docs (version-accurate for Next.js 16.1.6 — read these first)
+
+| Topic | Local Path |
+|-------|-----------|
+| Server & Client Components | `.next-docs/01-app/01-getting-started/05-server-and-client-components.mdx` |
+| Fetching Data | `.next-docs/01-app/01-getting-started/07-fetching-data.mdx` |
+| Updating Data (Server Actions) | `.next-docs/01-app/01-getting-started/08-updating-data.mdx` |
+| Caching & Revalidating | `.next-docs/01-app/01-getting-started/09-caching-and-revalidating.mdx` |
+| Metadata & OG Images | `.next-docs/01-app/01-getting-started/14-metadata-and-og-images.mdx` |
+| Layouts & Pages | `.next-docs/01-app/01-getting-started/03-layouts-and-pages.mdx` |
+| Error Handling | `.next-docs/01-app/01-getting-started/10-error-handling.mdx` |
+| Route Handlers | `.next-docs/01-app/01-getting-started/15-route-handlers.mdx` |
+| Forms | `.next-docs/01-app/02-guides/forms.mdx` |
+| Authentication | `.next-docs/01-app/02-guides/authentication.mdx` |
+| JSON-LD | `.next-docs/01-app/02-guides/json-ld.mdx` |
+| ISR | `.next-docs/01-app/02-guides/incremental-static-regeneration.mdx` |
+| Vitest Testing | `.next-docs/01-app/02-guides/testing/vitest.mdx` |
+| generateMetadata API | `.next-docs/01-app/03-api-reference/04-functions/generate-metadata.mdx` |
+| generateStaticParams | `.next-docs/01-app/03-api-reference/04-functions/generate-static-params.mdx` |
+| revalidatePath | `.next-docs/01-app/03-api-reference/04-functions/revalidatePath.mdx` |
+| File conventions | `.next-docs/01-app/03-api-reference/03-file-conventions/` |
+| `'use server'` | `.next-docs/01-app/03-api-reference/01-directives/use-server.mdx` |
+| `'use client'` | `.next-docs/01-app/03-api-reference/01-directives/use-client.mdx` |
+
+If `.next-docs/` is missing, run: `npx @next/codemod agents-md --output CLAUDE.md`
+
+### External Docs (non-Next.js technologies)
+
 | Technology | Documentation |
 |------------|---------------|
-| Next.js App Router | https://nextjs.org/docs/app |
-| Server Components | https://nextjs.org/docs/app/building-your-application/rendering/server-components |
-| Server Actions | https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations |
-| Metadata API | https://nextjs.org/docs/app/building-your-application/optimizing/metadata |
-| Middleware | https://nextjs.org/docs/app/building-your-application/routing/middleware |
-| Loading UI | https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming |
-| Error Handling | https://nextjs.org/docs/app/building-your-application/routing/error-handling |
 | Supabase SSR | https://supabase.com/docs/guides/auth/server-side/nextjs |
 | shadcn/ui | https://ui.shadcn.com/docs |
+| Tailwind v4 | https://tailwindcss.com/docs |
+| React Hook Form | https://react-hook-form.com/docs |
+| Zod | https://zod.dev |
 
 ---
 

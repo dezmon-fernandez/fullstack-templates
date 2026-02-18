@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm:*)",
+      "Bash(npx:*)",
+      "Bash(supabase:*)",
+      "Bash(test:*)",
+      "Bash(mkdir:*)",
+      "WebSearch",
+      "WebFetch(domain:nextjs.org)",
+      "WebFetch(domain:react.dev)",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:tailwindcss.com)",
+      "WebFetch(domain:react-hook-form.com)",
+      "WebFetch(domain:zod.dev)",
+      "WebFetch(domain:vitest.dev)",
+      "WebFetch(domain:docs.stripe.com)",
+      "WebFetch(domain:sdk.vercel.ai)",
+      "Write(src/**)",
+      "Write(PRPs/**)",
+      "Write(supabase/**)",
+      "Edit(src/**)",
+      "Edit(PRPs/**)",
+      "Edit(supabase/**)"
+    ]
+  }
+}

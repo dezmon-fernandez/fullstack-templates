@@ -155,7 +155,7 @@ If you need Query, add the provider setup and hydration at that point - not upfr
 
 ### Phase 0: Project Scaffolding (if new project)
 
-> Skip if `package.json` exists
+> Skip if `src/components/ui/` exists (shadcn already initialized)
 
 ```yaml
 Task 0.1 - Initialize TanStack Start:
