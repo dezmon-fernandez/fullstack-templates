@@ -186,27 +186,14 @@ Minimize `'use client'` scope. Pass server-fetched data as props to client compo
 
 ### Phase 0: Project Setup (if fresh project)
 
-> Skip if `node_modules/` exists (dependencies already installed)
-> The template ships with `package.json`, `tsconfig.json`, `next.config.ts`, `biome.json`, `postcss.config.mjs`, Supabase clients, and middleware pre-configured.
+> Skip if `src/components/ui/` exists (shadcn already initialized)
+> Assumes `pnpm setup` has already been run (deps installed, Supabase running, `.env.local` written).
 
 ```yaml
-Task 0.1 - Install Dependencies:
-  commands:
-    - pnpm install
-
-Task 0.2 - Setup shadcn/ui:
+Task 0.1 - Setup shadcn/ui:
   commands:
     - pnpm dlx shadcn@latest init
     - pnpm dlx shadcn@latest add button input card form toast
-
-Task 0.3 - Configure Environment:
-  note: Copy .env.example to .env.local and add your Supabase keys
-  commands:
-    - cp .env.example .env.local
-  file: .env.local
-  content: |
-    NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 ### Phase 1: Database Schema (if needed)

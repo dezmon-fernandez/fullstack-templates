@@ -144,20 +144,14 @@ export async function middleware(request: NextRequest) {
 
 ## Setup After Copying
 
-1. **Copy environment file**
+1. **Run setup** (installs deps, starts Supabase, writes `.env.local`)
    ```bash
-   cp .env.example .env.local
+   pnpm setup
    ```
 
-2. **Add Supabase credentials** to `.env.local`
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-   ```
+2. **Define your app** in `PRPs/INITIAL.md`
 
-3. **Define your app** in `PRPs/INITIAL.md`
-
-4. **Generate and execute**
+3. **Generate and execute**
    ```bash
    /generate-next-supabase-prp PRPs/INITIAL.md
    /execute-next-supabase-prp PRPs/[your-app].md

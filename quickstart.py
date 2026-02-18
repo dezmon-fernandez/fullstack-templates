@@ -135,9 +135,7 @@ def print_next_steps(template: str, destination: Path) -> None:
     print("=" * 50)
     print("\nNext steps:\n")
     print(f"  cd {destination}")
-    print("  pnpm install")
-    print("  cp .env.example .env.local")
-    print("  # Edit .env.local with your Supabase credentials")
+    print("  pnpm setup")
     print("  pnpm dev")
     print()
 

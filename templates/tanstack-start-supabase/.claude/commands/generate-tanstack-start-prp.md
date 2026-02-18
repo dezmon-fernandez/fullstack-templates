@@ -77,9 +77,8 @@ Create `PRPs/[name].md` using base template:
 6. **Customize phases** - Include server function phase (Phase 3) before hooks
 7. **Include AI docs context** - Paste relevant documentation snippets
 8. **Update gotchas** - Add feature-specific warnings discovered
-9. **If fresh project** (no `package.json`) - Check `.env.local` exists using `test -f .env.local` (never read its contents). If missing, stop and ask user to copy from `.env.example` and add their Supabase keys. Then include Phase 0: Project Scaffolding in the PRP with TanStack Start setup, dependencies, shadcn, and base config. Note: `src/shared/utils/supabase.ts` already exists with correct env vars - do not overwrite.
-10. **Include visual design spec** - If INITIAL.md provided, extract visual design section. If string input, infer aesthetic from the description or ask user.
-11. **Route integration for every feature (CRITICAL)** - For each feature slice created:
+9. **Include visual design spec** - If INITIAL.md provided, extract visual design section. If string input, infer aesthetic from the description or ask user.
+10. **Route integration for every feature (CRITICAL)** - For each feature slice created:
     - Include a dedicated Task in Phase 7 for EACH route
     - Write COMPLETE component JSX that renders actual feature components
     - NO placeholder comments like `{/* TODO */}` or `{/* Content here */}`
