@@ -7,6 +7,12 @@ echo "🚀 Setting up project..."
 echo "📦 Installing dependencies..."
 pnpm install
 
+# Generate local Next.js docs if missing
+if [ ! -d ".next-docs" ]; then
+  echo "📚 Generating local Next.js docs..."
+  npx -y @next/codemod@canary agents-md --output CLAUDE.md
+fi
+
 # Start Supabase
 echo "🗄️  Starting Supabase..."
 supabase start

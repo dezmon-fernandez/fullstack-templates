@@ -1,4 +1,4 @@
-# Quickstart Hub
+# Fullstack Templates
 
 A collection of AI-powered templates for rapid MVP development with Claude Code.
 
@@ -9,13 +9,34 @@ A collection of AI-powered templates for rapid MVP development with Claude Code.
 python quickstart.py --list
 
 # Copy a template to start a new project
-python quickstart.py react-spa-supabase ./my-new-app
+python quickstart.py next-supabase ./my-new-app
 
 # With git initialization
-python quickstart.py react-spa-supabase ./my-new-app --with-git
+python quickstart.py next-supabase ./my-new-app --with-git
+```
+
+Then inside your new project:
+
+```bash
+pnpm setup    # Install deps, start Supabase, write .env.local
+pnpm dev      # Start dev server
 ```
 
 ## Available Templates
+
+### next-supabase
+Server-rendered React with Next.js App Router and Supabase. Verbose CLAUDE.md with inline code examples.
+
+**Stack:** Next.js 16, React 19, App Router, Server Components, Supabase, shadcn/ui, Tailwind v4
+
+**Best for:** Public-facing apps, e-commerce, content sites, SEO-critical applications.
+
+### next-supabase-with-next-docs
+Same as `next-supabase` but with local `.next-docs/` directory for version-accurate Next.js documentation. Slimmed CLAUDE.md that defers to local docs.
+
+**Stack:** Next.js 16, React 19, App Router, Server Components, Supabase, shadcn/ui, Tailwind v4
+
+**Best for:** Same use cases as above, with local-first documentation for more accurate AI-assisted development.
 
 ### react-spa-supabase
 Client-rendered React 19 SPA with Supabase backend.
@@ -31,56 +52,28 @@ Server-rendered React with TanStack Start and Supabase.
 
 **Best for:** Public-facing apps, landing pages, content sites, SEO-critical applications.
 
-### next-supabase
-Server-rendered React with Next.js App Router and Supabase.
-
-**Stack:** Next.js 16, React 19, App Router, Server Components, Supabase, shadcn/ui, Tailwind v4
-
-**Best for:** Public-facing apps, e-commerce, content sites, SEO-critical applications, teams familiar with Next.js.
-
 ## How It Works
 
 Each template includes:
 
 1. **PRP System** - Product Requirement Prompts for AI-driven development
-2. **Claude Commands** - `/generate-*-prp` and `/execute-*-prp` commands
-3. **AGENTS.md** - Guidelines for Claude Code
+2. **Claude Commands** - `/generate-*-prp` and `/execute-*-prp` slash commands
+3. **CLAUDE.md** - Project guidelines for Claude Code
 4. **Vertical Slice Architecture** - Feature-based code organization
+5. **Setup Script** - `pnpm setup` automates deps, Supabase, and environment config
 
 ### Workflow
 
-```bash
-# 1. Copy template
-python quickstart.py react-spa-supabase ./my-app
-
-# 2. Navigate and install
-cd my-app
-pnpm install
-
-# 3. Set up Supabase credentials
-cp .env.example .env.local
-# Edit .env.local with your keys
-
-# 4. Describe your app in PRPs/INITIAL.md
-
-# 5. Generate implementation plan
-/generate-react-supabase-prp PRPs/INITIAL.md
-
-# 6. Execute the plan
-/execute-react-supabase-prp PRPs/[generated].md
-
-# 7. Run
-pnpm dev
-```
+Copy a template with `quickstart.py` and follow the output instructions. Each template's README has the full setup and PRP workflow.
 
 ## Adding New Templates
 
 1. Create a folder in `templates/`
 2. Include at minimum:
    - `README.md` - Setup instructions
-   - `AGENTS.md` - Claude Code guidelines
-   - `CLAUDE.md` - Points to AGENTS.md
+   - `CLAUDE.md` - Claude Code guidelines
    - `.claude/commands/` - Generate and execute commands
    - `PRPs/` - Requirement templates
+   - `scripts/setup.sh` - Automated setup script
 
 The quickstart script will automatically discover new templates.
