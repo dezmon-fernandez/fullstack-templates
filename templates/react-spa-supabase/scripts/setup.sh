@@ -15,7 +15,7 @@ supabase start
 echo "🔑 Writing .env.local..."
 supabase status -o env | sed -n \
   -e 's/^API_URL=/VITE_SUPABASE_URL=/p' \
-  -e 's/^PUBLISHABLE_KEY=/VITE_SUPABASE_ANON_KEY=/p' \
+  -e 's/^PUBLISHABLE_KEY=/VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=/p' \
   -e 's/^SECRET_KEY=/SUPABASE_SERVICE_ROLE_KEY=/p' \
   > .env.local
 

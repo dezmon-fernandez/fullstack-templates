@@ -6,19 +6,19 @@ This file provides guidance to Claude Code when working with React 19 + Supabase
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| **Frontend** | React | 19.x |
-| **Build** | Vite | 6.x |
-| **Package Manager** | pnpm | 9.x |
-| **Routing** | TanStack Router | Latest |
-| **Data Fetching** | TanStack Query | v5 |
+| **Frontend** | React | ^19.2 |
+| **Build** | Vite | ^7.3 |
+| **Package Manager** | pnpm | 10.x |
+| **Routing** | TanStack Router | ^1.160 |
+| **Data Fetching** | TanStack Query | ^5.90 |
 | **UI Components** | shadcn/ui | Latest |
-| **Styling** | Tailwind CSS | v4 |
-| **Forms** | React Hook Form + Zod | Latest |
-| **Backend** | Supabase | Latest |
-| **Linting** | Biome | 2.0+ |
+| **Styling** | Tailwind CSS | ^4 |
+| **Forms** | React Hook Form + Zod | ^7.71 / ^4.3 |
+| **Backend** | Supabase JS | ^2.97 |
+| **Linting** | Biome | 2.4.2 |
 | **Payments** | Stripe | Latest |
 | **AI** | Vercel AI SDK | 5.x |
-| **Testing** | Vitest + Testing Library | Latest |
+| **Testing** | Vitest + Testing Library | ^4 / ^16.3 |
 
 ## Architecture: Vertical Slices
 
@@ -126,7 +126,7 @@ const { data, isPending, error } = useQuery({ ... });
 
 ### Supabase
 ```typescript
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 // Always index RLS policy columns
 ```
 
