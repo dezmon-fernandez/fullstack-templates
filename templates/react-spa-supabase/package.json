@@ -1,0 +1,46 @@
+{
+  "name": "react-spa-supabase-scaffold",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "setup": "bash scripts/setup.sh",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@supabase/supabase-js": "^2.97.0",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-router": "^1.160.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.71.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.2",
+    "@tailwindcss/vite": "^4",
+    "@tanstack/react-query-devtools": "^5.90.21",
+    "@tanstack/router-devtools": "^1.160.2",
+    "@tanstack/router-plugin": "^1.159.3",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14",
+    "@types/jsdom": "^27.0.0",
+    "@types/node": "^24",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "jsdom": "^28.1.0",
+    "tailwindcss": "^4",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4"
+  }
+}

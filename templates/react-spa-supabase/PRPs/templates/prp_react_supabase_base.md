@@ -12,17 +12,17 @@
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| **Frontend** | React | 19.x |
-| **Build** | Vite | 6.x |
-| **Package Manager** | pnpm | 9.x |
-| **Routing** | TanStack Router | Latest |
-| **Data Fetching** | TanStack Query | v5 |
+| **Frontend** | React | ^19.2 |
+| **Build** | Vite | ^7.3 |
+| **Package Manager** | pnpm | 10.x |
+| **Routing** | TanStack Router | ^1.160 |
+| **Data Fetching** | TanStack Query | ^5.90 |
 | **UI Components** | shadcn/ui | Latest |
 | **Icons** | Lucide React | Latest |
-| **Styling** | Tailwind CSS | v4 |
-| **Forms** | React Hook Form + Zod | Latest |
-| **Backend** | Supabase | Latest |
-| **Linting** | Biome | 2.0+ |
+| **Styling** | Tailwind CSS | ^4 |
+| **Forms** | React Hook Form + Zod | ^7.71 / ^4.3 |
+| **Backend** | Supabase JS | ^2.97 |
+| **Linting** | Biome | 2.4.2 |
 | **Payments** | Stripe | Latest |
 | **AI** | Vercel AI SDK | 5.x |
 
