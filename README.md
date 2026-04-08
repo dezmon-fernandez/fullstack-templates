@@ -55,6 +55,13 @@ Server-rendered React with TanStack Start and Supabase.
 
 **Best for:** Public-facing apps, landing pages, content sites, SEO-critical applications.
 
+### angular-supabase
+Angular 21 with Supabase backend. Standalone components, signals-first, zoneless.
+
+**Stack:** Angular 21, TypeScript 5.8, Tailwind CSS v4, Vitest, Supabase, Biome
+
+**Best for:** Enterprise apps, form-heavy applications, teams familiar with Angular.
+
 ## What's in a Template
 
 - **CLAUDE.md** — Stack patterns, architecture, gotchas, with `@` imports for standards docs

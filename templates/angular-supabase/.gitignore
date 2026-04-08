@@ -1,0 +1,23 @@
+# Angular
+.angular/
+dist/
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Supabase
+.env.local
+supabase/.temp/
+
+# Misc
+*.log
