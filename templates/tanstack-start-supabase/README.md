@@ -12,20 +12,20 @@ python copy_template.py /path/to/your-project
 cp -r . /path/to/your-project
 ```
 
-## PRP Framework Workflow
+## Planning Workflow
 
-This template uses the **PRP (Product Requirement Prompt)** framework for AI-assisted development:
+This template uses a **planning system** for AI-assisted development:
 
 ```
 Step 1: Define Requirements
-   Edit PRPs/INITIAL.md (new app) or PRPs/FEATURE.md (add feature)
+   Edit planning/INITIAL.md (new app) or planning/FEATURE.md (add feature)
 
-Step 2: Generate PRP
-   /generate-tanstack-start-prp PRPs/INITIAL.md
-   # Creates PRPs/[app-name].md with implementation details
+Step 2: Generate Plan
+   /generate-plan planning/INITIAL.md
+   # Creates planning/[app-name].md with implementation details
 
-Step 3: Execute PRP
-   /execute-tanstack-start-prp PRPs/[app-name].md
+Step 3: Execute Plan
+   /execute-plan planning/[app-name].md
    # AI implements the feature with tests and validation
 ```
 
@@ -46,14 +46,14 @@ tanstack-start-supabase/
 ├── CLAUDE.md                    # Points to AGENTS.md
 ├── AGENTS.md                    # Full project guidelines
 ├── .claude/
-│   ├── commands/
-│   │   ├── generate-tanstack-start-prp.md
-│   │   ├── execute-tanstack-start-prp.md
+│   ├── skills/
+│   │   ├── generate-plan/
+│   │   ├── execute-plan/
 │   │   └── prime-core.md
 │   └── settings.local.json
-├── PRPs/
+├── planning/
 │   ├── templates/
-│   │   └── prp_tanstack_start_base.md
+│   │   └── plan_tanstack_start_base.md
 │   ├── ai_docs/
 │   │   ├── tanstack-start-patterns.md
 │   │   ├── supabase-ssr.md
@@ -134,12 +134,12 @@ export const authMiddleware = createMiddleware().server(
    pnpm setup
    ```
 
-2. **Define your app** in `PRPs/INITIAL.md`
+2. **Define your app** in `planning/INITIAL.md`
 
 3. **Generate and execute**
    ```bash
-   /generate-tanstack-start-prp PRPs/INITIAL.md
-   /execute-tanstack-start-prp PRPs/[your-app].md
+   /generate-plan planning/INITIAL.md
+   /execute-plan planning/[your-app].md
    ```
 
 ## Commands

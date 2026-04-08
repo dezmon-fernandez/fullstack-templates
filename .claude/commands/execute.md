@@ -32,8 +32,8 @@ After writing CLAUDE.md (or AGENTS.md), verify:
 
 ### 3. Command Specialization
 
-When creating `.claude/commands/`, start from `command-templates/` and specialize:
-- Read the base command file
+When creating `.claude/skills/`, start from `skill-templates/` and specialize:
+- Read the base skill file
 - Adapt it for this stack's specific patterns, testing phases, validation commands, and architecture
 
 ### 4. Source Scaffolding

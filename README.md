@@ -19,9 +19,9 @@ Then inside your new project:
 
 ```bash
 pnpm setup                                        # Install deps, start Supabase, write .env.local
-# Edit PRPs/INITIAL.md with your app requirements
-/generate-<template>-prp PRPs/INITIAL.md           # Generate implementation plan
-/execute-<template>-prp PRPs/[generated].md        # Build it
+# Edit planning/INITIAL.md with your app requirements
+/generate-plan planning/INITIAL.md                  # Generate implementation plan
+/execute-plan planning/[generated].md               # Build it
 pnpm dev                                           # Start dev server
 ```
 
@@ -59,15 +59,15 @@ Server-rendered React with TanStack Start and Supabase.
 
 Each template includes:
 
-1. **PRP System** - Product Requirement Prompts for AI-driven development
-2. **Claude Commands** - `/generate-*-prp` and `/execute-*-prp` slash commands
+1. **Planning System** - Structured plans for AI-driven development
+2. **Claude Skills** - `/generate-plan` and `/execute-plan` slash commands
 3. **CLAUDE.md** - Project guidelines for Claude Code
 4. **Vertical Slice Architecture** - Feature-based code organization
 5. **Setup Script** - `pnpm setup` automates deps, Supabase, and environment config
 
 ### Workflow
 
-Copy a template with `quickstart.py` and follow the output instructions. Each template's README has the full setup and PRP workflow.
+Copy a template with `quickstart.py` and follow the output instructions. Each template's README has the full setup and planning workflow.
 
 ## Adding New Templates
 
@@ -75,8 +75,8 @@ Copy a template with `quickstart.py` and follow the output instructions. Each te
 2. Include at minimum:
    - `README.md` - Setup instructions
    - `CLAUDE.md` - Claude Code guidelines
-   - `.claude/commands/` - Generate and execute commands
-   - `PRPs/` - Requirement templates
+   - `.claude/skills/` - Generate and execute skills
+   - `planning/` - Requirement templates
    - `scripts/setup.sh` - Automated setup script
 
 The quickstart script will automatically discover new templates.

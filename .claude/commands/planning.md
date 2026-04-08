@@ -24,13 +24,13 @@ Template directory: `templates/[template-name]/`
 
 Read 1-2 existing templates in `templates/` to understand conventions:
 - How CLAUDE.md / AGENTS.md is structured and what it covers
-- How `.claude/commands/` are organized (generate/execute PRP pattern)
-- How the PRP system works (INITIAL.md, FEATURE.md, base template)
+- How `.claude/skills/` are organized (generate-plan/execute-plan pattern)
+- How the planning system works (INITIAL.md, FEATURE.md, output format in SKILL.md)
 - How `scripts/setup.sh` bootstraps the project
 - How `.claude/settings.json` scopes permissions
 - What source files are included (minimal bootable app, not a full app)
 
-Also read `command-templates/` for the base command files that get specialized per template.
+Also read `skill-templates/` for the base skill files that get specialized per template.
 
 ### 1.2 Research the Target Stack
 
@@ -78,8 +78,8 @@ List every file the template needs, grouped logically:
 
 - **Config** — whatever makes it build and run (package.json, tsconfig, build config, linter config, .gitignore, .env.example)
 - **Source** — minimal bootable app (entry point, root layout/component, one working route/page/command, wiring between key technologies)
-- **AI System** — CLAUDE.md, `.claude/commands/` (prime-core, generate-prp, execute-prp), `.claude/settings.json`
-- **PRP System** — PRPs/INITIAL.md, PRPs/FEATURE.md, PRPs/templates/ with a base skeleton
+- **AI System** — CLAUDE.md, `.claude/skills/` (prime, generate-plan, execute-plan), `.claude/settings.json`
+- **Planning** — planning/INITIAL.md, planning/FEATURE.md, output format inlined in generate-plan SKILL.md
 - **Setup** — scripts/setup.sh, README.md with setup instructions
 
 For each file, note:
@@ -98,18 +98,18 @@ This is the most important file in the template — it's what makes Claude Code 
 - Data flow pattern
 - Common gotchas (from research)
 - Environment variable reference
-- PRP workflow (how to use generate/execute commands)
+- Planning workflow (how to use generate/execute commands)
 - Code philosophy and UX best practices
 
 Use existing CLAUDE.md / AGENTS.md files as structural references but write content for the target stack.
 
 ### 2.4 Commands
 
-Plan the 4 template-level commands by specializing from `command-templates/`:
+Plan the 3 template-level skills by specializing from `skill-templates/`:
 
-- **prime-core** — which key files should it read for this stack?
-- **generate-[name]-prp** — what research URLs, what framework-specific validation, what does route/page integration look like?
-- **execute-[name]-prp** — what are the per-phase testing commands, what does the architecture section contain, what are the validation steps?
+- **prime** — which key files should it read for this stack?
+- **generate-plan** — what research URLs, what framework-specific validation, what does route/page integration look like? Include the output format (plan skeleton) inline in the SKILL.md.
+- **execute-plan** — what are the per-phase testing commands, what does the architecture section contain, what are the validation steps?
 
 ### 2.5 Dependencies
 

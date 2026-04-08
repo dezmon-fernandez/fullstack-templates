@@ -217,15 +217,15 @@ import { getSupabaseServerClient } from '@/server/supabase'
 import { supabase } from '@/shared/utils/supabase'
 ```
 
-## PRP Workflow
+## Planning Workflow
 
-**New App**: Edit `PRPs/INITIAL.md` -> `/generate-tanstack-start-prp PRPs/INITIAL.md`
+**New App**: Edit `planning/INITIAL.md` -> `/generate-plan planning/INITIAL.md`
 
-**New Feature**: Edit `PRPs/FEATURE.md` -> `/generate-tanstack-start-prp PRPs/FEATURE.md`
+**New Feature**: Edit `planning/FEATURE.md` -> `/generate-plan planning/FEATURE.md`
 
-**Quick Feature**: `/generate-tanstack-start-prp "add dark mode toggle with SSR"`
+**Quick Feature**: `/generate-plan "add dark mode toggle with SSR"`
 
-Then execute: `/execute-tanstack-start-prp PRPs/[generated-file].md`
+Then execute: `/execute-plan planning/[generated-file].md`
 
 ## Common Gotchas
 

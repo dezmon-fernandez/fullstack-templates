@@ -12,20 +12,20 @@ python quickstart.py next-supabase /path/to/your-project
 cp -r . /path/to/your-project
 ```
 
-## PRP Framework Workflow
+## Planning Workflow
 
-This template uses the **PRP (Product Requirement Prompt)** framework for AI-assisted development:
+This template uses a **planning system** for AI-assisted development:
 
 ```
 Step 1: Define Requirements
-   Edit PRPs/INITIAL.md (new app) or PRPs/FEATURE.md (add feature)
+   Edit planning/INITIAL.md (new app) or planning/FEATURE.md (add feature)
 
-Step 2: Generate PRP
-   /generate-next-supabase-prp PRPs/INITIAL.md
-   # Creates PRPs/[app-name].md with implementation details
+Step 2: Generate Plan
+   /generate-plan planning/INITIAL.md
+   # Creates planning/[app-name].md with implementation details
 
-Step 3: Execute PRP
-   /execute-next-supabase-prp PRPs/[app-name].md
+Step 3: Execute Plan
+   /execute-plan planning/[app-name].md
    # AI implements the feature with tests and validation
 ```
 
@@ -48,14 +48,14 @@ next-supabase/
 ├── CLAUDE.md                    # Points to AGENTS.md
 ├── AGENTS.md                    # Full project guidelines
 ├── .claude/
-│   ├── commands/
-│   │   ├── generate-next-supabase-prp.md
-│   │   ├── execute-next-supabase-prp.md
+│   ├── skills/
+│   │   ├── generate-plan/
+│   │   ├── execute-plan/
 │   │   └── prime-core.md
 │   └── settings.json
-├── PRPs/
+├── planning/
 │   ├── templates/
-│   │   └── prp_next_supabase_base.md
+│   │   └── plan_next_supabase_base.md
 │   ├── ai_docs/
 │   │   ├── nextjs-app-router-patterns.md
 │   │   ├── supabase-nextjs-ssr.md
@@ -149,12 +149,12 @@ export async function middleware(request: NextRequest) {
    pnpm setup
    ```
 
-2. **Define your app** in `PRPs/INITIAL.md`
+2. **Define your app** in `planning/INITIAL.md`
 
 3. **Generate and execute**
    ```bash
-   /generate-next-supabase-prp PRPs/INITIAL.md
-   /execute-next-supabase-prp PRPs/[your-app].md
+   /generate-plan planning/INITIAL.md
+   /execute-plan planning/[your-app].md
    ```
 
 ## Commands
