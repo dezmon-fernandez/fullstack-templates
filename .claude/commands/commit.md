@@ -54,7 +54,26 @@ Examine the diff and determine:
 **Breaking changes (if any):**
 - Note any breaking changes
 
-### 3. Stage Files
+### 3. Preview and Confirm
+
+**Output the full commit message** exactly as it will appear in the commit, formatted in a code block:
+
+```
+type(scope): description
+
+body text here
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+```
+
+Then **ask the user to confirm** before proceeding. Wait for explicit approval. The user may:
+- Approve as-is
+- Request changes to the message
+- Cancel the commit
+
+**Do not stage or commit until the user confirms.**
+
+### 4. Stage Files
 
 If specific files provided:
 ```bash
@@ -66,7 +85,7 @@ If no files specified (commit all changes):
 git add .
 ```
 
-### 4. Create Commit
+### 5. Create Commit
 
 Using conventional commit format:
 
@@ -95,7 +114,7 @@ Execute the commit:
 git commit -m "[commit message]"
 ```
 
-### 5. Confirm Success
+### 6. Confirm Success
 
 Verify commit created:
 !`git log -1 --oneline`
