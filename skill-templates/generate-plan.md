@@ -15,7 +15,7 @@ Based on the feature description above, create a concise kebab-case feature name
 
 **Feature Name**: [create-feature-name]
 
-This will be used for the plan filename: `plans/[feature-name].md`
+This will be used for the plan filename: `plans/YYYY-MM-DD-[feature-name].md` (use today's date)
 
 ## Research Process
 
@@ -54,7 +54,7 @@ Create detailed, actionable tasks with:
 
 ## Output: Create Plan Document
 
-Save plan as: `plans/[feature-name].md` (using the feature name you created above)
+Save plan as: `plans/YYYY-MM-DD-[feature-name].md` (use today's date and the feature name you created above)
 
 **CRITICAL**: Format this plan for ANOTHER AGENT to execute without seeing this conversation.
 
@@ -136,9 +136,9 @@ Exact commands to run in order:
 
 After creating the plan, confirm:
 - ✅ Feature name created: [feature-name]
-- ✅ Plan saved to `plans/[feature-name].md`
+- ✅ Plan saved to `plans/YYYY-MM-DD-[feature-name].md`
 - ✅ All tasks are explicit with file paths
 - ✅ Validation commands are exact
 - ✅ Another agent could execute this without context
 
-**Next step**: Run `/execute plans/[feature-name].md` to implement this feature
+**Next step**: Run `/execute plans/YYYY-MM-DD-[feature-name].md` to implement this feature

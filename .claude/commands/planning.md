@@ -15,7 +15,7 @@ $ARGUMENTS
 
 Create a kebab-case name (e.g., `angular-supabase`, `python-agent-langgraph`).
 
-Plan filename: `plans/[template-name].md`
+Plan filename: `plans/YYYY-MM-DD-[template-name].md` (use today's date)
 Template directory: `templates/[template-name]/`
 
 ## Phase 1: Research
@@ -122,7 +122,7 @@ All packages/tools with pinned versions, split into runtime and dev.
 
 ## Phase 3: Write the Plan
 
-Save as `plans/[template-name].md`. Each task needs:
+Save as `plans/YYYY-MM-DD-[template-name].md` (use today's date). Each task needs:
 
 - **File**: Exact path
 - **Action**: What to create
@@ -133,11 +133,11 @@ Include validation steps and note that root `README.md` needs updating.
 
 ## Confirmation
 
-- Plan saved to `plans/[template-name].md`
+- Plan saved to `plans/YYYY-MM-DD-[template-name].md`
 - Research documented with real code examples
 - All files listed with exact paths
 - Dependencies pinned
 - CLAUDE.md sections determined by research, not a fixed checklist
 - `/execute` can build this without further research
 
-**Next step**: `/execute plans/[template-name].md`
+**Next step**: `/execute plans/YYYY-MM-DD-[template-name].md`
