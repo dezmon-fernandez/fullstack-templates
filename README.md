@@ -55,16 +55,14 @@ Server-rendered React with TanStack Start and Supabase.
 
 **Best for:** Public-facing apps, landing pages, content sites, SEO-critical applications.
 
-## How It Works
+## What's in a Template
 
-Each template includes:
-
-1. **Planning System** - Structured plans for AI-driven development
-2. **Claude Skills** - `/generate-plan` and `/execute-plan` slash commands
-3. **CLAUDE.md** - Project guidelines for Claude Code
-4. **Docs** - Stack-specific standards (logging, error handling, security, etc. — selected per template)
-5. **Vertical Slice Architecture** - Feature-based code organization
-6. **Setup Script** - `pnpm setup` automates deps, Supabase, and environment config
+- **CLAUDE.md** — Stack patterns, architecture, gotchas, with `@` imports for standards docs
+- **Standards Docs** (`docs/`) — Logging, security, testing, etc. — selected per stack
+- **Skills** (`.claude/skills/`) — `/generate-plan`, `/execute-plan`, `/prime`
+- **Planning** (`planning/`) — Requirement templates for new apps and features
+- **Source** — Minimal bootable app with one working route
+- **Setup** — `scripts/setup.sh`, README, .env.example
 
 ### Workflow
 

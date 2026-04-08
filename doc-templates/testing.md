@@ -31,21 +31,35 @@ Tests exist to **catch regressions and document behavior**, not to hit a coverag
 
 ### File Organization
 
-Tests live in `__tests__/` within each feature, mirroring source files:
+**Unit tests** are colocated with the feature they test. **Integration tests** (spanning multiple features) live at the root.
 
 ```
-features/orders/
-├── __tests__/
-│   ├── use-orders.test.ts        # Hook tests
-│   ├── OrderList.test.tsx        # Component tests
-│   └── order.schema.test.ts     # Schema/validation tests
-├── components/
-│   └── OrderList.tsx
-├── hooks/
-│   └── use-orders.ts
-└── schemas/
-    └── order.schema.ts
+src/
+├── features/orders/
+│   ├── __tests__/                     # Unit tests — colocated
+│   │   ├── use-orders.test.ts
+│   │   ├── OrderList.test.tsx
+│   │   └── order.schema.test.ts
+│   ├── components/
+│   ├── hooks/
+│   └── schemas/
+tests/
+├── integration/                       # Cross-feature tests
+│   ├── checkout-flow.test.ts
+│   └── order-inventory.test.ts
+└── e2e/                               # End-to-end tests
+    └── full-purchase.test.ts
 ```
+
+**Why colocate unit tests:** When modifying a feature, the tests are right there. Everything needed to understand the feature — including how to test it — lives together.
+
+**Why separate integration tests:** They span multiple features. They don't belong inside any single feature directory.
+
+| Test scope | Location | When to write |
+|-----------|----------|---------------|
+| One feature in isolation | `features/{feature}/__tests__/` | Always |
+| Multiple features together | `tests/integration/` | When the integration is complex or fragile |
+| Full user flow | `tests/e2e/` | Critical paths only |
 
 ### Test Naming
 

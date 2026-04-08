@@ -5,15 +5,15 @@ argument-hint: [stack-description e.g. "Angular 19 + Supabase SSR template"]
 
 # Planning: New Tech Stack Template
 
+The primary output is a CLAUDE.md that makes Claude Code effective with this stack, `@`-imported standards docs, and skills. The scaffolded code is just enough to boot.
+
 ## Stack Description
 
 $ARGUMENTS
 
 ## Determine Template Name
 
-Create a kebab-case name that describes the stack (e.g., `angular-supabase`, `python-agent-langgraph`, `react-spa-supabase`).
-
-**Template Name**: [create-template-name]
+Create a kebab-case name (e.g., `angular-supabase`, `python-agent-langgraph`).
 
 Plan filename: `plans/[template-name].md`
 Template directory: `templates/[template-name]/`
@@ -22,164 +22,122 @@ Template directory: `templates/[template-name]/`
 
 ### 1.1 Study Existing Templates
 
-Read 1-2 existing templates in `templates/` to understand conventions:
-- How CLAUDE.md / AGENTS.md is structured and what it covers
-- How `.claude/skills/` are organized (generate-plan/execute-plan pattern)
-- How the planning system works (INITIAL.md, FEATURE.md, output format in SKILL.md)
-- How `scripts/setup.sh` bootstraps the project
-- How `.claude/settings.json` scopes permissions
-- What source files are included (minimal bootable app, not a full app)
+Read 1-2 existing templates in `templates/` to understand conventions — how CLAUDE.md is structured, how skills work, how setup.sh bootstraps, what source files are included.
 
-Also read `skill-templates/` for the base skill files that get specialized per template.
+Also read `skill-templates/` and `doc-templates/` for the base files that get specialized.
 
-### 1.2 Research the Target Stack
+### 1.2 Research the Bootstrap Command
 
-This is the most important part of the entire workflow. Everything `/execute` builds comes from what we learn here.
+If the framework has an official scaffolding CLI (`npx create-next-app`, `npx create-vite`, `ng new`, etc.):
 
-- **WebFetch** the framework/tool's official getting-started guide and project structure docs
-- **WebSearch** for recommended project structure, best practices, and conventions
-- **WebSearch** for integration patterns between the key technologies in the stack
-- **WebSearch** for common gotchas, pitfalls, and version-specific issues
-- Pin exact dependency versions — don't use `latest`
+- Find the exact command with recommended flags
+- Document what it generates: file structure, configs, dependencies, versions
+- Note what it doesn't set up that the template needs (e.g., Supabase, Biome)
+
+If no bootstrap command exists, plan the project structure from community conventions.
+
+### 1.3 Research the Target Stack
+
+Everything `/execute` builds comes from what we learn here.
+
+- **WebFetch** official getting-started guides and project structure docs
+- **WebSearch** for best practices, integration patterns, gotchas, version-specific issues
+- Pin exact dependency versions
 - Capture real code examples for the stack's key patterns
 
-For each technology, document:
-- What it does and why it's in the stack
-- How it's configured
-- Key code patterns with examples
-- Gotchas and things that trip people up
-- Links to docs consulted
+For each technology: what it does, how it's configured, key patterns with examples, gotchas.
 
-### 1.3 Research How the Technologies Wire Together
+### 1.4 Research How the Technologies Wire Together
 
-The real value is in how the pieces connect. Research and document:
-- Data flow end-to-end (how does data get from backend to UI and back?)
-- Auth pattern (middleware, guards, layout wrappers — whatever fits the stack)
-- Environment variable conventions (prefixes for client-side access, secrets handling)
-- How the build/dev/test toolchain works together
+- Data flow end-to-end
+- Auth pattern
+- Environment variable conventions
+- Build/dev/test toolchain
 
 ## Phase 2: Design the Template
 
-Based on research, make decisions and document them in the plan.
-
 ### 2.1 Architecture
 
-Design a vertical slice file structure adapted to this stack:
-- What does the routing layer look like?
-- Where do features live and what's inside each slice?
-- Where do shared utilities go?
-- What are the import rules?
+Design a file structure adapted to this stack. Not every stack has the same shape — a web app has routes/components/hooks, an agent has tools/prompts/pipelines. Adapt to what the stack actually needs.
 
-Not every stack will have the same slices. A web app has routes, components, hooks. An agent might have tools, prompts, pipelines. Adapt to what the stack actually needs.
+### 2.2 CLAUDE.md
 
-### 2.2 File Manifest
+This is the most important file. Read an existing template's CLAUDE.md (e.g., `templates/next-supabase/CLAUDE.md`) for the level of detail expected.
 
-List every file the template needs, grouped logically:
+Based on the research, determine which sections CLAUDE.md needs for this stack. Every stack needs at minimum:
 
-- **Config** — whatever makes it build and run (package.json, tsconfig, build config, linter config, .gitignore, .env.example)
-- **Source** — minimal bootable app (entry point, root layout/component, one working route/page/command, wiring between key technologies)
-- **AI System** — CLAUDE.md, `.claude/skills/` (prime, generate-plan, execute-plan), `.claude/settings.json`
-- **Docs** — `docs/` directory with stack-specific standards (selected and specialized from `doc-templates/` — see 2.3)
-- **Planning** — planning/INITIAL.md, planning/FEATURE.md, output format inlined in generate-plan SKILL.md
-- **Setup** — scripts/setup.sh, README.md with setup instructions
+- **Technology Stack** — table with pinned versions
+- **Architecture** — file structure, import/module rules
+- **Development Commands** — exact commands that match the config files
+- **Key Patterns** — real, compilable code blocks showing how this stack works
+- **Common Gotchas** — from research, each worth 30+ min of debugging time
+- **Environment Variables** — which vars, which prefixes, which file
 
-For each file, note:
-- Exact path relative to `templates/[template-name]/`
-- What it does
-- Which existing template file to use as a starting point (if any)
+Beyond that, add sections that the research shows are necessary for this stack. A web app might need routing patterns, server vs client component rules, SEO metadata. An agent might need tool registration, prompt patterns, memory management. **The research determines the sections, not a fixed template.**
 
-### 2.3 Standards Docs (Interactive)
-
-The `doc-templates/` directory contains base standards docs. Not all apply to every stack. **Ask the user** which are relevant and how they should be referenced.
-
-Available doc-templates:
-- `logging.md` — structured logging, log levels, what to log/never log
-- `error-handling.md` — error categories, typed errors, boundary handling
-- `observability.md` — health checks, metrics, correlation IDs, incremental adoption
-- `coding-standards.md` — naming, TypeScript rules, vertical slice organization
-- `testing.md` — what to test, patterns, mocking, per-phase testing
-- `security.md` — input validation, auth, RLS, secrets management
-- `api-design.md` — response shapes, mutation patterns, data fetching, pagination
-
-**Present the list and ask:**
-1. Which of these docs should be included for this stack?
-2. For each selected doc, what are the key stack-specific decisions? (e.g., which logger library, which error boundary pattern, middleware security approach)
-3. Which docs should CLAUDE.md reference as required reading? (Claude Code will read files referenced in CLAUDE.md — this is how standards get enforced without literal inlining)
-
-For each selected doc-template, plan:
-- Stack-specific decisions for every `[STACK-SPECIFIC]` section
-- Output path: `docs/[name].md`
-
-**CLAUDE.md referencing pattern:**
-
-CLAUDE.md should reference selected docs so Claude Code reads them when relevant:
+CLAUDE.md is composed from two sources:
+1. **Stack-specific content** written directly (tech table, patterns, gotchas, commands)
+2. **`@` imports** of specialized doc-templates that become sections of the global rules (see 2.4)
 
 ```markdown
-## Standards
-
-Follow the standards in these docs — read them before writing code in the relevant area:
-- Logging: `docs/logging.md`
-- Error handling: `docs/error-handling.md`
-- Security: `docs/security.md`
+@docs/vertical-slice-architecture.md
+@docs/logging.md
+@docs/security.md
 ```
 
-This keeps CLAUDE.md focused on stack patterns while the docs carry the detailed standards.
+The doc-templates ARE the global rules file — each `@` import inlines a focused section into CLAUDE.md at load time.
 
-### 2.4 CLAUDE.md Content
+### 2.3 Skills
 
-This is the most important file in the template — it's what makes Claude Code effective with this stack. Outline what it needs to cover:
+Plan 3 skills by specializing from `skill-templates/`:
 
-- Technology stack table with versions
-- Architecture diagram (the vertical slice structure from 2.1)
-- Development commands (dev, build, test, lint, type-check)
-- Key code patterns with real examples from research (not pseudocode)
-- Data flow pattern
-- Common gotchas (from research)
-- Environment variable reference
-- Standards references (pointing to selected `docs/` files from 2.3)
-- Planning workflow (how to use generate/execute commands)
-- Code philosophy and UX best practices
+- **prime** — which key files to read for this stack
+- **generate-plan** — framework-specific validation, route/page integration, output format
+- **execute-plan** — per-phase testing commands, validation steps
 
-Use existing CLAUDE.md / AGENTS.md files as structural references but write content for the target stack.
+### 2.4 Doc-Templates (Interactive)
 
-### 2.5 Commands
+`doc-templates/` contains focused rule sets that compose CLAUDE.md via `@` imports. Each one becomes a section of the global rules file when specialized for the stack. **Ask the user** which apply:
 
-Plan the 3 template-level skills by specializing from `skill-templates/`:
+- `vertical-slice-architecture.md` — decision framework, core/shared/feature rules, three-feature rule, cross-feature patterns
+- `coding-standards.md` — naming, type system rules, function design, imports
+- `logging.md` — structured event logging with dotted namespace pattern
+- `error-handling.md` — error categories, typed errors, boundary handling
+- `observability.md` — health checks, metrics, correlation IDs
+- `testing.md` — what to test, colocated vs integration, patterns, mocking
+- `security.md` — input validation, auth, RLS, secrets management
+- `api-design.md` — response shapes, mutation patterns, pagination
 
-- **prime** — which key files should it read for this stack?
-- **generate-plan** — what research URLs, what framework-specific validation, what does route/page integration look like? Include the output format (plan skeleton) inline in the SKILL.md.
-- **execute-plan** — what are the per-phase testing commands, what does the architecture section contain, what are the validation steps?
+Some stacks may need framework-specific doc-templates not in this list (e.g., Next.js server/client component rules, Angular module patterns). Create those during execution if needed.
+
+For each selected doc, capture the stack-specific decisions for the `[STACK-SPECIFIC]` sections. These get specialized into `docs/` in the template and `@`-imported by CLAUDE.md.
+
+### 2.5 File Manifest
+
+List every file with exact path, what it does, and which existing file to adapt from (if any).
 
 ### 2.6 Dependencies
 
-List all packages/tools with pinned versions, split into runtime and dev dependencies.
+All packages/tools with pinned versions, split into runtime and dev.
 
 ## Phase 3: Write the Plan
 
-Save as `plans/[template-name].md` with step-by-step tasks organized into phases that `/execute` can follow sequentially. Each task needs:
+Save as `plans/[template-name].md`. Each task needs:
 
 - **File**: Exact path
 - **Action**: What to create
 - **Details**: Specific enough to implement without ambiguity
 - **Reference**: Existing template file to adapt from (if any)
 
-Include a validation section at the end:
-- Does it copy cleanly via `quickstart.py`?
-- Does setup run?
-- Does it build and start?
-- Do linting/types pass?
-- Is CLAUDE.md complete and accurate?
-
-Also note that root `README.md` needs updating with the new template.
+Include validation steps and note that root `README.md` needs updating.
 
 ## Confirmation
 
-After creating the plan, confirm:
-- ✅ Plan saved to `plans/[template-name].md`
-- ✅ Research findings documented with real code examples
-- ✅ All files listed with exact paths
-- ✅ Dependencies pinned to versions
-- ✅ CLAUDE.md content outlined with stack-specific patterns
-- ✅ `/execute` can build this without further research
+- Plan saved to `plans/[template-name].md`
+- Research documented with real code examples
+- All files listed with exact paths
+- Dependencies pinned
+- CLAUDE.md sections determined by research, not a fixed checklist
+- `/execute` can build this without further research
 
-**Next step**: Run `/execute plans/[template-name].md`
+**Next step**: `/execute plans/[template-name].md`

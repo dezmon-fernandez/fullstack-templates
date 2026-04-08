@@ -30,27 +30,17 @@ After writing CLAUDE.md (or AGENTS.md), verify:
 - Development commands match what's in package.json (or equivalent)
 - Gotchas section reflects actual issues found during planning research
 
-### 3. Docs Specialization
+### 3. Doc-Templates → CLAUDE.md Sections
 
-The plan specifies which `doc-templates/` to include and the stack-specific decisions for each. Only create docs the plan calls for.
+Doc-templates are building blocks that compose CLAUDE.md. The plan specifies which to include.
 
 For each doc listed in the plan:
 - Read the base `doc-templates/[name].md`
 - Replace all `[STACK-SPECIFIC]` sections using the decisions from the plan
-- Keep stack-agnostic sections intact
 - Write to `docs/[name].md` in the template
+- Add an `@docs/[name].md` import in CLAUDE.md
 
-After writing all docs, add a standards reference section in CLAUDE.md that points to each doc:
-
-```markdown
-## Standards
-
-Follow the standards in these docs — read them before writing code in the relevant area:
-- Logging: `docs/logging.md`
-- Error handling: `docs/error-handling.md`
-```
-
-Only list docs that were actually created. This reference is how Claude Code discovers and reads the standards — it won't find them otherwise.
+The `@` syntax inlines file contents when Claude Code loads CLAUDE.md — each doc becomes a section of the global rules file.
 
 ### 4. Command Specialization
 

@@ -67,26 +67,27 @@ Track these for every HTTP handler:
 
 ## Business Metrics
 
-Track key user actions as structured log events or explicit metrics:
+Track key user actions as structured log events (using the event taxonomy from `docs/logging.md`) or explicit metrics:
 
 ```typescript
-// As structured log (good starting point)
-logger.info("user_signed_up", { userId, method: "email", plan: "free" })
+// As structured log (good starting point — follows logging taxonomy)
+logger.info("user.registration_completed", { userId, method: "email", plan: "free" })
 
 // As explicit metric (when you need aggregation/alerting)
-metrics.increment("user.signup", { method: "email", plan: "free" })
+metrics.increment("user.registration_completed", { method: "email", plan: "free" })
 ```
 
 Choose metrics that answer: "Is the product working for users?" Not vanity metrics.
 
 ## Correlation IDs
 
-Every inbound request gets a unique ID. Pass it through all downstream calls and include it in every log line.
+Every inbound request gets a unique ID. Pass it through all downstream calls and include it in every log line. See `docs/logging.md` for the full context propagation pattern.
 
 ```
-[requestId=abc-123] order created { userId: "u1", orderId: "o1" }
-[requestId=abc-123] payment initiated { orderId: "o1", provider: "stripe" }
-[requestId=abc-123] payment succeeded { orderId: "o1", duration_ms: 340 }
+[requestId=abc-123] request.http_received { method: "POST", path: "/api/orders" }
+[requestId=abc-123] order.process_started { orderId: "o1" }
+[requestId=abc-123] order.payment_completed { orderId: "o1", durationMs: 340 }
+[requestId=abc-123] request.http_completed { statusCode: 201 }
 ```
 
 This lets you reconstruct the full lifecycle of any request.
