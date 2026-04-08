@@ -24,6 +24,7 @@ EXCLUDE = {
     "build",
     ".env.local",
     ".settings.local",
+    "settings.local.json",
     ".vite",
     ".turbo",
     "coverage",

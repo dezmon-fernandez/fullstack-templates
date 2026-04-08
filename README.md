@@ -19,9 +19,9 @@ Then inside your new project:
 
 ```bash
 pnpm setup                                        # Install deps, start Supabase, write .env.local
-# Edit PRPs/INITIAL.md with your app requirements
-/generate-<template>-prp PRPs/INITIAL.md           # Generate implementation plan
-/execute-<template>-prp PRPs/[generated].md        # Build it
+# Edit planning/INITIAL.md with your app requirements
+/generate-plan planning/INITIAL.md                  # Generate implementation plan
+/execute-plan planning/[generated].md               # Build it
 pnpm dev                                           # Start dev server
 ```
 
@@ -55,28 +55,48 @@ Server-rendered React with TanStack Start and Supabase.
 
 **Best for:** Public-facing apps, landing pages, content sites, SEO-critical applications.
 
-## How It Works
+### angular-supabase
+Angular 21 with Supabase backend. Standalone components, signals-first, zoneless.
 
-Each template includes:
+**Stack:** Angular 21, TypeScript 5.8, Tailwind CSS v4, Vitest, Supabase, Biome
 
-1. **PRP System** - Product Requirement Prompts for AI-driven development
-2. **Claude Commands** - `/generate-*-prp` and `/execute-*-prp` slash commands
-3. **CLAUDE.md** - Project guidelines for Claude Code
-4. **Vertical Slice Architecture** - Feature-based code organization
-5. **Setup Script** - `pnpm setup` automates deps, Supabase, and environment config
+**Best for:** Enterprise apps, form-heavy applications, teams familiar with Angular.
+
+## What's in a Template
+
+- **CLAUDE.md** — Stack patterns, architecture, gotchas, with `@` imports for standards docs
+- **Standards Docs** (`docs/`) — Logging, security, testing, etc. — selected per stack
+- **Skills** (`.claude/skills/`) — `/generate-plan`, `/execute-plan`, `/prime`
+- **Planning** (`planning/`) — Requirement templates for new apps and features
+- **Source** — Minimal bootable app with one working route
+- **Setup** — `scripts/setup.sh`, README, .env.example
 
 ### Workflow
 
-Copy a template with `quickstart.py` and follow the output instructions. Each template's README has the full setup and PRP workflow.
+Copy a template with `quickstart.py` and follow the output instructions. Each template's README has the full setup and planning workflow.
 
 ## Adding New Templates
 
-1. Create a folder in `templates/`
-2. Include at minimum:
-   - `README.md` - Setup instructions
-   - `CLAUDE.md` - Claude Code guidelines
-   - `.claude/commands/` - Generate and execute commands
-   - `PRPs/` - Requirement templates
-   - `scripts/setup.sh` - Automated setup script
+Use the built-in template generator:
+
+```bash
+/planning "Angular 19 + Supabase SSR template"   # Research and plan
+/execute plans/angular-supabase.md                # Build the template
+```
+
+Each template needs at minimum:
+- `README.md` - Setup instructions
+- `CLAUDE.md` - Claude Code guidelines (references `docs/` for standards enforcement)
+- `docs/` - Stack-specific standards (selected and specialized from `doc-templates/` during planning)
+- `.claude/skills/` - Generate and execute skills
+- `planning/` - Requirement templates
+- `scripts/setup.sh` - Automated setup script
+
+### Base Templates
+
+| Directory | Purpose |
+|-----------|---------|
+| `skill-templates/` | Base Claude skills, specialized per template into `.claude/skills/` |
+| `doc-templates/` | Base standards docs (logging, errors, security, testing, etc.) — selected and specialized per template into `docs/` |
 
 The quickstart script will automatically discover new templates.

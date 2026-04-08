@@ -383,15 +383,15 @@ import { createClient } from '@/lib/supabase/server'
 import { createClient } from '@/lib/supabase/client'
 ```
 
-## PRP Workflow
+## Planning Workflow
 
-**New App**: Edit `PRPs/INITIAL.md` → `/generate-next-supabase-prp PRPs/INITIAL.md`
+**New App**: Edit `planning/INITIAL.md` → `/generate-plan planning/INITIAL.md`
 
-**New Feature**: Edit `PRPs/FEATURE.md` → `/generate-next-supabase-prp PRPs/FEATURE.md`
+**New Feature**: Edit `planning/FEATURE.md` → `/generate-plan planning/FEATURE.md`
 
-**Quick Feature**: `/generate-next-supabase-prp "add dark mode toggle"`
+**Quick Feature**: `/generate-plan "add dark mode toggle"`
 
-Then execute: `/execute-next-supabase-prp PRPs/[generated-file].md`
+Then execute: `/execute-plan planning/[generated-file].md`
 
 ## UX Best Practices
 - **Leverage shadcn structure** - Don't rewrite components; customize via props and Tailwind

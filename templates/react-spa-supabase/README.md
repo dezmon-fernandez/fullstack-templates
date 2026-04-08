@@ -9,12 +9,12 @@
    pnpm setup
    ```
 
-2. **Define your app** in `PRPs/INITIAL.md`
+2. **Define your app** in `planning/INITIAL.md`
 
 3. **Generate and execute**
    ```bash
-   /generate-react-supabase-prp PRPs/INITIAL.md
-   /execute-react-supabase-prp PRPs/[your-app].md
+   /generate-plan planning/INITIAL.md
+   /execute-plan planning/[your-app].md
    ```
 
 4. **Run**
@@ -25,14 +25,14 @@
 ## Adding Features
 
 ```bash
-# Option 1: Edit PRPs/FEATURE.md first
-/generate-react-supabase-prp PRPs/FEATURE.md
+# Option 1: Edit planning/FEATURE.md first
+/generate-plan planning/FEATURE.md
 
 # Option 2: Inline
-/generate-react-supabase-prp "add user profile with avatar"
+/generate-plan "add user profile with avatar"
 
 # Then execute
-/execute-react-supabase-prp PRPs/[feature].md
+/execute-plan planning/[feature].md
 ```
 
 ## Commands

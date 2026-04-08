@@ -168,15 +168,15 @@ function FeatureComponent(): ReactElement {
 // Use z.infer<typeof schema> for types from Zod
 ```
 
-## PRP Workflow
+## Planning Workflow
 
-**New App**: Edit `PRPs/INITIAL.md` → `/generate-react-supabase-prp PRPs/INITIAL.md`
+**New App**: Edit `planning/INITIAL.md` → `/generate-plan planning/INITIAL.md`
 
-**New Feature**: Edit `PRPs/FEATURE.md` → `/generate-react-supabase-prp PRPs/FEATURE.md`
+**New Feature**: Edit `planning/FEATURE.md` → `/generate-plan planning/FEATURE.md`
 
-**Quick Feature**: `/generate-react-supabase-prp "add dark mode toggle"`
+**Quick Feature**: `/generate-plan "add dark mode toggle"`
 
-Then execute: `/execute-react-supabase-prp PRPs/[generated-file].md`
+Then execute: `/execute-plan planning/[generated-file].md`
 
 ## UX Best Practices
 - **Leverage shadcn structure** - Don't rewrite components; customize via props and Tailwind
