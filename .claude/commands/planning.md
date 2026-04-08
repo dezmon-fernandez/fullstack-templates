@@ -79,6 +79,7 @@ List every file the template needs, grouped logically:
 - **Config** — whatever makes it build and run (package.json, tsconfig, build config, linter config, .gitignore, .env.example)
 - **Source** — minimal bootable app (entry point, root layout/component, one working route/page/command, wiring between key technologies)
 - **AI System** — CLAUDE.md, `.claude/skills/` (prime, generate-plan, execute-plan), `.claude/settings.json`
+- **Docs** — `docs/` directory with stack-specific standards (selected and specialized from `doc-templates/` — see 2.3)
 - **Planning** — planning/INITIAL.md, planning/FEATURE.md, output format inlined in generate-plan SKILL.md
 - **Setup** — scripts/setup.sh, README.md with setup instructions
 
@@ -87,7 +88,44 @@ For each file, note:
 - What it does
 - Which existing template file to use as a starting point (if any)
 
-### 2.3 CLAUDE.md Content
+### 2.3 Standards Docs (Interactive)
+
+The `doc-templates/` directory contains base standards docs. Not all apply to every stack. **Ask the user** which are relevant and how they should be referenced.
+
+Available doc-templates:
+- `logging.md` — structured logging, log levels, what to log/never log
+- `error-handling.md` — error categories, typed errors, boundary handling
+- `observability.md` — health checks, metrics, correlation IDs, incremental adoption
+- `coding-standards.md` — naming, TypeScript rules, vertical slice organization
+- `testing.md` — what to test, patterns, mocking, per-phase testing
+- `security.md` — input validation, auth, RLS, secrets management
+- `api-design.md` — response shapes, mutation patterns, data fetching, pagination
+
+**Present the list and ask:**
+1. Which of these docs should be included for this stack?
+2. For each selected doc, what are the key stack-specific decisions? (e.g., which logger library, which error boundary pattern, middleware security approach)
+3. Which docs should CLAUDE.md reference as required reading? (Claude Code will read files referenced in CLAUDE.md — this is how standards get enforced without literal inlining)
+
+For each selected doc-template, plan:
+- Stack-specific decisions for every `[STACK-SPECIFIC]` section
+- Output path: `docs/[name].md`
+
+**CLAUDE.md referencing pattern:**
+
+CLAUDE.md should reference selected docs so Claude Code reads them when relevant:
+
+```markdown
+## Standards
+
+Follow the standards in these docs — read them before writing code in the relevant area:
+- Logging: `docs/logging.md`
+- Error handling: `docs/error-handling.md`
+- Security: `docs/security.md`
+```
+
+This keeps CLAUDE.md focused on stack patterns while the docs carry the detailed standards.
+
+### 2.4 CLAUDE.md Content
 
 This is the most important file in the template — it's what makes Claude Code effective with this stack. Outline what it needs to cover:
 
@@ -98,12 +136,13 @@ This is the most important file in the template — it's what makes Claude Code 
 - Data flow pattern
 - Common gotchas (from research)
 - Environment variable reference
+- Standards references (pointing to selected `docs/` files from 2.3)
 - Planning workflow (how to use generate/execute commands)
 - Code philosophy and UX best practices
 
 Use existing CLAUDE.md / AGENTS.md files as structural references but write content for the target stack.
 
-### 2.4 Commands
+### 2.5 Commands
 
 Plan the 3 template-level skills by specializing from `skill-templates/`:
 
@@ -111,7 +150,7 @@ Plan the 3 template-level skills by specializing from `skill-templates/`:
 - **generate-plan** — what research URLs, what framework-specific validation, what does route/page integration look like? Include the output format (plan skeleton) inline in the SKILL.md.
 - **execute-plan** — what are the per-phase testing commands, what does the architecture section contain, what are the validation steps?
 
-### 2.5 Dependencies
+### 2.6 Dependencies
 
 List all packages/tools with pinned versions, split into runtime and dev dependencies.
 

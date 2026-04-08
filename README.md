@@ -62,8 +62,9 @@ Each template includes:
 1. **Planning System** - Structured plans for AI-driven development
 2. **Claude Skills** - `/generate-plan` and `/execute-plan` slash commands
 3. **CLAUDE.md** - Project guidelines for Claude Code
-4. **Vertical Slice Architecture** - Feature-based code organization
-5. **Setup Script** - `pnpm setup` automates deps, Supabase, and environment config
+4. **Docs** - Stack-specific standards (logging, error handling, security, etc. — selected per template)
+5. **Vertical Slice Architecture** - Feature-based code organization
+6. **Setup Script** - `pnpm setup` automates deps, Supabase, and environment config
 
 ### Workflow
 
@@ -71,12 +72,26 @@ Copy a template with `quickstart.py` and follow the output instructions. Each te
 
 ## Adding New Templates
 
-1. Create a folder in `templates/`
-2. Include at minimum:
-   - `README.md` - Setup instructions
-   - `CLAUDE.md` - Claude Code guidelines
-   - `.claude/skills/` - Generate and execute skills
-   - `planning/` - Requirement templates
-   - `scripts/setup.sh` - Automated setup script
+Use the built-in template generator:
+
+```bash
+/planning "Angular 19 + Supabase SSR template"   # Research and plan
+/execute plans/angular-supabase.md                # Build the template
+```
+
+Each template needs at minimum:
+- `README.md` - Setup instructions
+- `CLAUDE.md` - Claude Code guidelines (references `docs/` for standards enforcement)
+- `docs/` - Stack-specific standards (selected and specialized from `doc-templates/` during planning)
+- `.claude/skills/` - Generate and execute skills
+- `planning/` - Requirement templates
+- `scripts/setup.sh` - Automated setup script
+
+### Base Templates
+
+| Directory | Purpose |
+|-----------|---------|
+| `skill-templates/` | Base Claude skills, specialized per template into `.claude/skills/` |
+| `doc-templates/` | Base standards docs (logging, errors, security, testing, etc.) — selected and specialized per template into `docs/` |
 
 The quickstart script will automatically discover new templates.

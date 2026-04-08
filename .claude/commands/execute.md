@@ -30,20 +30,42 @@ After writing CLAUDE.md (or AGENTS.md), verify:
 - Development commands match what's in package.json (or equivalent)
 - Gotchas section reflects actual issues found during planning research
 
-### 3. Command Specialization
+### 3. Docs Specialization
+
+The plan specifies which `doc-templates/` to include and the stack-specific decisions for each. Only create docs the plan calls for.
+
+For each doc listed in the plan:
+- Read the base `doc-templates/[name].md`
+- Replace all `[STACK-SPECIFIC]` sections using the decisions from the plan
+- Keep stack-agnostic sections intact
+- Write to `docs/[name].md` in the template
+
+After writing all docs, add a standards reference section in CLAUDE.md that points to each doc:
+
+```markdown
+## Standards
+
+Follow the standards in these docs — read them before writing code in the relevant area:
+- Logging: `docs/logging.md`
+- Error handling: `docs/error-handling.md`
+```
+
+Only list docs that were actually created. This reference is how Claude Code discovers and reads the standards — it won't find them otherwise.
+
+### 4. Command Specialization
 
 When creating `.claude/skills/`, start from `skill-templates/` and specialize:
 - Read the base skill file
 - Adapt it for this stack's specific patterns, testing phases, validation commands, and architecture
 
-### 4. Source Scaffolding
+### 5. Source Scaffolding
 
 The source files should produce a minimal app that actually boots:
 - Entry point wires up the key technologies
 - One working route/page/command demonstrates the stack's patterns
 - Config is correct and complete (no placeholder values except .env)
 
-### 5. Validation
+### 6. Validation
 
 After all files are created, run the validation steps from the plan. Typically:
 
@@ -59,7 +81,7 @@ If the plan includes build/start validation and the dependencies are installable
 
 Fix any issues before completing.
 
-### 6. Root Repo Updates
+### 7. Root Repo Updates
 
 - Update root `README.md` with the new template entry
 - Verify `quickstart.py` discovers it (it scans `templates/` automatically)
