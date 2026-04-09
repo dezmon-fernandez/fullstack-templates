@@ -1,4 +1,6 @@
-> Command for priming Claude Code with core knowledge about your project
+---
+description: Prime agent with Angular + Supabase codebase understanding
+---
 
 # Prime Context for Claude Code
 

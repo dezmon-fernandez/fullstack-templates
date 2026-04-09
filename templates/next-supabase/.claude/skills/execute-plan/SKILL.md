@@ -1,3 +1,7 @@
+---
+description: Execute a Next.js + Supabase implementation plan phase by phase
+---
+
 # Execute Next.js + Supabase Plan
 
 Implement a plan phase by phase with validation.

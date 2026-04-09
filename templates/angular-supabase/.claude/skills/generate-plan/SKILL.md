@@ -1,3 +1,7 @@
+---
+description: Research and create implementation plan for an Angular 21 + Supabase feature
+---
+
 # Generate Angular + Supabase Plan
 
 Generate a comprehensive, well-researched plan for an Angular 21 + Supabase project.

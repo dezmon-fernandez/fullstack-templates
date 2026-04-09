@@ -1,3 +1,7 @@
+---
+description: Research and create implementation plan for a React SPA + Supabase feature
+---
+
 # Generate React + Supabase Plan
 
 Generate a comprehensive, well-researched plan for a React 19 + Supabase project.

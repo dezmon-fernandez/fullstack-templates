@@ -1,3 +1,7 @@
+---
+description: Execute a React SPA + Supabase implementation plan phase by phase
+---
+
 # Execute React + Supabase Plan
 
 Implement a plan phase by phase with validation.

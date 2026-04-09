@@ -1,3 +1,7 @@
+---
+description: Research and create implementation plan for a Next.js + Supabase + Fumadocs feature
+---
+
 # Generate Next.js + Supabase Plan
 
 Generate a comprehensive, well-researched plan for a Next.js App Router + Supabase project with SSR/SEO.

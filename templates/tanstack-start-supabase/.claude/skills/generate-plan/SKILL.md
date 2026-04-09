@@ -1,3 +1,7 @@
+---
+description: Research and create implementation plan for a TanStack Start + Supabase feature
+---
+
 # Generate TanStack Start + Supabase Plan
 
 Generate a comprehensive, well-researched plan for a TanStack Start + Supabase project with SSR.

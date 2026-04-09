@@ -1,4 +1,6 @@
-> Command for priming Claude Code with core knowledge about your project
+---
+description: Prime agent with Next.js + Supabase + Fumadocs codebase understanding
+---
 
 # Prime Context for Claude Code
 

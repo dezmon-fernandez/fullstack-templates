@@ -1,3 +1,7 @@
+---
+description: Execute a TanStack Start + Supabase implementation plan phase by phase
+---
+
 # Execute TanStack Start + Supabase Plan
 
 Implement a plan phase by phase with validation.

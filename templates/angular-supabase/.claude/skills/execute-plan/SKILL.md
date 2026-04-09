@@ -1,3 +1,7 @@
+---
+description: Execute an Angular + Supabase implementation plan phase by phase
+---
+
 # Execute Angular + Supabase Plan
 
 Implement a plan phase by phase with validation.
