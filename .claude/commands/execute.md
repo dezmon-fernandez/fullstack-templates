@@ -1,6 +1,6 @@
 ---
 description: Execute a plan to build a new tech stack template
-argument-hint: [path-to-plan e.g. plans/angular-supabase.md]
+argument-hint: [path-to-plan e.g. planning/angular-supabase.md]
 ---
 
 # Execute: Build Template from Plan

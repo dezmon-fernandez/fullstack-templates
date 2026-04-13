@@ -81,7 +81,7 @@ Use the built-in template generator:
 
 ```bash
 /planning "Angular 19 + Supabase SSR template"   # Research and plan
-/execute plans/angular-supabase.md                # Build the template
+/execute planning/angular-supabase.md             # Build the template
 ```
 
 Each template needs at minimum:
