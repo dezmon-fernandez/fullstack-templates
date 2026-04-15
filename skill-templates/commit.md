@@ -1,139 +1,100 @@
 ---
-description: Create git commit with conventional message format
-argument-hint: [file1] [file2] ... (optional - commits all changes if not specified)
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*)
+description: Create an atomic commit for current changes
 ---
 
-# Commit: Create Git Commit
+# Commit Changes
 
-## Files to Commit
+## Process
 
-Files specified: $ARGUMENTS
+### 1. Review Changes
 
-(If no files specified, will commit all changes)
-
-## Commit Process
-
-### 1. Review Current State
-
-Check git status:
-!`git status`
-
-Review changes to commit:
-!`git diff HEAD`
-
-If staging specific files, review their changes:
-!`git diff HEAD -- $ARGUMENTS`
-
-### 2. Analyze Changes
-
-Examine the diff and determine:
-
-**Type of change:**
-- `feat`: New feature
-- `fix`: Bug fix
-- `refactor`: Code refactoring
-- `docs`: Documentation only
-- `test`: Adding or updating tests
-- `chore`: Maintenance (deps, config, etc.)
-- `perf`: Performance improvement
-- `style`: Code style/formatting
-
-**Scope (if applicable):**
-- Component or area affected (api, auth, ui, etc.)
-
-**Description:**
-- Brief summary of what changed (50 chars or less)
-- Use imperative mood ("add" not "added")
-
-**Body (if needed):**
-- More detailed explanation
-- Why the change was made
-- Any important context
-
-**Breaking changes (if any):**
-- Note any breaking changes
-
-### 3. Stage Files
-
-If specific files provided:
 ```bash
-git add $ARGUMENTS
+git status
+git diff HEAD
+git diff --stat HEAD
 ```
 
-If no files specified (commit all changes):
+Check for new untracked files:
 ```bash
-git add .
+git ls-files --others --exclude-standard
 ```
 
-### 4. Create Commit
+### 2. Stage Files
 
-Using conventional commit format:
+Add the untracked and changed files relevant to the current work.
 
+**Do NOT stage:**
+- `.env` or credential files
+- Large binary files
+- Files unrelated to the current task
+
+### 3. Create Commit
+
+Write an atomic commit message with a conventional commit tag:
+
+- `feat:` — New capability or feature
+- `fix:` — Bug fix
+- `refactor:` — Code restructure without behavior change
+- `docs:` — Documentation only
+- `test:` — Test additions or fixes
+- `chore:` — Build, CI, tooling changes
+- `perf:` — Performance improvement
+
+**For monorepo changes spanning multiple packages**, note the primary package in the scope:
 ```
-type(scope): description
-
-[optional body]
-
-[optional footer]
-```
-
-Example:
-```
-feat(auth): add user authentication system
-
-Implements JWT-based authentication with:
-- Login endpoint with credentials validation
-- Token generation and verification
-- Protected route middleware
-
-Tests added for all auth flows
-```
-
-Execute the commit:
-```bash
-git commit -m "[commit message]"
-```
-
-### 5. Confirm Success
-
-Verify commit created:
-!`git log -1 --oneline`
-
-Show commit details:
-!`git show --stat`
-
-## Output Report
-
-### Commit Created
-
-**Commit Hash**: [hash]
-
-**Commit Message**:
-```
-[full commit message]
+feat(workflows): add DAG condition evaluator
+fix(web): resolve SSE reconnection on navigation
+refactor(isolation): simplify worktree resolution order
 ```
 
-**Files Committed**:
-- [list of files with change stats]
+**Commit message format:**
+```
+tag(scope): concise description of what changed
 
-**Summary**:
-- X files changed
-- Y insertions(+)
-- Z deletions(-)
+[Optional body explaining WHY this change was made,
+not just what changed. Include context that isn't
+obvious from the diff.]
 
-### Next Steps
+[Optional: Fixes #123, Closes #456]
+```
 
-Commit successfully created! Next actions:
-- Push to remote: `git push`
-- Or continue development with next feature
+### 4. Capture AI Context Changes
+
+If any AI context assets were modified in this commit, add a `Context:` section to the commit body:
+
+```
+feat(orchestrator): add retry logic for session recovery
+
+Added exponential backoff when SDK subprocess crashes mid-session.
+Previously a single crash would fail the entire workflow.
+
+Context:
+- Updated .claude/rules/orchestrator.md with retry conventions
+- Added .claude/commands/debug-session.md for session state inspection
+- Surfaced issue: mock.module() in retry tests needs isolated batch
+
+Fixes #482
+```
+
+**What counts as AI context changes:**
+- `.claude/rules/` — on-demand conventions added, updated, or removed
+- `.claude/commands/` — slash commands created or modified
+- `.claude/docs/` — reference docs added or updated
+- `CLAUDE.md` — global rules changes
+- `.archon/workflows/` or `.archon/commands/` — workflow or command definitions
+
+**Why this matters:** Your git log is long-term memory. Future agents and sessions use `git log` to understand project history. If context changes aren't captured in commits, the AI layer's evolution becomes invisible — you lose the ability to trace WHY a rule exists or WHEN a command was added.
+
+### 5. Output Report
+
+Verify with `git log -1 --oneline` and `git show --stat`, then report:
+
+- **Commit Hash**
+- **Commit Message** (full, in code block)
+- **Files Committed** (with change stats)
+- **Summary**: files changed, insertions, deletions
 
 ## Notes
-
-- If there are no changes to commit, report this clearly
+- If no changes to commit, report clearly
 - If commit fails (e.g., pre-commit hooks), report the error
-- Follow the project's commit message conventions
-- Include co-author if appropriate:
-  ```
-  Co-authored-by: Claude <noreply@anthropic.com>
-  ```
+- Never include co-authored-by lines
