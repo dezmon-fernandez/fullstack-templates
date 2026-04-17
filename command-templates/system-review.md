@@ -1,72 +1,189 @@
 ---
-description: Generate implementation report for system review
+description: Analyze implementation against plan for process improvements
 ---
 
-# Execution Report
+# System Review
 
-Review and deeply analyze the implementation you just completed.
+Perform a meta-level analysis of how well the implementation followed the plan and identify process improvements.
 
-## Context
+## Purpose
 
-You have just finished implementing a feature. Before moving on, reflect on:
+**System review is NOT code review.** You're not looking for bugs in the code - you're looking for bugs in the process.
 
-- What you implemented
-- How it aligns with the plan
-- What challenges you encountered
-- What diverged and why
+**Your job:**
 
-## Generate Report
+- Analyze plan adherence and divergence patterns
+- Identify which divergences were justified vs problematic
+- Surface process improvements that prevent future issues
+- Suggest updates to Layer 1 assets (CLAUDE.md, plan templates, commands)
 
-Save to: `.agents/execution-reports/[feature-name].md`
+**Philosophy:**
 
-### Meta Information
+- Good divergence reveals plan limitations → improve planning
+- Bad divergence reveals unclear requirements → improve communication
+- Repeated issues reveal missing automation → create commands
 
-- Plan file: [path to plan that guided this implementation]
-- Files added: [list with paths]
-- Files modified: [list with paths]
-- Lines changed: +X -Y
+## Context & Inputs
 
-### Validation Results
+You will analyze four key artifacts:
 
-- Syntax & Linting: ✓/✗ [details if failed]
-- Type Checking: ✓/✗ [details if failed]
-- Unit Tests: ✓/✗ [X passed, Y failed]
-- Integration Tests: ✓/✗ [X passed, Y failed]
+**Plan Command:**
+Read this to understand the planning process and what instructions guide plan creation.
+.claude/commands/plan-feature.md
 
-### What Went Well
+**Generated Plan:**
+Read this to understand what the agent was SUPPOSED to do.
+Plan file: $1
 
-List specific things that worked smoothly:
+**Execute Command:**
+Read this to understand the execution process and what instructions guide implementation.
+.claude/commands/execute.md
 
-- [concrete examples]
+**Execution Report:**
+Read this to understand what the agent ACTUALLY did and why.
+Execution report: $2
 
-### Challenges Encountered
+## Analysis Workflow
 
-List specific difficulties:
+### Step 1: Understand the Planned Approach
 
-- [what was difficult and why]
+Read the generated plan ($1) and extract:
 
-### Divergences from Plan
+- What features were planned?
+- What architecture was specified?
+- What validation steps were defined?
+- What patterns were referenced?
 
-For each divergence, document:
+### Step 2: Understand the Actual Implementation
 
-**[Divergence Title]**
+Read the execution report ($2) and extract:
 
-- Planned: [what the plan specified]
-- Actual: [what was implemented instead]
-- Reason: [why this divergence occurred]
-- Type: [Better approach found | Plan assumption wrong | Security concern | Performance issue | Other]
+- What was implemented?
+- What diverged from the plan?
+- What challenges were encountered?
+- What was skipped and why?
 
-### Skipped Items
+### Step 3: Classify Each Divergence
 
-List anything from the plan that was not implemented:
+For each divergence identified in the execution report, classify as:
 
-- [what was skipped]
-- Reason: [why it was skipped]
+**Good Divergence ✅** (Justified):
 
-### Recommendations
+- Plan assumed something that didn't exist in the codebase
+- Better pattern discovered during implementation
+- Performance optimization needed
+- Security issue discovered that required different approach
 
-Based on this implementation, what should change for next time?
+**Bad Divergence ❌** (Problematic):
 
-- Plan command improvements: [suggestions]
-- Execute command improvements: [suggestions]
-- CLAUDE.md additions: [suggestions]
+- Ignored explicit constraints in plan
+- Created new architecture instead of following existing patterns
+- Took shortcuts that introduce tech debt
+- Misunderstood requirements
+
+### Step 4: Trace Root Causes
+
+For each problematic divergence, identify the root cause:
+
+- Was the plan unclear, where, why?
+- Was context missing, where, why?
+- Was validation missing, where, why?
+- Was manual step repeated, where, why?
+
+### Step 5: Generate Process Improvements
+
+Based on patterns across divergences, suggest:
+
+- **CLAUDE.md updates:** Universal patterns or anti-patterns to document
+- **Plan command updates:** Instructions that need clarification or missing steps
+- **New commands:** Manual processes that should be automated
+- **Validation additions:** Checks that would catch issues earlier
+
+## Output Format
+
+Save your analysis to: `.agents/system-reviews/[feature-name]-review.md`
+
+### Report Structure:
+
+#### Meta Information
+
+- Plan reviewed: [path to $1]
+- Execution report: [path to $2]
+- Date: [current date]
+
+#### Overall Alignment Score: \_\_/10
+
+Scoring guide:
+
+- 10: Perfect adherence, all divergences justified
+- 7-9: Minor justified divergences
+- 4-6: Mix of justified and problematic divergences
+- 1-3: Major problematic divergences
+
+#### Divergence Analysis
+
+For each divergence from the execution report:
+
+```yaml
+divergence: [what changed]
+planned: [what plan specified]
+actual: [what was implemented]
+reason: [agent's stated reason from report]
+classification: good ✅ | bad ❌
+justified: yes/no
+root_cause: [unclear plan | missing context | etc]
+```
+
+#### Pattern Compliance
+
+Assess adherence to documented patterns:
+
+- [ ] Followed codebase architecture
+- [ ] Used documented patterns (from CLAUDE.md)
+- [ ] Applied testing patterns correctly
+- [ ] Met validation requirements
+
+#### System Improvement Actions
+
+Based on analysis, recommend specific actions:
+
+**Update CLAUDE.md:**
+
+- [ ] Document [pattern X] discovered during implementation
+- [ ] Add anti-pattern warning for [Y]
+- [ ] Clarify [technology constraint Z]
+
+**Update Plan Command ($1):**
+
+- [ ] Add instruction for [missing step]
+- [ ] Clarify [ambiguous instruction]
+- [ ] Add validation requirement for [X]
+
+**Create New Command:**
+
+- [ ] `/[command-name]` for [manual process repeated 3+ times]
+
+**Update Execute Command ($3):**
+
+- [ ] Add [validation step] to execution checklist
+
+#### Key Learnings
+
+**What worked well:**
+
+- [specific things that went smoothly]
+
+**What needs improvement:**
+
+- [specific process gaps identified]
+
+**For next implementation:**
+
+- [concrete improvements to try]
+
+## Important
+
+- **Be specific:** Don't say "plan was unclear" - say "plan didn't specify which auth pattern to use"
+- **Focus on patterns:** One-off issues aren't actionable. Look for repeated problems.
+- **Action-oriented:** Every finding should have a concrete asset update suggestion
+- **Suggest improvements:** Don't just analyze - actually suggest the text to add to CLAUDE.md or commands
