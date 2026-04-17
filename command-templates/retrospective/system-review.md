@@ -1,5 +1,6 @@
 ---
 description: Analyze implementation against plan for process improvements
+argument-hint: <plan-file> <execution-report>
 ---
 
 # System Review
