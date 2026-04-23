@@ -21,3 +21,8 @@ supabase/.temp/
 
 # Misc
 *.log
+
+# AI-generated plans (keep intake templates tracked)
+.agents/plans/*
+!.agents/plans/INITIAL.md
+!.agents/plans/FEATURE.md

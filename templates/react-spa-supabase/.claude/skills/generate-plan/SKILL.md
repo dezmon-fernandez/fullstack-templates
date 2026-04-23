@@ -10,8 +10,8 @@ Generate a comprehensive, well-researched plan for a React 19 + Supabase project
 
 Accepts:
 - **String**: `/generate-plan "add dark mode toggle"`
-- **New App**: `/generate-plan planning/INITIAL.md`
-- **New Feature**: `/generate-plan planning/FEATURE.md`
+- **New App**: `/generate-plan .agents/plans/INITIAL.md`
+- **New Feature**: `/generate-plan .agents/plans/FEATURE.md`
 
 ## Process
 
@@ -65,7 +65,7 @@ Populate the plan's "Research & Documentation" section with:
 
 ### 3. Generate Plan
 
-Create `planning/[name].md` using the output format below:
+Create `.agents/plans/[name].md` using the output format below:
 
 1. **Fill metadata** - Feature name, affected slices, database changes, dependencies
 2. **Populate requirements** - From INITIAL.md or FEATURE.md input
@@ -91,9 +91,9 @@ Before saving, verify:
 
 ## Output
 
-Created: `planning/[name].md`
+Created: `.agents/plans/[name].md`
 
-Execute with: `/execute-plan planning/[name].md`
+Execute with: `/execute-plan .agents/plans/[name].md`
 
 ---
 

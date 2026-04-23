@@ -14,19 +14,25 @@ cp -r . /path/to/your-project
 
 ## Planning Workflow
 
-This template uses a **planning system** for AI-assisted development:
+AI-assisted development artifacts live in `.agents/` — a self-contained workspace so the source tree stays clean.
 
 ```
-Step 1: Define Requirements
-   Edit planning/INITIAL.md (new app) or planning/FEATURE.md (add feature)
+Step 1: (Optional) Define Product
+   /create-prd   # Writes .agents/PRD.md from conversation
 
-Step 2: Generate Plan
-   /generate-plan planning/INITIAL.md
-   # Creates planning/[app-name].md with implementation details
+Step 2: Define Requirements
+   Edit .agents/plans/INITIAL.md (new app) or .agents/plans/FEATURE.md (add feature)
 
-Step 3: Execute Plan
-   /execute-plan planning/[app-name].md
+Step 3: Generate Plan
+   /generate-plan .agents/plans/INITIAL.md
+   # Creates .agents/plans/[app-name].md with implementation details
+
+Step 4: Execute Plan
+   /execute-plan .agents/plans/[app-name].md
    # AI implements the feature with tests and validation
+
+Step 5: Commit
+   /commit   # Atomic conventional commit with AI-context tracking
 ```
 
 ## What's Different from Other Templates?
@@ -45,25 +51,22 @@ Step 3: Execute Plan
 
 ```
 next-supabase/
-├── CLAUDE.md                    # Points to AGENTS.md
-├── AGENTS.md                    # Full project guidelines
+├── CLAUDE.md                    # Stack patterns, architecture, gotchas
 ├── .claude/
 │   ├── skills/
-│   │   ├── generate-plan/
-│   │   ├── execute-plan/
-│   │   └── prime-core.md
+│   │   ├── prime/               # Load codebase context
+│   │   ├── generate-plan/       # Research + create plan
+│   │   ├── execute-plan/        # Implement a plan
+│   │   ├── create-prd/          # Generate .agents/PRD.md
+│   │   └── commit/              # Atomic conventional commits
 │   └── settings.json
-├── planning/
-│   ├── templates/
-│   │   └── plan_next_supabase_base.md
-│   ├── ai_docs/
-│   │   ├── nextjs-app-router-patterns.md
-│   │   ├── supabase-nextjs-ssr.md
-│   │   └── nextjs-seo-metadata.md
-│   ├── examples/
-│   │   └── notes-feature-nextjs-example.md
-│   ├── INITIAL.md               # New app template
-│   └── FEATURE.md               # Add feature template
+├── .agents/                     # AI-assisted dev workspace (self-contained)
+│   ├── README.md                # Layout + conventions
+│   ├── PRD.md                   # (Optional) Product requirements, from /create-prd
+│   ├── plans/
+│   │   ├── INITIAL.md           # New-app intake template
+│   │   └── FEATURE.md           # Add-feature intake template
+│   └── reference/               # Curated context the AI consults
 ├── src/
 │   ├── lib/supabase/
 │   │   ├── server.ts            # Server-side Supabase client
@@ -149,12 +152,12 @@ export async function middleware(request: NextRequest) {
    pnpm setup
    ```
 
-2. **Define your app** in `planning/INITIAL.md`
+2. **Define your app** in `.agents/plans/INITIAL.md`
 
 3. **Generate and execute**
    ```bash
-   /generate-plan planning/INITIAL.md
-   /execute-plan planning/[your-app].md
+   /generate-plan .agents/plans/INITIAL.md
+   /execute-plan .agents/plans/[your-app].md
    ```
 
 ## Commands

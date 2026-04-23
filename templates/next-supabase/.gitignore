@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI-generated plans (keep intake templates tracked)
+.agents/plans/*
+!.agents/plans/INITIAL.md
+!.agents/plans/FEATURE.md

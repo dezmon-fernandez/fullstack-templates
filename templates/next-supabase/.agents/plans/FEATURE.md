@@ -1,6 +1,6 @@
 # New Feature: [Feature Name]
 
-> Fill this out, then run: `/generate-plan planning/FEATURE.md`
+> Fill this out, then run: `/generate-plan .agents/plans/FEATURE.md`
 
 ## Feature Overview
 **Name**: [Feature name]

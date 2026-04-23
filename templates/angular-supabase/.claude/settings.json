@@ -17,10 +17,10 @@
       "WebFetch(domain:docs.stripe.com)",
       "WebFetch(domain:sdk.vercel.ai)",
       "Write(src/**)",
-      "Write(planning/**)",
+      "Write(.agents/**)",
       "Write(supabase/**)",
       "Edit(src/**)",
-      "Edit(planning/**)",
+      "Edit(.agents/**)",
       "Edit(supabase/**)"
     ]
   }

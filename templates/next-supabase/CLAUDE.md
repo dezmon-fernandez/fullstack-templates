@@ -385,13 +385,19 @@ import { createClient } from '@/lib/supabase/client'
 
 ## Planning Workflow
 
-**New App**: Edit `planning/INITIAL.md` → `/generate-plan planning/INITIAL.md`
+AI-assisted dev artifacts live in `.agents/` (self-contained workspace). See `.agents/README.md` for layout.
 
-**New Feature**: Edit `planning/FEATURE.md` → `/generate-plan planning/FEATURE.md`
+**Product**: `/create-prd` → writes `.agents/PRD.md`
+
+**New App**: Edit `.agents/plans/INITIAL.md` → `/generate-plan .agents/plans/INITIAL.md`
+
+**New Feature**: Edit `.agents/plans/FEATURE.md` → `/generate-plan .agents/plans/FEATURE.md`
 
 **Quick Feature**: `/generate-plan "add dark mode toggle"`
 
-Then execute: `/execute-plan planning/[generated-file].md`
+Then execute: `/execute-plan .agents/plans/[generated-file].md`
+
+**Commit**: `/commit` — atomic conventional commit with AI-context tracking
 
 ## UX Best Practices
 - **Leverage shadcn structure** - Don't rewrite components; customize via props and Tailwind

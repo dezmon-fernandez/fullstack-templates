@@ -9,12 +9,12 @@
    pnpm setup
    ```
 
-2. **Define your app** in `planning/INITIAL.md`
+2. **Define your app** in `.agents/plans/INITIAL.md`
 
 3. **Generate and execute**
    ```bash
-   /generate-plan planning/INITIAL.md
-   /execute-plan planning/[your-app].md
+   /generate-plan .agents/plans/INITIAL.md
+   /execute-plan .agents/plans/[your-app].md
    ```
 
 4. **Run**
@@ -25,14 +25,14 @@
 ## Adding Features
 
 ```bash
-# Option 1: Edit planning/FEATURE.md first
-/generate-plan planning/FEATURE.md
+# Option 1: Edit .agents/plans/FEATURE.md first
+/generate-plan .agents/plans/FEATURE.md
 
 # Option 2: Inline
 /generate-plan "add user profile with avatar"
 
 # Then execute
-/execute-plan planning/[feature].md
+/execute-plan .agents/plans/[feature].md
 ```
 
 ## Commands

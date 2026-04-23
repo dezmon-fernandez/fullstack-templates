@@ -8,7 +8,7 @@ Implement a plan phase by phase with validation.
 
 ## Input: $ARGUMENTS
 
-Path to plan file (e.g., `planning/my-feature.md`)
+Path to plan file (e.g., `.agents/plans/my-feature.md`)
 
 ## Process
 

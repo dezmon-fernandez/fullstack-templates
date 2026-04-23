@@ -1,6 +1,6 @@
 # New App: [App Name]
 
-> Fill this out, then run: `/generate-plan planning/INITIAL.md`
+> Fill this out, then run: `/generate-plan .agents/plans/INITIAL.md`
 
 ## App Overview
 **Name**: [Your app name]
