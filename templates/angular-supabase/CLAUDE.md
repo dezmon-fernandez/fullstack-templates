@@ -17,41 +17,21 @@ This file provides guidance to Claude Code when working with Angular 21 + Supaba
 
 ## Architecture: Vertical Slices
 
+Read `.agents/documentation/vertical-slice-architecture.md` before creating or modifying any feature code.
+
 ```
-src/
-├── app/
-│   ├── app.component.ts       # Root component
-│   ├── app.config.ts          # Application config (providers)
-│   ├── app.routes.ts          # Route definitions
-│   ├── features/              # Self-contained vertical slices
-│   │   └── [feature]/
-│   │       ├── components/    # Feature components
-│   │       ├── services/      # Feature services (data, business logic)
-│   │       ├── models/        # Types and interfaces
-│   │       ├── guards/        # Route guards
-│   │       └── [feature].routes.ts  # Lazy-loaded child routes
-│   ├── shared/                # Shared utilities (NO business logic)
-│   │   ├── components/        # Reusable UI components
-│   │   ├── services/          # Cross-cutting services (supabase, auth)
-│   │   ├── guards/            # Shared route guards
-│   │   └── utils/
-│   └── layouts/               # Layout components (shell, auth layout)
-├── environments/
-│   ├── environment.ts         # Production defaults
-│   └── environment.development.ts  # Dev overrides
-└── styles.css                 # Global styles + Tailwind import
+src/app/
+├── shared/      # Reusable code — NO business logic, extracted only after 3+ features use it
+├── layouts/     # Layout components (shell, auth layout)
+├── features/    # Self-contained vertical slices — each owns its components/, services/, models/, guards/, [feature].routes.ts
 ```
 
-**Import Rules:**
-- Routes -> Features (lazy-load feature routes)
-- Features -> Shared
-- Features -> Features (via shared services or explicit imports)
-- Shared -> Features NEVER
+**Import rules:** Routes lazy-load feature routes. Features import from `shared/`.
+Features can import each other's services directly for data access. `shared/` NEVER imports from features.
 
-**Page Responsibility:**
-- Routes are THIN — they lazy-load feature components, not implement logic
-- Components fetch data via services and signals
-- Types are defined in feature `models/`, not in components
+**Page responsibility:** Routes are THIN — they lazy-load feature components, not
+implement logic. Components fetch data via services and signals. Types live in
+feature `models/`, not in components.
 
 ## Development Commands
 
@@ -378,6 +358,11 @@ export class NameComponent {
 ```
 
 ## Testing
+
+**On-demand reference:** For test strategy (mocking, async/signal timing, Material
+harness escapes, contract-vs-construction judgment), invoke the `angular-testing`
+skill. The fluent scoped-query test harness lives at `src/testing/test-harness.ts`
+(`createTestHarness(fixture.debugElement)`).
 
 ### Per-Phase Testing
 
