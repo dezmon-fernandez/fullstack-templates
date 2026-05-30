@@ -4,35 +4,78 @@ description: Research and create implementation plan for a React SPA + Supabase 
 
 # Generate React + Supabase Plan
 
-Generate a comprehensive, well-researched plan for a React 19 + Supabase project.
+## Feature: $ARGUMENTS
 
-## Input: $ARGUMENTS
+Accepts a feature description (`/generate-plan "add dark mode toggle"`) or no argument (prompts
+for one).
 
-Accepts:
-- **String**: `/generate-plan "add dark mode toggle"`
-- **New App**: `/generate-plan .agents/plans/INITIAL.md`
-- **New Feature**: `/generate-plan .agents/plans/FEATURE.md`
+## Mission
 
-## Process
+Transform a feature request into a **comprehensive, feature-framed implementation plan** through
+systematic codebase analysis, external research, and strategic planning — specialized for
+React 19 (Vite SPA) + TanStack + Supabase.
 
-### 1. Analyze Request
-- Read the input from $ARGUMENTS
-- For new apps: identify all features, data model, pages needed
-- For features: identify affected slices, database changes, components
-- List all technologies/integrations involved
+**Core Principle**: We do NOT write code in this phase. The goal is a context-rich plan that
+enables one-pass implementation success for the execution agent.
 
-### 2. Research Phase (CRITICAL)
+**Key Philosophy**: Context is King. The plan must contain ALL information needed to implement —
+patterns, mandatory reading, documentation, validation commands — so `/execute-plan` succeeds on
+the first attempt without re-researching.
 
-**This is the most important step. Execute should implement, not research.**
+## Planning Process
 
-#### 2.1 Core Stack Research
-For each technology in the feature, fetch latest documentation:
+### Phase 0: PRD Alignment
+
+Align the plan to `.agents/PRD.md` — the project's source of truth for scope, architecture, success criteria, and risks. Cite the relevant PRD sections (MVP scope, affected slices, success criteria) in the plan's Requirements.
+
+If `.agents/PRD.md` does not exist, stop and tell the user to run `/create-prd` first.
+
+### Phase 1: Feature Understanding
+
+**Deep Feature Analysis:**
+- Extract the core problem being solved and the user value.
+- Determine feature type: New Capability / Enhancement / Refactor / Bug Fix.
+- Assess complexity: Low / Medium / High.
+- Map affected slices (`src/features/`) and integration points.
+
+**Create / refine the User Story:**
+```
+As a <type of user>
+I want to <action/goal>
+So that <benefit/value>
+```
+
+Also produce **Requirements** (Must-have / Nice-to-have) and **Out of Scope**.
+
+### Phase 2: Codebase Intelligence Gathering
+
+**Read the codebase before planning. The plan must reference real files, not generic advice.**
+
+1. **Project structure** — confirm React/Vite setup, TanStack Router file-based routes, the
+   Supabase client singleton, the `QueryClient` provider.
+2. **Pattern recognition** — find the closest existing feature slice in `src/features/`; it is
+   the pattern to mirror (hook shape, query-key factory, component structure, route composition,
+   `index.ts` public API, test layout). Note naming conventions, error handling, anti-patterns.
+3. **Established docs (context on demand):** scan `.agents/documentation/` — deliberately-
+   established, non-obvious codebase patterns (e.g. `vertical-slice-architecture.md`). Read the
+   entries relevant to this feature; relevant ones override generic defaults and go into Context
+   References. Most standard code has no doc — its absence means "follow conventional best
+   practice + existing code."
+4. **Dependency analysis** — libraries the feature touches; how they're already integrated.
+5. **Integration points** — `src/routes/` (where the feature's route composes its public API),
+   `src/shared/` primitives reused, the Supabase client, the query-key conventions.
+
+**Clarify ambiguities now** — resolve library/approach/architecture questions before researching.
+
+### Phase 3: External Research
+
+Fill gaps the PRD + codebase + documentation don't cover. Fetch latest official docs:
 
 | Technology | Documentation URL |
 |------------|-------------------|
 | React 19 | https://react.dev/blog/2024/12/05/react-19 |
-| TanStack Query v5 | https://tanstack.com/query/latest/docs |
-| TanStack Router | https://tanstack.com/router/latest/docs |
+| TanStack Query v5 | https://tanstack.com/query/latest/docs/framework/react/overview |
+| TanStack Router | https://tanstack.com/router/latest/docs/framework/react/overview |
 | Supabase JS | https://supabase.com/docs/reference/javascript |
 | Supabase Auth | https://supabase.com/docs/guides/auth |
 | Supabase RLS | https://supabase.com/docs/guides/database/postgres/row-level-security |
@@ -42,512 +85,260 @@ For each technology in the feature, fetch latest documentation:
 | Zod | https://zod.dev |
 | Vitest | https://vitest.dev/guide |
 
-#### 2.2 Feature-Specific Research
-- **WebSearch** for: `[feature] react 19 best practices 2024`
-- **WebSearch** for: `[feature] supabase implementation`
-- **WebSearch** for common gotchas and edge cases
-- **WebFetch** relevant documentation pages
+Integrations as applicable: Stripe, Vercel AI SDK, Supabase Storage/Realtime.
 
-#### 2.3 Integration Research (if applicable)
-| Integration | Research |
-|-------------|----------|
-| Stripe | https://docs.stripe.com/payments |
-| Vercel AI SDK | https://sdk.vercel.ai/docs |
-| Supabase Storage | https://supabase.com/docs/guides/storage |
-| Supabase Realtime | https://supabase.com/docs/guides/realtime |
+**WebSearch** for `[feature] react 19 best practices`, `[feature] supabase implementation`, and
+known gotchas. **WebFetch** the pages that matter. Capture URLs **with section anchors** and the
+*why* for each into Context References.
 
-#### 2.4 Document Findings
-Populate the plan's "Research & Documentation" section with:
-- Links to relevant docs consulted
-- Key patterns discovered
-- Gotchas and edge cases found
-- Version-specific considerations
+### Phase 4: Deep Strategic Thinking
 
-### 3. Generate Plan
+Think harder about: how the feature fits the existing architecture; critical dependencies and
+order of operations; what could go wrong (edge cases, auth/RLS, cache invalidation); how it's
+tested; performance and security. Choose between alternatives with clear rationale; design for the
+slice boundary (no `shared/ → features/` leakage; minimal `index.ts` surface).
 
-Create `.agents/plans/[name].md` using the output format below:
+### Phase 5: Plan Structure Generation
 
-1. **Fill metadata** - Feature name, affected slices, database changes, dependencies
-2. **Populate requirements** - From INITIAL.md or FEATURE.md input
-3. **Add research section** - All documentation links and findings
-4. **Customize phases** - Adapt code examples to actual feature
-5. **Update gotchas** - Add feature-specific warnings discovered
-6. **Include visual design spec** - If INITIAL.md provided, extract visual design section. If string input, infer aesthetic from the description (e.g., "luxury" → dark + gold + serif, "playful" → rounded + bright colors) or ask user. Include:
-   - Theme colors (define in `@theme` block for Tailwind v4)
-   - Typography (font families, heading styles)
-   - Custom utility classes (glows, gradients, effects)
-   - Component styling direction (e.g., "cinematic cards with gold borders")
-7. **Route integration for every feature** - For each feature slice created, include a Task in Phase 6 that integrates it into a route. Create a new route file if one doesn't exist for that feature. Routes must import from `@/features/[name]` and compose the feature's exported components.
-
-### 4. Validate Plan Completeness
-
-Before saving, verify:
-- [ ] Research section has relevant documentation links
-- [ ] All placeholders replaced with actual names
-- [ ] Database schema matches data model
-- [ ] Test files include feature-specific assertions
-- [ ] Gotchas section updated with research findings
-- [ ] Visual design section includes theme.css with colors, fonts, and custom utilities
-
-## Output
-
-Created: `.agents/plans/[name].md`
-
-Execute with: `/execute-plan .agents/plans/[name].md`
-
----
-
-## Research Examples
-
-### Example: Dark Mode Feature
-```
-WebSearch: "tailwind v4 dark mode toggle react"
-WebSearch: "shadcn/ui theme provider dark mode"
-WebSearch: "react 19 context theme switching"
-WebFetch: https://ui.shadcn.com/docs/dark-mode
-WebFetch: https://tailwindcss.com/docs/dark-mode
-```
-
-### Example: Stripe Payments Feature
-```
-WebSearch: "stripe react integration 2024"
-WebSearch: "supabase edge functions stripe webhook"
-WebFetch: https://docs.stripe.com/payments/quickstart
-WebFetch: https://supabase.com/docs/guides/functions
-```
-
-### Example: Real-time Chat Feature
-```
-WebSearch: "supabase realtime react hooks"
-WebSearch: "tanstack query supabase realtime subscription"
-WebFetch: https://supabase.com/docs/guides/realtime/postgres-changes
-WebFetch: https://tanstack.com/query/latest/docs/framework/react/guides/subscriptions
-```
+Write `.agents/plans/<kebab-feature-name>.md` using the Output Format below. Fill every section;
+replace all `[PLACEHOLDERS]`. The plan must pass the "No Prior Knowledge Test" — someone
+unfamiliar with the codebase could implement it from the plan alone.
 
 ---
 
 ## Output Format
 
-Use this skeleton when generating the plan. Replace all `[PLACEHOLDERS]` with actual feature details.
+````markdown
+# Feature: [FEATURE_NAME]
 
-# Plan: [FEATURE_NAME]
+Validate documentation, codebase patterns, and task sanity before implementing. Pay special
+attention to existing util/type/hook names — import from the right files, no deep imports past a
+slice's `index.ts`.
 
-## Metadata
-- **Feature**: [FEATURE_NAME]
-- **Affected Slices**: [LIST_AFFECTED_FEATURES]
-- **Database Changes**: [YES_OR_NO]
-- **New Dependencies**: [LIST_OR_NONE]
+## User Story
+
+As a [USER]
+I want to [ACTION]
+So that [BENEFIT]
+
+## Requirements
+
+**Must have**
+- [ ] [requirement]
+
+**Nice to have**
+- [ ] [requirement]
+
+## Out of Scope
+
+- [what this explicitly does NOT include]
+
+## Problem Statement
+
+[The specific problem/opportunity this addresses]
+
+## Solution Statement
+
+[The proposed approach and how it solves the problem]
+
+## Feature Metadata
+
+**Feature Type**: [New Capability/Enhancement/Refactor/Bug Fix]
+**Estimated Complexity**: [Low/Medium/High]
+**Affected Slices**: [features/x, features/y, or NEW: features/z]
+**Database Changes**: [YES/NO]
+**Dependencies**: [external libs/services, or NONE]
+**PRD Alignment**: [PRD section(s) this serves]
 
 ---
 
-## Technology Stack Reference
+## CONTEXT REFERENCES
+
+### Relevant Codebase Files — IMPORTANT: READ THESE BEFORE IMPLEMENTING
+
+- `src/features/[similar]/hooks/use-[x].ts:NN` — Why: mirror this hook + query-key shape
+- `src/features/[similar]/index.ts:NN` — Why: public API surface to follow
+- `src/routes/[similar].tsx:NN` — Why: how a route composes a feature's public API
+- `src/shared/utils/supabase.ts` — Why: the client singleton
+
+### New Files to Create
+
+- `src/features/[FEATURE]/schemas/[FEATURE].schema.ts` — Zod schema(s)
+- `src/features/[FEATURE]/types/[FEATURE].types.ts` — inferred types
+- `src/features/[FEATURE]/hooks/use-[FEATURE].ts` — TanStack Query hooks
+- `src/features/[FEATURE]/components/[FEATURE]-list.tsx`
+- `src/features/[FEATURE]/components/[FEATURE]-form.tsx`
+- `src/features/[FEATURE]/__tests__/*` — co-located tests
+- `src/features/[FEATURE]/index.ts` — public API
+- `src/routes/[ROUTE].tsx`
+
+### Relevant Documentation — READ BEFORE IMPLEMENTING
+
+- `.agents/documentation/vertical-slice-architecture.md` — slice boundaries, public-API rule
+- [other relevant `.agents/documentation/*.md` found in Phase 2, if any]
+- [External]: [url#anchor] — Why: [specific need]
+
+### Patterns to Follow
+
+[Concrete conventions extracted from the codebase in Phase 2 — query-key factories, hook naming,
+how hooks parse Supabase responses, error handling. Include real file:line references.]
+
+---
+
+## TECHNOLOGY STACK
 
 | Layer | Technology | Version |
 |-------|------------|---------|
 | **Frontend** | React | ^19.2 |
-| **Build** | Vite | ^7.3 |
+| **Build** | Vite | ^7 |
 | **Package Manager** | pnpm | 10.x |
 | **Routing** | TanStack Router | ^1.160 |
 | **Data Fetching** | TanStack Query | ^5.90 |
-| **UI Components** | shadcn/ui | Latest |
-| **Icons** | Lucide React | Latest |
+| **UI** | shadcn/ui + Lucide | Latest |
 | **Styling** | Tailwind CSS | ^4 |
-| **Forms** | React Hook Form + Zod | ^7.71 / ^4.3 |
+| **Forms** | React Hook Form + Zod | ^7.71 / ^3 |
 | **Backend** | Supabase JS | ^2.97 |
-| **Linting** | Biome | 2.4.2 |
-| **Payments** | Stripe | Latest |
-| **AI** | Vercel AI SDK | 5.x |
+| **Linting** | Biome | 2.x |
+| **Testing** | Vitest + Testing Library | Latest |
+
+Architecture: vertical slices — `src/features/[feature]/` (`components/`, `hooks/`, `schemas/`,
+`types/`, `__tests__/`, `index.ts` public API) + thin `src/routes/` + `src/shared/`. Routes →
+Features → Shared; Features → Features via public `index.ts`; Shared → Features NEVER. See
+`.agents/documentation/vertical-slice-architecture.md`.
 
 ---
 
-## Documentation References
+## IMPLEMENTATION PLAN
 
-| Technology | Documentation |
-|------------|---------------|
-| React 19 | https://react.dev/blog/2024/12/05/react-19 |
-| TanStack Query v5 | https://tanstack.com/query/latest/docs/framework/react/overview |
-| TanStack Router | https://tanstack.com/router/latest/docs/framework/react/overview |
-| Supabase JS v2 | https://supabase.com/docs/reference/javascript/introduction |
-| Supabase Auth | https://supabase.com/docs/guides/auth |
-| Supabase RLS | https://supabase.com/docs/guides/database/postgres/row-level-security |
-| shadcn/ui | https://ui.shadcn.com/docs |
-| Lucide React | https://lucide.dev/guide/packages/lucide-react |
-| Tailwind v4 | https://tailwindcss.com/docs/installation/vite |
-| React Hook Form | https://react-hook-form.com/docs |
-| Zod | https://zod.dev/?id=basic-usage |
-| Vitest | https://vitest.dev/guide/ |
-| Testing Library | https://testing-library.com/docs/react-testing-library/intro |
-| Stripe | https://docs.stripe.com/payments/quickstart |
-| Vercel AI SDK | https://sdk.vercel.ai/docs/introduction |
+> Name artifacts + their interfaces. Standard React/TanStack/Supabase code follows conventional
+> patterns; only spell out what's non-obvious or codebase-specific.
 
----
+### Phase 1: Data Layer (Zod schemas + types + Supabase migration)
+Migration (if DB changes), Zod schema + create/update variants, inferred types.
 
-## Architecture: Vertical Slices
+### Phase 2: Hooks (TanStack Query)
+Query-key factory, list/detail queries, create/update/delete mutations with invalidation.
 
-```
-src/
-├── routes/           # TanStack Router file-based (thin, composing)
-├── features/         # Self-contained vertical slices
-│   └── [feature]/
-│       ├── __tests__/
-│       ├── components/
-│       ├── hooks/
-│       ├── schemas/
-│       ├── types/
-│       └── index.ts  # Public API
-└── shared/           # UI components, utils (NO business logic)
-```
+### Phase 3: Components
+Feature components consuming hooks; React Hook Form + Zod resolver for forms.
 
-**Import Rules:**
-- Routes → Features
-- Features → Shared
-- Features → Features
-- Shared → Features NEVER
+### Phase 4: Public API + Route Integration
+`index.ts` exports; a `routes/` file composing the feature.
 
-**Supabase Client**: `import { supabase } from '@/shared/utils/supabase'`
+### Phase 5: Testing & Validation
+Vitest + Testing Library; run tests after each phase.
 
 ---
 
-## Requirements
+## STEP-BY-STEP TASKS
 
-### User Story
-[FROM_INITIAL_MD]
+Execute in order, top to bottom. Each task is atomic and independently testable.
+Keywords: **CREATE / UPDATE / ADD / REMOVE / REFACTOR / MIRROR**.
 
-### Acceptance Criteria
-[FROM_INITIAL_MD]
+### Phase 1: Data Layer
 
----
+#### [CREATE] supabase/migrations/[TIMESTAMP]_[NAME].sql  (only if DB changes)
+- **IMPLEMENT**: table + `user_id` FK (cascade) + per-policy indexes + RLS policy set
+- **PATTERN**: [existing migration file:line]
+- **GOTCHA**: index every RLS-filtered column; RLS blocks return empty arrays, not errors
+- **VALIDATE**: `supabase db reset` succeeds, then
+  `supabase gen types typescript --local > src/shared/types/database.types.ts`
 
-## Research & Documentation
+#### [CREATE] src/features/[FEATURE]/schemas/[FEATURE].schema.ts
+- **IMPLEMENT**: Zod row schema + create/update variants (omit/partial)
+- **PATTERN**: [existing schema file:line]
+- **VALIDATE**: `pnpm tsc --noEmit`
 
-> **Note**: This section is populated by the generate command during research phase.
+#### [CREATE] src/features/[FEATURE]/types/[FEATURE].types.ts
+- **IMPLEMENT**: `z.infer` type exports from the schema
+- **VALIDATE**: `pnpm tsc --noEmit`
 
-### Sources Consulted
-[LINKS_TO_DOCS_FETCHED_DURING_RESEARCH]
+### Phase 2: Hooks
 
-### Key Patterns Discovered
-[PATTERNS_FROM_RESEARCH]
+#### [CREATE] src/features/[FEATURE]/hooks/use-[FEATURE].ts
+- **IMPLEMENT**: query-key factory; list/detail `useQuery`; create/update/delete `useMutation`
+  with `invalidateQueries`; parse Supabase responses with the Zod schema
+- **PATTERN**: [similar hook file:line]
+- **IMPORTS**: `@tanstack/react-query`, the supabase client, the schema/types
+- **GOTCHA**: v5 — `isPending` not `isLoading`, `gcTime` not `cacheTime`; always invalidate after mutations
+- **VALIDATE**: `pnpm test src/features/[FEATURE]/__tests__/use-*`
 
-### Feature-Specific Gotchas
-[GOTCHAS_DISCOVERED_DURING_RESEARCH]
+### Phase 3: Components
 
----
+#### [CREATE] src/features/[FEATURE]/components/[FEATURE]-list.tsx
+- **IMPLEMENT**: consumes the query hook; renders loading/empty/error/success states
+- **PATTERN**: [similar component file:line]
+- **VALIDATE**: `pnpm test src/features/[FEATURE]/__tests__/`
 
-## Implementation Blueprint
+#### [CREATE] src/features/[FEATURE]/components/[FEATURE]-form.tsx
+- **IMPLEMENT**: React Hook Form + Zod resolver; calls the mutation hook
+- **VALIDATE**: `pnpm test src/features/[FEATURE]/__tests__/`
 
-### Phase 1: Database Schema (if needed)
+### Phase 4: Public API + Route
 
-```yaml
-Task 1.1 - Migration:
-  file: supabase/migrations/[TIMESTAMP]_[NAME].sql
-  content: |
-    create table public.[TABLE] (
-      id uuid primary key default gen_random_uuid(),
-      user_id uuid not null references public.profiles(id) on delete cascade,
-      [COLUMNS]
-      created_at timestamptz default now() not null,
-      updated_at timestamptz default now() not null
-    );
+#### [CREATE] src/features/[FEATURE]/index.ts
+- **IMPLEMENT**: export the hooks, components, and types routes/other features need — nothing more
+- **GOTCHA**: this is the ONLY entry point; no deep imports from outside the slice
 
-    create index idx_[TABLE]_user_id on public.[TABLE](user_id);
+#### [CREATE] src/routes/[ROUTE].tsx
+- **IMPLEMENT**: import from `@/features/[FEATURE]`; compose its components; thin
+- **PATTERN**: [existing route file:line]
+- **GOTCHA**: dynamic params use `$` prefix (`$itemId.tsx`); `routeTree.gen.ts` regenerates on `pnpm dev`
+- **VALIDATE**: `pnpm build`
 
-    alter table public.[TABLE] enable row level security;
-
-    create policy "Users can view own [items]"
-      on public.[TABLE] for select using (auth.uid() = user_id);
-
-    create policy "Users can create [items]"
-      on public.[TABLE] for insert with check (auth.uid() = user_id);
-
-    create policy "Users can update own [items]"
-      on public.[TABLE] for update using (auth.uid() = user_id);
-
-    create policy "Users can delete own [items]"
-      on public.[TABLE] for delete using (auth.uid() = user_id);
-  validation: supabase db reset succeeds
-
-Task 1.2 - Generate Types:
-  commands:
-    - supabase gen types typescript --local > src/shared/types/database.types.ts
-  validation: pnpm tsc --noEmit passes
-```
-
-### Phase 2: Feature Slice - Schemas & Types
-
-```yaml
-Task 2.1 - Schema:
-  file: src/features/[FEATURE]/schemas/[FEATURE].schema.ts
-  content: |
-    import { z } from 'zod';
-
-    export const [item]Schema = z.object({
-      id: z.string().uuid(),
-      user_id: z.string().uuid(),
-      [FIELDS]
-      created_at: z.string().datetime(),
-      updated_at: z.string().datetime(),
-    });
-
-    export const create[Item]Schema = [item]Schema.omit({
-      id: true,
-      user_id: true,
-      created_at: true,
-      updated_at: true,
-    });
-
-    export type [Item] = z.infer<typeof [item]Schema>;
-    export type Create[Item]Input = z.infer<typeof create[Item]Schema>;
-
-Task 2.2 - Types:
-  file: src/features/[FEATURE]/types/[FEATURE].types.ts
-  content: |
-    export type { [Item], Create[Item]Input } from '../schemas/[FEATURE].schema';
-```
-
-### Phase 3: Feature Slice - Hooks (TanStack Query v5)
-
-```yaml
-Task 3.1 - Query Hooks:
-  file: src/features/[FEATURE]/hooks/use-[FEATURE].ts
-  content: |
-    import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-    import { supabase } from '@/shared/utils/supabase';
-    import { [item]Schema, type [Item], type Create[Item]Input } from '../schemas/[FEATURE].schema';
-
-    export const [FEATURE]Keys = {
-      all: ['[FEATURE]'] as const,
-      list: () => [...[FEATURE]Keys.all, 'list'] as const,
-      detail: (id: string) => [...[FEATURE]Keys.all, 'detail', id] as const,
-    };
-
-    export function use[Items]() {
-      return useQuery({
-        queryKey: [FEATURE]Keys.list(),
-        queryFn: async (): Promise<[Item][]> => {
-          const { data, error } = await supabase
-            .from('[TABLE]')
-            .select('*')
-            .order('created_at', { ascending: false });
-          if (error) throw error;
-          return [item]Schema.array().parse(data);
-        },
-      });
-    }
-
-    export function use[Item](id: string) {
-      return useQuery({
-        queryKey: [FEATURE]Keys.detail(id),
-        queryFn: async (): Promise<[Item]> => {
-          const { data, error } = await supabase
-            .from('[TABLE]')
-            .select('*')
-            .eq('id', id)
-            .single();
-          if (error) throw error;
-          return [item]Schema.parse(data);
-        },
-        enabled: !!id,
-      });
-    }
-
-    export function useCreate[Item]() {
-      const queryClient = useQueryClient();
-      return useMutation({
-        mutationFn: async (input: Create[Item]Input): Promise<[Item]> => {
-          const { data, error } = await supabase
-            .from('[TABLE]')
-            .insert(input)
-            .select()
-            .single();
-          if (error) throw error;
-          return [item]Schema.parse(data);
-        },
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: [FEATURE]Keys.all });
-        },
-      });
-    }
-
-    export function useDelete[Item]() {
-      const queryClient = useQueryClient();
-      return useMutation({
-        mutationFn: async (id: string): Promise<void> => {
-          const { error } = await supabase.from('[TABLE]').delete().eq('id', id);
-          if (error) throw error;
-        },
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: [FEATURE]Keys.all });
-        },
-      });
-    }
-  validation: Hooks compile and return data
-
-Task 3.2 - Hook Tests:
-  file: src/features/[FEATURE]/__tests__/use-[FEATURE].test.ts
-  validation: |
-    pnpm test src/features/[FEATURE]/__tests__/use-[FEATURE].test.ts
-```
-
-### Phase 4: Feature Slice - Components
-
-```yaml
-Task 4.1 - List Component:
-  file: src/features/[FEATURE]/components/[FEATURE]-list.tsx
-
-Task 4.2 - Form Component:
-  file: src/features/[FEATURE]/components/[FEATURE]-form.tsx
-
-Task 4.3 - Component Tests:
-  file: src/features/[FEATURE]/__tests__/[FEATURE]-list.test.tsx
-  validation: |
-    pnpm test src/features/[FEATURE]/__tests__/
-```
-
-### Phase 5: Feature Slice - Public API
-
-```yaml
-Task 5.1 - Index:
-  file: src/features/[FEATURE]/index.ts
-  content: |
-    // Hooks
-    export { use[Items], use[Item], useCreate[Item], useDelete[Item], [FEATURE]Keys } from './hooks/use-[FEATURE]';
-
-    // Components
-    export { [Item]List } from './components/[FEATURE]-list';
-    export { [Item]Card } from './components/[FEATURE]-card';
-    export { [Item]Form } from './components/[FEATURE]-form';
-
-    // Types
-    export type { [Item], Create[Item]Input } from './schemas/[FEATURE].schema';
-```
-
-### Phase 6: Route Integration
-
-> For each feature slice, integrate into a route - create new or modify existing.
-
-```yaml
-# Pattern A: New route
-Task 6.1 - [Feature] Route (NEW):
-  file: src/routes/[ROUTE_PATH].tsx
-  content: |
-    import { type ReactElement } from 'react';
-    import { createFileRoute } from '@tanstack/react-router';
-    import { [COMPONENTS] } from '@/features/[FEATURE]';
-
-    export const Route = createFileRoute('[ROUTE_PATH]')({
-      component: [Page],
-    });
-
-    function [Page](): ReactElement {
-      return (
-        [PAGE_LAYOUT_USING_FEATURE_COMPONENTS]
-      );
-    }
-
-# Pattern B: Modify existing route
-Task 6.2 - [Feature] in [Existing] Route (MODIFY):
-  file: src/routes/[EXISTING_ROUTE].tsx
-  changes:
-    - Add import: import { [COMPONENTS] } from '@/features/[FEATURE]';
-    - Add to JSX: [WHERE_TO_ADD_FEATURE_COMPONENTS]
-```
+### Phase 5: Tests
+- **IMPLEMENT**: co-located `__tests__/` — mock supabase in hook tests, mock hooks in component tests
+- **VALIDATE**: `pnpm test --run`
 
 ---
 
-## Validation Gates
+## VALIDATION COMMANDS
 
-### Per-Phase Testing (CRITICAL)
-Run tests after each phase that introduces testable code:
+Execute every command to ensure zero regressions and full feature correctness.
 
-| Phase | Run Tests? | Command |
-|-------|------------|---------|
-| 1. Database | No | - |
-| 2. Schemas | No | - |
-| 3. Hooks | **YES** | `pnpm test src/features/[FEATURE]/__tests__/use-*` |
-| 4. Components | **YES** | `pnpm test src/features/[FEATURE]/__tests__/` |
-| 5. Public API | No | - |
-| 6. Routes | Verify | `test -f [route-path] && pnpm build` |
+### Level 1: Syntax & Types
+`pnpm tsc --noEmit && pnpm biome check .`
 
-### Level 1: Build + Tests
-```bash
-pnpm build
-pnpm tsc --noEmit
-pnpm biome check .
-pnpm test --run
-```
+### Level 2: Tests (per phase, then full)
+`pnpm test src/features/[FEATURE]/__tests__/` → `pnpm test --run`
 
-### Level 2: Database (if applicable)
-```bash
-supabase db reset
-supabase gen types typescript --local > src/shared/types/database.types.ts
-pnpm tsc --noEmit
-pnpm test --run
-```
+### Level 3: Database (if applicable)
+`supabase db reset && supabase gen types typescript --local > src/shared/types/database.types.ts`
 
-### Level 3: Runtime
-- [ ] Feature loads without console errors
-- [ ] Data fetches correctly (check Network tab)
-- [ ] Forms validate on submit
-- [ ] CRUD operations persist to database
-- [ ] Loading states display during fetches
-- [ ] Error states handle failures gracefully
+### Level 4: Build / Manual
+`pnpm build`; then click through the feature — loading/empty/error/success states render.
 
 ---
 
-## Common Gotchas
+## ACCEPTANCE CRITERIA
 
-### Vertical Slice Architecture
-- `shared/` NEVER imports from `features/`
-- Routes are thin - import and compose from features
-- Use `index.ts` as public API - no deep imports
-- Co-locate tests in `__tests__/` within features
+- [ ] All specified functionality implemented
+- [ ] All validation commands pass with zero errors
+- [ ] Feature self-contained in a slice; public API minimal; route integrated
+- [ ] Tests co-located in `__tests__/`; pass per phase
+- [ ] Code follows codebase conventions; no `shared/ → features/` leakage
+- [ ] No regressions in existing functionality
 
-### React 19
-- Use `ReactElement` not `JSX.Element` for return types
-- Don't manually add `useMemo`/`useCallback` - compiler handles it
-- Actions handle pending state - don't duplicate with useState
+## NOTES
 
-### TanStack Query v5
-- Status: `loading` -> `pending`, `isLoading` -> `isPending`
-- `cacheTime` -> `gcTime`
-- Always `invalidateQueries` after mutations
-- Query keys must be serializable arrays
-
-### TanStack Router
-- Dynamic params use `$` prefix: `$itemId.tsx`
-- Run `pnpm dev` to generate `routeTree.gen.ts`
-- Search params need Zod schemas for type safety
-
-### Supabase
-- RLS returns empty array (not error) when blocking
-- Run `supabase gen types` after EVERY migration
-- Realtime not working = missing SELECT RLS policy
-- Index all RLS policy columns for performance
-
-### React Hook Form
-- `defaultValues` don't update - use `reset()` for dynamic data
-- File inputs need `Controller` wrapper
-- Use `handleSubmit` to prevent page reload
-
-### Testing
-- Mock Supabase client in hook tests
-- Mock hooks in component tests (test UI states, not data fetching)
-- Use `vi.mocked()` for type-safe mock returns
-- Wrap components in `QueryClientProvider` for tests
-- Test all UI states: loading, error, empty, success
-- Run tests after each phase - don't batch to the end
+[Design decisions, trade-offs, anything the execution agent should know]
 
 ---
 
-## Success Criteria
+**Confidence Score**: [#/10] that execution succeeds on the first attempt
+````
 
-- [ ] All phases completed
-- [ ] Build passes (`pnpm build`)
-- [ ] Types pass (`pnpm tsc --noEmit`)
-- [ ] Biome passes (`pnpm biome check .`)
-- [ ] **Tests pass (`pnpm test --run`)**
-- [ ] Database types regenerated (if schema changed)
-- [ ] Runtime validation checklist complete
-- [ ] Feature is self-contained in vertical slice
-- [ ] Public API exports only what routes need
-- [ ] **Tests co-located in `__tests__/` folder**
+## Quality Criteria
+
+- **Context Completeness**: patterns identified, docs linked w/ anchors, integration points mapped,
+  gotchas captured, every task has an executable validation command.
+- **Implementation Ready**: tasks ordered by dependency, atomic, with file:line pattern references.
+- **Pattern Consistency**: follows codebase conventions; no reinvention of existing utils/hooks.
+- **No Prior Knowledge Test**: someone unfamiliar with the codebase could implement from the plan alone.
+
+## Output
+
+Created: `.agents/plans/<feature>.md` — execute with `/execute-plan .agents/plans/<feature>.md`.
+
+After creating the plan, report: feature summary + approach, full path, complexity, key risks,
+and a confidence score (#/10) for one-pass success.

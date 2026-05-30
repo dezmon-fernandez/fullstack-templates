@@ -4,29 +4,74 @@ description: Research and create implementation plan for an Angular 21 + Supabas
 
 # Generate Angular + Supabase Plan
 
-Generate a comprehensive, well-researched plan for an Angular 21 + Supabase project.
+## Feature: $ARGUMENTS
 
-## Input: $ARGUMENTS
+Accepts a feature description (`/generate-plan "add dark mode toggle"`) or no argument (prompts
+for one).
 
-Accepts:
-- **String**: `/generate-plan "add dark mode toggle"`
-- **New App**: `/generate-plan .agents/plans/INITIAL.md`
-- **New Feature**: `/generate-plan .agents/plans/FEATURE.md`
+## Mission
 
-## Process
+Transform a feature request into a **comprehensive, feature-framed implementation plan** through
+systematic codebase analysis, external research, and strategic planning — specialized for
+Angular 21 + Supabase.
 
-### 1. Analyze Request
-- Read the input from $ARGUMENTS
-- For new apps: identify all features, data model, pages needed
-- For features: identify affected slices, database changes, components
-- List all technologies/integrations involved
+**Core Principle**: We do NOT write code in this phase. The goal is a context-rich plan that
+enables one-pass implementation success for the execution agent.
 
-### 2. Research Phase (CRITICAL)
+**Key Philosophy**: Context is King. The plan must contain ALL information needed to implement —
+patterns, mandatory reading, documentation, validation commands — so `/execute-plan` succeeds on
+the first attempt without re-researching.
 
-**This is the most important step. Execute should implement, not research.**
+## Planning Process
 
-#### 2.1 Core Stack Research
-For each technology in the feature, fetch latest documentation:
+### Phase 0: PRD Alignment
+
+Align the plan to `.agents/PRD.md` — the project's source of truth for scope, architecture, success criteria, and risks. Cite the relevant PRD sections (MVP scope, affected slices, success criteria) in the plan's Requirements.
+
+If `.agents/PRD.md` does not exist, stop and tell the user to run `/create-prd` first.
+
+### Phase 1: Feature Understanding
+
+**Deep Feature Analysis:**
+- Extract the core problem being solved and the user value.
+- Determine feature type: New Capability / Enhancement / Refactor / Bug Fix.
+- Assess complexity: Low / Medium / High.
+- Map affected slices (`src/app/features/`) and integration points.
+
+**Create / refine the User Story:**
+```
+As a <type of user>
+I want to <action/goal>
+So that <benefit/value>
+```
+
+Also produce **Requirements** (Must-have / Nice-to-have) and **Out of Scope**.
+
+### Phase 2: Codebase Intelligence Gathering
+
+**Read the codebase before planning. The plan must reference real files, not generic advice.**
+
+1. **Project structure** — confirm Angular version, zoneless config, route setup
+   (`app.config.ts`, `app.routes.ts`), the `SupabaseService` wrapper.
+2. **Pattern recognition** — find the closest existing feature slice in `src/app/features/`; it
+   is the pattern to mirror (service shape, signal usage, `input()`/`output()`, route wiring,
+   test layout). Note naming conventions, error handling, and anti-patterns to avoid.
+3. **Established docs & skills (context on demand):**
+   - Scan `.agents/documentation/` — deliberately-established, non-obvious codebase patterns
+     (e.g. `vertical-slice-architecture.md`). Read the entries relevant to this feature; relevant
+     ones override generic defaults and go into Context References. Most standard code has no doc —
+     its absence means "follow conventional best practice + existing code."
+   - The `angular-testing` skill (harness + contract-testing pattern) governs every `*.spec.ts`;
+     reference it for the test tasks rather than re-teaching tests.
+4. **Dependency analysis** — libraries the feature touches; how they're already integrated.
+5. **Integration points** — `app.routes.ts` (lazy route registration), `app.config.ts`
+   (providers), `shared/` services/guards reused, DB/migration patterns.
+
+**Clarify ambiguities now** — resolve library/approach/architecture questions before researching.
+
+### Phase 3: External Research
+
+Fill gaps the PRD + codebase + documentation don't cover. Fetch latest official docs:
 
 | Technology | Documentation URL |
 |------------|-------------------|
@@ -41,67 +86,108 @@ For each technology in the feature, fetch latest documentation:
 | Zod | https://zod.dev |
 | Vitest | https://vitest.dev/guide |
 
-#### 2.2 Feature-Specific Research
-- **WebSearch** for: `[feature] angular 21 best practices`
-- **WebSearch** for: `[feature] supabase implementation`
-- **WebSearch** for common gotchas and edge cases
-- **WebFetch** relevant documentation pages
+**WebSearch** for `[feature] angular 21 best practices`, `[feature] supabase implementation`, and
+known gotchas. **WebFetch** the pages that matter. Capture URLs **with section anchors** and the
+*why* for each into Context References.
 
-#### 2.3 Document Findings
-Populate the plan's "Research & Documentation" section with:
-- Links to relevant docs consulted
-- Key patterns discovered
-- Gotchas and edge cases found
-- Version-specific considerations
+### Phase 4: Deep Strategic Thinking
 
-### 3. Generate Plan
+Think harder about: how the feature fits the existing architecture; critical dependencies and
+order of operations; what could go wrong (edge cases, auth/RLS, race conditions); how it's tested;
+performance and security. Choose between alternatives with clear rationale; design for the slice
+boundary (no `shared/ → features/` leakage).
 
-Create `.agents/plans/[name].md` using the output format below:
+### Phase 5: Plan Structure Generation
 
-1. **Fill metadata** — Feature name, affected slices, database changes, dependencies
-2. **Populate requirements** — From INITIAL.md or FEATURE.md input
-3. **Add research section** — All documentation links and findings
-4. **Customize phases** — Adapt code examples to actual feature
-5. **Update gotchas** — Add feature-specific warnings discovered
-6. **Include visual design spec** — If INITIAL.md provided, extract visual design section. Include:
-   - Theme colors (define in `@theme` block for Tailwind v4)
-   - Typography (font families, heading styles)
-   - Component styling direction
-7. **Route integration for every feature** — For each feature slice, include a Task that integrates it into a route via lazy loading.
-
-### 4. Validate Plan Completeness
-
-Before saving, verify:
-- [ ] Research section has relevant documentation links
-- [ ] All placeholders replaced with actual names
-- [ ] Database schema matches data model
-- [ ] Test files include feature-specific assertions
-- [ ] Gotchas section updated with research findings
-- [ ] Visual design section includes theme customization
-
-## Output
-
-Created: `.agents/plans/[name].md`
-
-Execute with: `/execute-plan .agents/plans/[name].md`
+Write `.agents/plans/<kebab-feature-name>.md` using the Output Format below. Fill every section;
+replace all `[PLACEHOLDERS]`. The plan must pass the "No Prior Knowledge Test" — someone
+unfamiliar with the codebase could implement it from the plan alone.
 
 ---
 
 ## Output Format
 
-Use this skeleton when generating the plan. Replace all `[PLACEHOLDERS]` with actual feature details.
+````markdown
+# Feature: [FEATURE_NAME]
 
-# Plan: [FEATURE_NAME]
+Validate documentation, codebase patterns, and task sanity before implementing. Pay special
+attention to existing util/type/service names — import from the right files.
 
-## Metadata
-- **Feature**: [FEATURE_NAME]
-- **Affected Slices**: [LIST_AFFECTED_FEATURES]
-- **Database Changes**: [YES_OR_NO]
-- **New Dependencies**: [LIST_OR_NONE]
+## User Story
+
+As a [USER]
+I want to [ACTION]
+So that [BENEFIT]
+
+## Requirements
+
+**Must have**
+- [ ] [requirement]
+
+**Nice to have**
+- [ ] [requirement]
+
+## Out of Scope
+
+- [what this explicitly does NOT include]
+
+## Problem Statement
+
+[The specific problem/opportunity this addresses]
+
+## Solution Statement
+
+[The proposed approach and how it solves the problem]
+
+## Feature Metadata
+
+**Feature Type**: [New Capability/Enhancement/Refactor/Bug Fix]
+**Estimated Complexity**: [Low/Medium/High]
+**Affected Slices**: [features/x, features/y, or NEW: features/z]
+**Database Changes**: [YES/NO]
+**Dependencies**: [external libs/services, or NONE]
+**PRD Alignment**: [PRD section(s) this serves]
 
 ---
 
-## Technology Stack Reference
+## CONTEXT REFERENCES
+
+### Relevant Codebase Files — IMPORTANT: READ THESE BEFORE IMPLEMENTING
+
+- `src/app/features/[similar]/[similar].service.ts:NN` — Why: mirror this service + signal shape
+- `src/app/features/[similar]/[similar].routes.ts:NN` — Why: lazy route pattern to follow
+- `src/app/app.routes.ts:NN` — Why: where the lazy route registers
+- `src/app/shared/services/supabase.service.ts` — Why: the injected client
+
+### New Files to Create
+
+> Slice convention: root files flat with postfix (`[feature].component.ts`, `.service.ts`, …);
+> presentational children each in their own postfix-named subfolder at the slice root (no
+> `components/` wrapper). See `vertical-slice-architecture.md`.
+
+- `src/app/features/[FEATURE]/[FEATURE].model.ts` — Zod schema + inferred types
+- `src/app/features/[FEATURE]/[FEATURE].service.ts` — data access
+- `src/app/features/[FEATURE]/[FEATURE].component.ts` — smart/page component
+- `src/app/features/[FEATURE]/[FEATURE]-list/[FEATURE]-list.component.ts` — child (own subfolder)
+- `src/app/features/[FEATURE]/[FEATURE]-form/[FEATURE]-form.component.ts` — child (own subfolder)
+- `src/app/features/[FEATURE]/[FEATURE].routes.ts`
+- `*.spec.ts` alongside each (per the angular-testing skill)
+
+### Relevant Documentation — READ BEFORE IMPLEMENTING
+
+- `.agents/documentation/vertical-slice-architecture.md` — slice boundaries, what-goes-where
+- [other relevant `.agents/documentation/*.md` found in Phase 2, if any]
+- `angular-testing` skill — harness + contract-testing pattern for all `*.spec.ts`
+- [External]: [url#anchor] — Why: [specific need]
+
+### Patterns to Follow
+
+[Concrete conventions extracted from the codebase in Phase 2 — naming, signal state, error
+handling, how services parse Supabase responses. Include real file:line references.]
+
+---
+
+## TECHNOLOGY STACK
 
 | Layer | Technology | Version |
 |-------|------------|---------|
@@ -114,132 +200,143 @@ Use this skeleton when generating the plan. Replace all `[PLACEHOLDERS]` with ac
 | **Linting** | Biome | ^2.0 |
 | **Testing** | Vitest + Testing Library | Built-in / ^17.0 |
 
----
-
-## Architecture: Vertical Slices
-
-```
-src/
-├── app/
-│   ├── features/         # Self-contained vertical slices
-│   │   └── [feature]/
-│   │       ├── components/
-│   │       ├── services/
-│   │       ├── models/
-│   │       ├── guards/
-│   │       └── [feature].routes.ts
-│   └── shared/           # Cross-cutting services, guards, utils
-├── environments/
-└── styles.css
-```
-
-**Import Rules:**
-- Routes -> Features (lazy-load)
-- Features -> Shared
-- Features -> Features
-- Shared -> Features NEVER
-
-**Supabase Client**: `import { SupabaseService } from '@app/shared/services/supabase.service'`
+Architecture: vertical slices — `src/app/features/[feature]/` holds root files flat with postfix
+(`[feature].component.ts`, `.service.ts`, `.model.ts`, `.routes.ts`); presentational children get
+their own postfix-named subfolder at the slice root (`[child]/[child].component.ts`); plus
+`src/app/shared/`. Routes → Features (lazy) → Shared; Shared → Features NEVER. See
+`.agents/documentation/vertical-slice-architecture.md`.
 
 ---
 
-## Implementation Blueprint
+## IMPLEMENTATION PLAN
 
-### Phase 1: Database Schema (if needed)
+> Name artifacts + their interfaces. Standard Angular/Supabase code follows conventional patterns;
+> only spell out what's non-obvious or codebase-specific.
 
-```yaml
-Task 1.1 - Migration:
-  file: supabase/migrations/[TIMESTAMP]_[NAME].sql
-  validation: supabase db reset succeeds
+### Phase 1: Data Layer (Zod models + Supabase access)
+Migration (if DB changes), Zod model, `@Injectable` service with signal-backed reads + mutations.
 
-Task 1.2 - Generate Types:
-  commands:
-    - supabase gen types typescript --local > src/app/shared/types/database.types.ts
-  validation: ng build passes
-```
+### Phase 2: Components
+Standalone components — `input()`/`output()` signals, `@if`/`@for`+track, OnPush, Reactive Forms.
 
-### Phase 2: Feature Slice — Models & Services
+### Phase 3: Route Integration
+Feature `[FEATURE].routes.ts` (lazy `loadComponent` + guard) wired into `app.routes.ts`.
 
-```yaml
-Task 2.1 - Models:
-  file: src/app/features/[FEATURE]/models/[FEATURE].model.ts
-  content: |
-    import { z } from 'zod';
-    export const [item]Schema = z.object({ ... });
-    export type [Item] = z.infer<typeof [item]Schema>;
-
-Task 2.2 - Service:
-  file: src/app/features/[FEATURE]/services/[FEATURE].service.ts
-  content: |
-    @Injectable({ providedIn: 'root' })
-    export class [Feature]Service {
-      private readonly supabase = inject(SupabaseService);
-      // CRUD methods using supabase.client
-    }
-```
-
-### Phase 3: Feature Slice — Components
-
-```yaml
-Task 3.1 - List Component:
-  file: src/app/features/[FEATURE]/components/[FEATURE]-list.component.ts
-
-Task 3.2 - Form Component:
-  file: src/app/features/[FEATURE]/components/[FEATURE]-form.component.ts
-
-Task 3.3 - Component Tests:
-  validation: ng test --include='**/[FEATURE]/**'
-```
-
-### Phase 4: Route Integration
-
-```yaml
-Task 4.1 - Feature Routes:
-  file: src/app/features/[FEATURE]/[FEATURE].routes.ts
-
-Task 4.2 - App Routes Update:
-  file: src/app/app.routes.ts
-  changes:
-    - Add lazy-loaded route: loadChildren -> [FEATURE].routes.ts
-```
+### Phase 4: Testing & Validation
+Per the `angular-testing` skill; run tests after each phase.
 
 ---
 
-## Validation Gates
+## STEP-BY-STEP TASKS
 
-### Per-Phase Testing (CRITICAL)
+Execute in order, top to bottom. Each task is atomic and independently testable.
+Keywords: **CREATE / UPDATE / ADD / REMOVE / REFACTOR / MIRROR**.
 
-| Phase | Run Tests? | Command |
-|-------|------------|---------|
-| 1. Database | No | — |
-| 2. Models & Services | **YES** | `ng test --include='**/[FEATURE]/**'` |
-| 3. Components | **YES** | `ng test --include='**/[FEATURE]/**'` |
-| 4. Routes | Verify | `pnpm build` |
+### Phase 1: Data Layer
 
-### Final Validation
-```bash
-pnpm build
-pnpm lint
-pnpm test:run
-```
+#### [CREATE] supabase/migrations/[TIMESTAMP]_[NAME].sql  (only if DB changes)
+- **IMPLEMENT**: table + `user_id` FK (cascade) + per-policy indexes + RLS policy set
+- **PATTERN**: [existing migration file:line]
+- **GOTCHA**: index every RLS-filtered column; RLS blocks return empty arrays, not errors
+- **VALIDATE**: `supabase db reset` succeeds, then
+  `supabase gen types typescript --local > src/app/shared/types/database.types.ts`
+
+#### [CREATE] src/app/features/[FEATURE]/[FEATURE].model.ts
+- **IMPLEMENT**: Zod row schema + create/update variants (by omit/partial); `z.infer` types
+- **PATTERN**: [existing model file:line]
+- **GOTCHA**: timestamps are ISO strings (`z.string().datetime()`)
+- **VALIDATE**: `pnpm tsc --noEmit`
+
+#### [CREATE] src/app/features/[FEATURE]/[FEATURE].service.ts
+- **IMPLEMENT**: `@Injectable({providedIn:'root'})`; `inject(SupabaseService)`; signal-backed
+  reads; `load/create/update/remove`; parse responses with the Zod schema at the boundary
+- **PATTERN**: [similar service file:line]
+- **IMPORTS**: `inject`, `signal`, the model schema/types, `SupabaseService`
+- **GOTCHA**: mutate signals (`.set`/`.update`) to drive UI; `getUser()` not `getSession()`
+- **VALIDATE**: `ng test --include='**/[FEATURE]/**'`
+
+### Phase 2: Components
+
+#### [CREATE] src/app/features/[FEATURE]/[FEATURE].component.ts
+- **IMPLEMENT**: smart/page component; injects the service; composes the child components; renders signal state
+- **PATTERN**: [similar root component file:line]
+- **GOTCHA**: read signals with `()`; business logic stays in the service, not the component
+- **VALIDATE**: `ng test --include='**/[FEATURE]/**'`
+
+#### [CREATE] src/app/features/[FEATURE]/[FEATURE]-list/[FEATURE]-list.component.ts
+- **IMPLEMENT**: presentational; standalone, OnPush; `input()`/`output()`; `@if`/`@for`+track
+- **PATTERN**: [similar child component file:line]
+- **GOTCHA**: `@for` requires `track`; presentational children take `input()`s, no service injection
+- **VALIDATE**: `ng test --include='**/[FEATURE]/**'`
+
+#### [CREATE] src/app/features/[FEATURE]/[FEATURE]-form/[FEATURE]-form.component.ts
+- **IMPLEMENT**: Reactive Form; submit runs Zod `safeParse`; emits via `output()` (parent calls the service)
+- **VALIDATE**: `ng test --include='**/[FEATURE]/**'`
+
+### Phase 3: Route Integration
+
+#### [CREATE] src/app/features/[FEATURE]/[FEATURE].routes.ts
+- **IMPLEMENT**: `Routes` with lazy `loadComponent` + `canActivate` guard
+- **PATTERN**: [existing feature routes file:line]
+
+#### [UPDATE] src/app/app.routes.ts
+- **ADD**: lazy `loadChildren` entry pointing at `[FEATURE].routes.ts`
+- **VALIDATE**: `pnpm build`
+
+### Phase 4: Tests
+- **IMPLEMENT**: `*.spec.ts` per the `angular-testing` skill (harness, `data-testid`,
+  `await fixture.whenStable()`, contract not construction)
+- **VALIDATE**: `pnpm test:run`
 
 ---
 
-## Common Gotchas
+## VALIDATION COMMANDS
 
-### Angular 21
-- Zoneless by default — signals drive change detection
-- Standalone components — no NgModules
-- Use `inject()` not constructor injection
-- `httpResource` for reads, `HttpClient` for mutations
-- Control flow: `@if`, `@for`, `@switch`
+Execute every command to ensure zero regressions and full feature correctness.
 
-### Supabase
-- RLS returns empty array (not error) when blocking
-- Run `supabase gen types` after EVERY migration
-- Always use `getUser()` not `getSession()` for auth verification
+### Level 1: Syntax & Types
+`pnpm tsc --noEmit && pnpm lint`
 
-### Testing
-- Run tests after each phase — don't batch to the end
-- Use TestBed for DI, Testing Library for DOM assertions
-- Mock services in component tests
+### Level 2: Tests (per phase, then full)
+`ng test --include='**/[FEATURE]/**'` → `pnpm test:run`
+
+### Level 3: Database (if applicable)
+`supabase db reset && supabase gen types typescript --local > src/app/shared/types/database.types.ts`
+
+### Level 4: Build / Manual
+`pnpm build`; then click through the feature — loading/empty/error/success states render.
+
+---
+
+## ACCEPTANCE CRITERIA
+
+- [ ] All specified functionality implemented
+- [ ] All validation commands pass with zero errors
+- [ ] Feature self-contained in a vertical slice; route integrated
+- [ ] Tests follow the angular-testing skill; pass per phase
+- [ ] Code follows codebase conventions; no `shared/ → features/` leakage
+- [ ] No regressions in existing functionality
+
+## NOTES
+
+[Design decisions, trade-offs, anything the execution agent should know]
+
+---
+
+**Confidence Score**: [#/10] that execution succeeds on the first attempt
+````
+
+## Quality Criteria
+
+- **Context Completeness**: patterns identified, docs linked w/ anchors, integration points mapped,
+  gotchas captured, every task has an executable validation command.
+- **Implementation Ready**: tasks ordered by dependency, atomic, with file:line pattern references.
+- **Pattern Consistency**: follows codebase conventions; no reinvention of existing utils/services.
+- **No Prior Knowledge Test**: someone unfamiliar with the codebase could implement from the plan alone.
+
+## Output
+
+Created: `.agents/plans/<feature>.md` — execute with `/execute-plan .agents/plans/<feature>.md`.
+
+After creating the plan, report: feature summary + approach, full path, complexity, key risks,
+and a confidence score (#/10) for one-pass success.

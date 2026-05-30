@@ -19,11 +19,13 @@ Then inside your new project:
 
 ```bash
 pnpm setup                                        # Install deps, start Supabase, write .env.local
-# Edit planning/INITIAL.md with your app requirements
-/generate-plan planning/INITIAL.md                  # Generate implementation plan
-/execute-plan planning/[generated].md               # Build it
-pnpm dev                                           # Start dev server
+/create-prd                                       # Write .agents/PRD.md (source of truth)
+/generate-plan "<feature description>"            # Per-feature plan at .agents/plans/<feature>.md
+/execute-plan .agents/plans/<feature>.md          # Build it
+pnpm dev                                          # Start dev server
 ```
+
+The PRD is the project source of truth. Every feature plan aligns to it.
 
 ## Available Templates
 
@@ -66,8 +68,8 @@ Angular 21 with Supabase backend. Standalone components, signals-first, zoneless
 
 - **CLAUDE.md** — Stack patterns, architecture, gotchas, with `@` imports for standards docs
 - **Standards Docs** (`docs/`) — Logging, security, testing, etc. — selected per stack
-- **Skills** (`.claude/skills/`) — `/generate-plan`, `/execute-plan`, `/prime`
-- **Planning** (`planning/`) — Requirement templates for new apps and features
+- **Skills** (`.claude/skills/`) — `/create-prd`, `/generate-plan`, `/execute-plan`, `/prime`, `/commit`
+- **`.agents/` workspace** — `PRD.md` (source of truth), `plans/*.md` (per-feature implementation plans), `reference/` (curated context)
 - **Source** — Minimal bootable app with one working route
 - **Setup** — `scripts/setup.sh`, README, .env.example
 
@@ -88,8 +90,8 @@ Each template needs at minimum:
 - `README.md` - Setup instructions
 - `CLAUDE.md` - Claude Code guidelines (references `docs/` for standards enforcement)
 - `docs/` - Stack-specific standards (selected and specialized from `doc-templates/` during planning)
-- `.claude/skills/` - Generate and execute skills
-- `planning/` - Requirement templates
+- `.claude/skills/` - `/create-prd`, `/generate-plan`, `/execute-plan`, `/prime`, `/commit`
+- `.agents/` - AI workspace (`PRD.md` source of truth, `plans/` per-feature plans, `reference/` curated context)
 - `scripts/setup.sh` - Automated setup script
 
 ### Base Templates

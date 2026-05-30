@@ -96,7 +96,7 @@ Create a well-structured PRD with the following sections. Adapt depth and detail
 - Include Supabase-specific risks (RLS misconfiguration, SSR cookie quirks, rate limits) where relevant
 
 **15. Appendix** (if applicable)
-- Related documents (link to `.agents/plans/INITIAL.md`, `.agents/reference/*`)
+- Related documents (link to `.agents/reference/*` and prior plans)
 - Key dependencies with links
 - Repository/project structure reference
 
@@ -104,7 +104,6 @@ Create a well-structured PRD with the following sections. Adapt depth and detail
 
 ### 1. Extract Requirements
 - Review the entire conversation history
-- Read `.agents/plans/INITIAL.md` and `.agents/plans/FEATURE.md` if they contain relevant context
 - Identify explicit requirements and implicit needs
 - Note technical constraints and preferences
 - Capture user goals and success criteria
@@ -145,7 +144,7 @@ After creating the PRD:
 1. Confirm the file path where it was written (default: `.agents/PRD.md`)
 2. Provide a brief summary of the PRD contents
 3. Highlight any assumptions made due to missing information
-4. Suggest next steps: usually `/generate-plan .agents/plans/INITIAL.md` to turn MVP scope into an implementation plan
+4. Suggest next steps: `/generate-plan "<first feature description>"` to turn the PRD's MVP scope into the first per-feature plan
 
 ## Notes
 
