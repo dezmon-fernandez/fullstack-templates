@@ -27,15 +27,11 @@ the first attempt without re-researching.
 
 ## Planning Process
 
-### Phase 0: PRD Alignment (Option B — prime is the loader)
+### Phase 0: PRD Alignment
 
-- The PRD (`.agents/PRD.md`) should already be loaded in context via `/prime`. Treat it as
-  authoritative for scope, architecture, success criteria, and risks; align the plan to it.
-- If the PRD is **not** in context, tell the user: `"The PRD doesn't appear to be loaded. Run
-  /prime first (it loads .agents/PRD.md), or /create-prd if no PRD exists yet."` — then proceed
-  only if they confirm. Do not re-read the full PRD here as routine; prime owns loading it.
-- Cite the PRD sections relevant to this feature (MVP scope, affected slices, success criteria)
-  in the plan's Requirements.
+Align the plan to `.agents/PRD.md` — the project's source of truth for scope, architecture, success criteria, and risks. Cite the relevant PRD sections (MVP scope, affected slices, success criteria) in the plan's Requirements.
+
+If `.agents/PRD.md` does not exist, stop and tell the user to run `/create-prd` first.
 
 ### Phase 1: Feature Understanding
 

@@ -16,13 +16,11 @@ Transform a feature request into a **comprehensive implementation plan** through
 
 ## Planning Process
 
-### Phase 0: Read the PRD (source of truth)
+### Phase 0: PRD Alignment
 
-Before any feature analysis or research, read `.agents/PRD.md` in full. The PRD is authoritative for scope, architecture, success criteria, and risks — every feature plan must align with it.
+Align the plan to `.agents/PRD.md` — the project's source of truth for scope, architecture, success criteria, and risks. Cite the relevant PRD sections (MVP scope, affected slices, success criteria) in the plan's Requirements section. If the feature conflicts with the PRD, surface that to the user before generating the plan.
 
-If `.agents/PRD.md` does not exist, stop and instruct the user: `"No PRD found at .agents/PRD.md. Run /create-prd first — the PRD is the project's source of truth, and feature plans align to it."` Do not proceed to feature analysis or research without the PRD.
-
-Capture the PRD sections relevant to this feature (MVP scope, affected slices, success criteria, risks) and cite them in the plan's Requirements section. If the requested feature conflicts with the PRD, surface the conflict to the user before generating the plan.
+If `.agents/PRD.md` does not exist, stop and tell the user to run `/create-prd` first.
 
 ### Phase 1: Feature Understanding
 
