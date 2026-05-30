@@ -17,21 +17,18 @@ cp -r . /path/to/your-project
 AI-assisted development artifacts live in `.agents/` — a self-contained workspace so the source tree stays clean.
 
 ```
-Step 1: (Optional) Define Product
+Step 1: Create the PRD (project source of truth)
    /create-prd   # Writes .agents/PRD.md from conversation
 
-Step 2: Define Requirements
-   Edit .agents/plans/INITIAL.md (new app) or .agents/plans/FEATURE.md (add feature)
+Step 2: Generate a Feature Plan
+   /generate-plan "<feature description>"
+   # Creates .agents/plans/<feature>.md with implementation details, aligned to the PRD
 
-Step 3: Generate Plan
-   /generate-plan .agents/plans/INITIAL.md
-   # Creates .agents/plans/[app-name].md with implementation details
-
-Step 4: Execute Plan
-   /execute-plan .agents/plans/[app-name].md
+Step 3: Execute the Plan
+   /execute-plan .agents/plans/<feature>.md
    # AI implements the feature with tests and validation
 
-Step 5: Commit
+Step 4: Commit
    /commit   # Atomic conventional commit with AI-context tracking
 ```
 
@@ -62,10 +59,8 @@ next-supabase/
 │   └── settings.json
 ├── .agents/                     # AI-assisted dev workspace (self-contained)
 │   ├── README.md                # Layout + conventions
-│   ├── PRD.md                   # (Optional) Product requirements, from /create-prd
-│   ├── plans/
-│   │   ├── INITIAL.md           # New-app intake template
-│   │   └── FEATURE.md           # Add-feature intake template
+│   ├── PRD.md                   # Product requirements (source of truth), from /create-prd
+│   ├── plans/                   # Per-feature plans, generated from /generate-plan
 │   └── reference/               # Curated context the AI consults
 ├── src/
 │   ├── lib/supabase/
@@ -152,12 +147,16 @@ export async function middleware(request: NextRequest) {
    pnpm setup
    ```
 
-2. **Define your app** in `.agents/plans/INITIAL.md`
-
-3. **Generate and execute**
+2. **Create the PRD** (project source of truth)
    ```bash
-   /generate-plan .agents/plans/INITIAL.md
-   /execute-plan .agents/plans/[your-app].md
+   /create-prd
+   ```
+   Generates `.agents/PRD.md` from conversation context. Subsequent `/generate-plan` runs read it as authoritative.
+
+3. **Generate and execute the first feature**
+   ```bash
+   /generate-plan "<feature description>"
+   /execute-plan .agents/plans/<feature>.md
    ```
 
 ## Commands

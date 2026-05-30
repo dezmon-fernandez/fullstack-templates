@@ -61,23 +61,28 @@ Each feature slice owns everything needed to understand and modify that feature.
 
 ```
 app/feature-name/
-├── feature-name.component.ts       # Smart/page component
-├── feature-name.component.html     # Template
-├── feature-name.component.spec.ts  # Component tests
-├── feature-name.service.ts         # Business logic
-├── feature-name.service.spec.ts    # Service tests
-├── feature-name.routes.ts          # Lazy-loaded routes
-├── feature-name.model.ts           # Interfaces + Zod schemas
-└── components/                     # Presentational child components
-    ├── feature-detail/
-    └── feature-list/
+├── feature-name.component.ts        # Smart/page component (root, postfix-named)
+├── feature-name.component.spec.ts   # Component tests
+├── feature-name.service.ts          # Business logic
+├── feature-name.service.spec.ts     # Service tests
+├── feature-name.routes.ts           # Lazy-loaded routes
+├── feature-name.model.ts            # Zod schemas + inferred types
+├── feature-list/                    # Presentational child — own postfix-named subfolder
+│   └── feature-list.component.ts
+└── feature-detail/
+    └── feature-detail.component.ts
 ```
+
+**Naming convention:** files are **postfix-named** (`feature-name.component.ts`,
+`feature-name.service.ts`), matching Angular CLI. Root files (root component, service, model,
+routes) sit flat at the slice root. Presentational children each get **their own postfix-named
+subfolder directly under the slice root** — no `components/` wrapper dir.
 
 **Flow:** Route → Component → Service → (HTTP/Store) → Component renders
 
 **Rules:**
 - Every feature slice MUST have its own routes file for lazy loading
-- Smart components inject services. Presentational components use `input()`/`output()`.
+- Smart/root component injects services. Presentational children use `input()`/`output()`.
 - Business logic MUST live in the service, not the component
 - Zod schemas and TypeScript interfaces for the feature MUST live in `feature-name.model.ts`
 

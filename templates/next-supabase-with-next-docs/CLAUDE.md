@@ -19,6 +19,8 @@ This file provides guidance to Claude Code when working with Next.js App Router 
 
 ## Architecture: Vertical Slices + App Router
 
+Read `.agents/documentation/vertical-slice-architecture.md` before creating or modifying any feature code.
+
 ```
 src/
 ├── app/                  # Next.js App Router
@@ -131,15 +133,11 @@ import { createClient } from '@/lib/supabase/client'
 
 AI-assisted dev artifacts live in `.agents/` (self-contained workspace). See `.agents/README.md` for layout.
 
-**Product**: `/create-prd` → writes `.agents/PRD.md`
+**Product (source of truth)**: `/create-prd` → writes `.agents/PRD.md`. Required first step in a fresh repo; the PRD is authoritative for all subsequent plans.
 
-**New App**: Edit `.agents/plans/INITIAL.md` → `/generate-plan .agents/plans/INITIAL.md`
+**Feature**: `/generate-plan "<feature description>"` → writes `.agents/plans/<feature>.md` aligned to the PRD
 
-**New Feature**: Edit `.agents/plans/FEATURE.md` → `/generate-plan .agents/plans/FEATURE.md`
-
-**Quick Feature**: `/generate-plan "add dark mode toggle"`
-
-Then execute: `/execute-plan .agents/plans/[generated-file].md`
+**Execute**: `/execute-plan .agents/plans/<feature>.md`
 
 **Commit**: `/commit` — atomic conventional commit with AI-context tracking
 

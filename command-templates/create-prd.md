@@ -11,7 +11,9 @@ Generate a comprehensive Product Requirements Document (PRD) based on the curren
 
 ## Output File
 
-Write the PRD to: `$ARGUMENTS` (default: `PRD.md`)
+Write the PRD to: `$ARGUMENTS` (default: `.agents/PRD.md`)
+
+The PRD is the project's source of truth. `/generate-plan` reads it before creating any per-feature plan.
 
 ## PRD Structure
 
@@ -140,7 +142,7 @@ After creating the PRD:
 1. Confirm the file path where it was written
 2. Provide a brief summary of the PRD contents
 3. Highlight any assumptions made due to missing information
-4. Suggest next steps (e.g., review, refinement, planning)
+4. Suggest next steps: `/generate-plan "<first feature description>"` to turn the PRD's MVP scope into the first per-feature plan
 
 ## Notes
 

@@ -9,31 +9,32 @@
    pnpm setup
    ```
 
-2. **Define your app** in `.agents/plans/INITIAL.md`
-
-3. **Generate and execute**
+2. **Create the PRD** (project source of truth)
    ```bash
-   /generate-plan .agents/plans/INITIAL.md
-   /execute-plan .agents/plans/[your-app].md
+   /create-prd
    ```
+   Generates `.agents/PRD.md` from your conversation context. The PRD is the authoritative spec; subsequent `/generate-plan` runs read it as the source of truth.
+
+3. **Generate and execute the first feature**
+   ```bash
+   /generate-plan "<feature description>"
+   /execute-plan .agents/plans/<feature>.md
+   ```
+   Plans land in `.agents/plans/<feature>.md`. Each feature gets its own plan, aligned to the PRD.
 
 4. **Run**
    ```bash
    pnpm dev
    ```
 
-## Adding Features
+## Adding More Features
 
 ```bash
-# Option 1: Edit .agents/plans/FEATURE.md first
-/generate-plan .agents/plans/FEATURE.md
-
-# Option 2: Inline
 /generate-plan "add user profile with avatar"
-
-# Then execute
-/execute-plan .agents/plans/[feature].md
+/execute-plan .agents/plans/<feature>.md
 ```
+
+Plans align with the PRD. If a feature warrants PRD updates (new MVP scope, architecture decisions), update `.agents/PRD.md` first, then plan.
 
 ## Commands
 

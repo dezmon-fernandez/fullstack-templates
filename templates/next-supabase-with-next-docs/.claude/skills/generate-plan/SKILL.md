@@ -4,197 +4,84 @@ description: Research and create implementation plan for a Next.js + Supabase + 
 
 # Generate Next.js + Supabase Plan
 
-Generate a comprehensive, well-researched plan for a Next.js App Router + Supabase project with SSR/SEO.
+## Feature: $ARGUMENTS
 
-## Input: $ARGUMENTS
+Accepts a feature description (`/generate-plan "add dark mode toggle"`) or no argument (prompts
+for one).
 
-Accepts:
-- **String**: `/generate-plan "add user profile with SEO"`
-- **New App**: `/generate-plan .agents/plans/INITIAL.md`
-- **New Feature**: `/generate-plan .agents/plans/FEATURE.md`
+> This template bundles **version-accurate Next.js docs locally** under `.next-docs/`. Prefer
+> them over the public web docs — they match the exact Next.js version installed.
 
-## Process
+## Mission
 
-### 1. Analyze Request
-- Read the input from $ARGUMENTS
-- For new apps: identify all features, data model, pages, rendering requirements
-- For features: identify affected slices, database changes, Server Actions needed
-- List all technologies/integrations involved
-- Determine rendering strategy per route (SSR/SSG/ISR/dynamic)
+Transform a feature request into a **comprehensive, feature-framed implementation plan** through
+systematic codebase analysis, external research, and strategic planning — specialized for
+Next.js 16 (App Router) + Supabase.
 
-### 2. Research Phase (CRITICAL)
+**Core Principle**: We do NOT write code in this phase. The goal is a context-rich plan that
+enables one-pass implementation success for the execution agent.
 
-**This is the most important step. Execute should implement, not research.**
+**Key Philosophy**: Context is King. The plan must contain ALL information needed to implement —
+patterns, mandatory reading, documentation, validation commands — so `/execute-plan` succeeds on
+the first attempt without re-researching.
 
-#### 2.1 Core Stack Research
-For each technology in the feature, fetch latest documentation:
+## Planning Process
 
-| Technology | Documentation URL |
-|------------|-------------------|
-| Next.js App Router | https://nextjs.org/docs/app |
-| Server Components | https://nextjs.org/docs/app/building-your-application/rendering/server-components |
-| Server Actions | https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations |
-| Metadata API | https://nextjs.org/docs/app/building-your-application/optimizing/metadata |
-| Middleware | https://nextjs.org/docs/app/building-your-application/routing/middleware |
-| Supabase SSR | https://supabase.com/docs/guides/auth/server-side/nextjs |
-| React 19 | https://react.dev/blog/2024/12/05/react-19 |
-| shadcn/ui | https://ui.shadcn.com/docs |
-| Tailwind v4 | https://tailwindcss.com/docs |
-| React Hook Form | https://react-hook-form.com/docs |
-| Zod | https://zod.dev |
-| Vitest | https://vitest.dev/guide |
+### Phase 0: PRD Alignment (Option B — prime is the loader)
 
-#### 2.2 SSR/SEO-Specific Research
-- **WebSearch** for: `next.js app router [feature] ssr pattern`
-- **WebSearch** for: `supabase next.js server components authentication`
-- **WebFetch** relevant Next.js docs for Server Components and Server Actions
-- **WebFetch** https://nextjs.org/docs/app/building-your-application/data-fetching
+- The PRD (`.agents/PRD.md`) should already be loaded in context via `/prime`. Treat it as
+  authoritative for scope, architecture, success criteria, and risks; align the plan to it.
+- If the PRD is **not** in context, tell the user: `"The PRD doesn't appear to be loaded. Run
+  /prime first (it loads .agents/PRD.md), or /create-prd if no PRD exists yet."` — then proceed
+  only if they confirm. Do not re-read the full PRD here as routine; prime owns loading it.
+- Cite the PRD sections relevant to this feature (MVP scope, affected slices, success criteria)
+  in the plan's Requirements.
 
-#### 2.3 SEO Research (if applicable)
-- **WebSearch** for: `[feature type] seo meta tags best practices`
-- Research structured data (JSON-LD) if applicable
-- **WebFetch** https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-- **WebSearch** for: `next.js generateMetadata dynamic seo`
+### Phase 1: Feature Understanding
 
-#### 2.4 Feature-Specific Research
-- **WebSearch** for: `[feature] next.js app router best practices`
-- **WebSearch** for: `[feature] supabase implementation`
-- **WebSearch** for common gotchas and edge cases
+**Deep Feature Analysis:**
+- Extract the core problem being solved and the user value.
+- Determine feature type: New Capability / Enhancement / Refactor / Bug Fix.
+- Assess complexity: Low / Medium / High.
+- Map affected slices (`src/features/`) and integration points.
+- Determine rendering strategy per route (SSR / SSG / ISR / dynamic).
 
-#### 2.5 Document Findings
-Populate the plan's "Research & Documentation" section with:
-- Links to relevant docs consulted
-- Key patterns discovered
-- Gotchas and edge cases found
-- Version-specific considerations
-
-### 3. Generate Plan
-
-Create `.agents/plans/[name].md` using the output format below:
-
-1. **Fill metadata** - Feature name, affected slices, rendering strategy per route, database changes
-2. **Populate requirements** - From INITIAL.md or FEATURE.md input
-3. **Add Server Action definitions** - For data mutations
-4. **Include generateMetadata configuration** - For SEO-critical routes
-5. **Add research section** - All documentation links and findings
-6. **Customize phases** - Include Server Actions phase before components
-7. **Update gotchas** - Add feature-specific warnings discovered
-8. **Include visual design spec** - If INITIAL.md provided, extract visual design section. If string input, infer aesthetic from the description or ask user.
-9. **Route integration for every feature (CRITICAL)** - For each feature slice created:
-    - Include a dedicated Task in Phase 6 for EACH page
-    - Write COMPLETE page content that renders actual feature components
-    - NO placeholder comments like `{/* TODO */}` or `{/* Content here */}`
-    - Server Components must fetch data and pass as typed props
-    - Include full generateMetadata for SEO-critical pages
-    - Include loading.tsx and error.tsx where appropriate
-    - Fill in the Route Completeness Checklist at the end of Phase 6
-
-### 4. Validate Plan Completeness
-
-Before saving, verify:
-
-**Server & Data:**
-- [ ] Server Actions defined for data mutations
-- [ ] Rendering strategy specified for each route (SSR/SSG/ISR/dynamic)
-- [ ] Middleware handles auth session refresh
-- [ ] Database schema matches data model
-
-**Research & Documentation:**
-- [ ] Research section has relevant documentation links
-- [ ] Gotchas section updated with research findings
-
-**Route Completeness (CRITICAL):**
-- [ ] Every feature slice has corresponding page(s) in Phase 6
-- [ ] Each page includes FULL component rendering (no placeholders/TODOs)
-- [ ] Each page imports and renders actual feature components
-- [ ] Server Components fetch data and pass typed props
-- [ ] generateMetadata defined for SEO-critical pages
-- [ ] Route completeness checklist filled in
-
-**General:**
-- [ ] All placeholders replaced with actual names
-- [ ] Test files include feature-specific assertions
-
-## Output
-
-Created: `.agents/plans/[name].md`
-
-Execute with: `/execute-plan .agents/plans/[name].md`
-
----
-
-## Research Examples
-
-### Example: User Profile Feature with SSR
+**Create / refine the User Story:**
 ```
-WebSearch: "next.js app router user profile server component"
-WebSearch: "supabase user profile server-side next.js"
-WebFetch: https://nextjs.org/docs/app/building-your-application/data-fetching
-WebFetch: https://supabase.com/docs/guides/auth/server-side/nextjs
+As a <type of user>
+I want to <action/goal>
+So that <benefit/value>
 ```
 
-### Example: Dark Mode Feature
-```
-WebSearch: "tailwind v4 dark mode toggle next.js app router"
-WebSearch: "shadcn/ui theme provider dark mode"
-WebFetch: https://ui.shadcn.com/docs/dark-mode
-WebFetch: https://tailwindcss.com/docs/dark-mode
-```
+Also produce **Requirements** (Must-have / Nice-to-have) and **Out of Scope**.
 
-### Example: Blog with SEO
-```
-WebSearch: "next.js generateMetadata blog seo"
-WebSearch: "next.js generateStaticParams blog"
-WebFetch: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-WebFetch: https://nextjs.org/docs/app/api-reference/functions/generate-static-params
-```
+### Phase 2: Codebase Intelligence Gathering
 
-### Example: Real-time Chat Feature
-```
-WebSearch: "supabase realtime next.js app router"
-WebSearch: "next.js client component supabase subscription"
-WebFetch: https://supabase.com/docs/guides/realtime/postgres-changes
-# Note: Real-time features use 'use client' components
-```
+**Read the codebase before planning. The plan must reference real files, not generic advice.**
 
----
+1. **Project structure** — confirm Next.js version, App Router route groups, the Supabase
+   server/browser clients in `lib/supabase/`, `middleware.ts` auth.
+2. **Pattern recognition** — find the closest existing feature slice in `src/features/`; it is
+   the pattern to mirror (Server Action shape, Server/Client component split, schema location,
+   route composition, `index.ts` public API, test layout). Note naming, error handling, anti-patterns.
+3. **Established docs (context on demand):** scan `.agents/documentation/` — deliberately-
+   established, non-obvious codebase patterns (e.g. `vertical-slice-architecture.md`). Read the
+   entries relevant to this feature; relevant ones override generic defaults and go into Context
+   References. Most standard code has no doc — its absence means "follow conventional best
+   practice + existing code."
+4. **Dependency analysis** — libraries the feature touches; how they're already integrated.
+5. **Integration points** — `src/app/` (route group the page belongs in), `src/middleware.ts`,
+   `lib/` + `components/ui/` primitives reused, the supabase clients.
 
-## Output Format
+**Clarify ambiguities now** — resolve library/approach/architecture questions before researching.
 
-Use this skeleton when generating the plan. Replace all `[PLACEHOLDERS]` with actual feature details.
+### Phase 3: External Research
 
-# Plan: [FEATURE_NAME]
+Fill gaps the PRD + codebase + documentation don't cover.
 
-## Metadata
-- **Feature**: [FEATURE_NAME]
-- **Affected Slices**: [LIST_AFFECTED_FEATURES]
-- **Database Changes**: [YES_OR_NO]
-- **Rendering**: [SSG/SSR/ISR/DYNAMIC]
-- **SEO Required**: [YES_OR_NO]
-- **New Dependencies**: [LIST_OR_NONE]
+#### Local Docs (version-accurate for the installed Next.js — read these first)
 
----
-
-## Technology Stack Reference
-
-| Layer | Technology | Version |
-|-------|------------|---------|
-| **Framework** | Next.js | 16.1.6 |
-| **Frontend** | React | 19.2.3 |
-| **Language** | TypeScript | 5.x (strict) |
-| **Package Manager** | pnpm | 10.x |
-| **UI Components** | shadcn/ui | Latest |
-| **Styling** | Tailwind CSS | 4.x |
-| **Forms** | React Hook Form + Zod | 7.71.x + 4.3.x |
-| **Backend** | Supabase | 2.95.x |
-| **Linting** | Biome | 2.2.0 |
-| **Testing** | Vitest + Testing Library | 4.x + 16.x |
-
----
-
-## Documentation References
-
-### Local Docs (version-accurate for Next.js 16.1.6 — read these first)
+Prefer these bundled docs over the public web — they match the exact installed version.
 
 | Topic | Local Path |
 |-------|-----------|
@@ -208,594 +95,281 @@ Use this skeleton when generating the plan. Replace all `[PLACEHOLDERS]` with ac
 | Route Handlers | `.next-docs/01-app/01-getting-started/15-route-handlers.mdx` |
 | Forms | `.next-docs/01-app/02-guides/forms.mdx` |
 | Authentication | `.next-docs/01-app/02-guides/authentication.mdx` |
-| JSON-LD | `.next-docs/01-app/02-guides/json-ld.mdx` |
 | ISR | `.next-docs/01-app/02-guides/incremental-static-regeneration.mdx` |
 | Vitest Testing | `.next-docs/01-app/02-guides/testing/vitest.mdx` |
 | generateMetadata API | `.next-docs/01-app/03-api-reference/04-functions/generate-metadata.mdx` |
-| generateStaticParams | `.next-docs/01-app/03-api-reference/04-functions/generate-static-params.mdx` |
 | revalidatePath | `.next-docs/01-app/03-api-reference/04-functions/revalidatePath.mdx` |
-| File conventions | `.next-docs/01-app/03-api-reference/03-file-conventions/` |
-| `'use server'` | `.next-docs/01-app/03-api-reference/01-directives/use-server.mdx` |
-| `'use client'` | `.next-docs/01-app/03-api-reference/01-directives/use-client.mdx` |
+| `'use server'` / `'use client'` | `.next-docs/01-app/03-api-reference/01-directives/` |
 
-If `.next-docs/` is missing, run: `npx @next/codemod agents-md --output CLAUDE.md`
+If `.next-docs/` is missing, run: `npx @next/codemod agents-md --output CLAUDE.md`.
 
-### External Docs (non-Next.js technologies)
+#### External Docs (non-Next.js technologies)
 
-| Technology | Documentation |
-|------------|---------------|
+| Technology | Documentation URL |
+|------------|-------------------|
 | Supabase SSR | https://supabase.com/docs/guides/auth/server-side/nextjs |
+| React 19 | https://react.dev/blog/2024/12/05/react-19 |
 | shadcn/ui | https://ui.shadcn.com/docs |
 | Tailwind v4 | https://tailwindcss.com/docs |
 | React Hook Form | https://react-hook-form.com/docs |
 | Zod | https://zod.dev |
+| Vitest | https://vitest.dev/guide |
+
+**WebSearch** for `[feature] supabase next.js` and known gotchas; **WebFetch** non-Next.js pages.
+Capture local-doc paths + external links (with anchors) + the *why* into Context References.
+
+### Phase 4: Deep Strategic Thinking
+
+Think harder about: how the feature fits the existing architecture; critical dependencies and
+order of operations; what could go wrong (edge cases, auth/RLS, cache/revalidation, Server vs
+Client boundary); how it's tested; performance and security. Choose between alternatives with
+clear rationale; design for the slice boundary (no `shared/ → features/` leakage).
+
+### Phase 5: Plan Structure Generation
+
+Write `.agents/plans/<kebab-feature-name>.md` using the Output Format below. Fill every section;
+replace all `[PLACEHOLDERS]`. The plan must pass the "No Prior Knowledge Test" — someone
+unfamiliar with the codebase could implement it from the plan alone.
 
 ---
 
-## Research & Documentation
+## Output Format
 
-### Docs Consulted
-- [LIST_DOCS_RESEARCHED]
+````markdown
+# Feature: [FEATURE_NAME]
 
-### Key Patterns Discovered
-- [PATTERN_1]
-- [PATTERN_2]
+Validate documentation, codebase patterns, and task sanity before implementing. Pay special
+attention to existing util/type/action names — import from the right files, no deep imports past
+a slice's `index.ts`.
 
-### Gotchas Found
-- [GOTCHA_1]
-- [GOTCHA_2]
+## User Story
 
----
-
-## Architecture: Vertical Slices + App Router
-
-```
-src/
-├── app/                  # Next.js App Router
-│   ├── (auth)/           # Auth route group
-│   ├── (marketing)/      # Public pages
-│   ├── (dashboard)/      # Protected pages
-│   │   └── layout.tsx    # Auth-protected layout
-│   ├── layout.tsx        # Root layout
-│   ├── loading.tsx       # Global loading
-│   ├── error.tsx         # Global error
-│   └── not-found.tsx     # Global 404
-├── features/             # Vertical slices
-│   └── [FEATURE]/
-│       ├── __tests__/
-│       ├── components/   # Server + Client Components
-│       ├── actions/      # Server Actions ('use server')
-│       ├── schemas/      # Zod validation
-│       ├── types/
-│       └── index.ts      # Public API
-├── lib/                  # Shared utilities
-│   ├── supabase/
-│   │   ├── server.ts     # Server-side client
-│   │   └── client.ts     # Browser-side client
-│   └── utils.ts
-├── components/           # Shared UI (shadcn/ui)
-│   └── ui/
-└── middleware.ts          # Auth session refresh
-```
-
----
+As a [USER]
+I want to [ACTION]
+So that [BENEFIT]
 
 ## Requirements
 
-### Functional Requirements
-- [REQUIREMENT_1]
-- [REQUIREMENT_2]
-- [REQUIREMENT_3]
+**Must have**
+- [ ] [requirement]
 
-### Non-Functional Requirements
-- Rendering: [SSG/SSR/ISR/DYNAMIC] for [REASON]
-- SEO: [DESCRIBE_SEO_REQUIREMENTS]
-- Performance: [DESCRIBE_PERFORMANCE_REQUIREMENTS]
+**Nice to have**
+- [ ] [requirement]
 
----
+## Out of Scope
 
-## Implementation Blueprint
+- [what this explicitly does NOT include]
 
-### Implementation Rules
+## Problem Statement
 
-> **Next.js App Router Data Flow (Default Pattern)**
+[The specific problem/opportunity this addresses]
 
-Server Components fetch data directly. Mutations use Server Actions + `revalidatePath()`.
+## Solution Statement
 
-```typescript
-// 1. Server Component page fetches data directly
-import { createClient } from '@/lib/supabase/server'
-import { ItemList, CreateItemForm } from '@/features/items'
+[The proposed approach and how it solves the problem]
 
-export default async function ItemsPage() {
-  const supabase = await createClient()
-  const { data: items } = await supabase.from('items').select('*')
-  return (
-    <main>
-      <CreateItemForm />
-      <ItemList items={items ?? []} />
-    </main>
-  )
-}
+## Feature Metadata
 
-// 2. Client Component handles interactivity
-'use client'
-import { deleteItem } from '../actions/items'
-import type { Item } from '../schemas/items.schema'
-
-export function ItemList({ items }: { items: Item[] }) {
-  return (
-    <ul>
-      {items.map((item) => (
-        <li key={item.id}>
-          {item.title}
-          <form action={deleteItem.bind(null, item.id)}>
-            <button type="submit">Delete</button>
-          </form>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-// 3. Server Action mutates + revalidates
-'use server'
-import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-
-export async function deleteItem(id: string) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('items').delete().eq('id', id)
-  if (error) throw error
-  revalidatePath('/items')
-}
-```
-
-**Simple pages** can inline data fetching. **Complex features** extract to `src/features/`.
+**Feature Type**: [New Capability/Enhancement/Refactor/Bug Fix]
+**Estimated Complexity**: [Low/Medium/High]
+**Affected Slices**: [features/x, features/y, or NEW: features/z]
+**Database Changes**: [YES/NO]
+**Rendering**: [per-route SSR/SSG/ISR/dynamic]
+**Dependencies**: [external libs/services, or NONE]
+**PRD Alignment**: [PRD section(s) this serves]
 
 ---
 
-> **When to Use Client Components**
+## CONTEXT REFERENCES
 
-Only mark components with `'use client'` when you need:
+### Relevant Codebase Files — IMPORTANT: READ THESE BEFORE IMPLEMENTING
 
-| Need | Server Component? | Client Component? |
-|------|------------------|-------------------|
-| Fetch data | ✅ Direct async | ❌ Needs useEffect |
-| Keep secrets | ✅ Server-only | ❌ Exposed to browser |
-| State (useState) | ❌ | ✅ Required |
-| Event handlers (onClick) | ❌ | ✅ Required |
-| Browser APIs (localStorage) | ❌ | ✅ Required |
-| Form with useActionState | ❌ | ✅ Required |
-| Reduce JS bundle | ✅ Zero JS | ❌ Adds to bundle |
+- `src/features/[similar]/actions/[x].ts:NN` — Why: mirror this Server Action shape
+- `src/features/[similar]/index.ts:NN` — Why: public API surface to follow
+- `src/app/(group)/[similar]/page.tsx:NN` — Why: how a page composes a feature's public API
+- `src/lib/supabase/server.ts` — Why: the server client used by actions
 
-Minimize `'use client'` scope. Pass server-fetched data as props to client components.
+### New Files to Create
 
----
+- `src/features/[FEATURE]/schemas/[FEATURE].schema.ts` — Zod schema(s)
+- `src/features/[FEATURE]/types/[FEATURE].types.ts` — inferred types
+- `src/features/[FEATURE]/actions/[FEATURE].ts` — Server Actions
+- `src/features/[FEATURE]/components/[FEATURE]-list.tsx` — Server/Client Components
+- `src/features/[FEATURE]/components/[FEATURE]-form.tsx`
+- `src/features/[FEATURE]/__tests__/*` — co-located tests
+- `src/features/[FEATURE]/index.ts` — public API
+- `src/app/(group)/[ROUTE]/page.tsx` (+ `loading.tsx` / `error.tsx` as needed)
 
-### Phase 0: Project Setup (if fresh project)
+### Relevant Documentation — READ BEFORE IMPLEMENTING
 
-> Skip if `src/components/ui/` exists (shadcn already initialized)
-> Assumes `pnpm setup` has already been run (deps installed, Supabase running, `.env.local` written).
+- Relevant `.next-docs/*` pages for the Next.js APIs this feature uses (version-accurate — read first)
+- `.agents/documentation/vertical-slice-architecture.md` — slice boundaries, Server/Client split
+- [other relevant `.agents/documentation/*.md` found in Phase 2, if any]
+- [External]: [url#anchor] — Why: [specific need]
 
-```yaml
-Task 0.1 - Setup shadcn/ui:
-  commands:
-    - pnpm dlx shadcn@latest init
-    - pnpm dlx shadcn@latest add button input card form toast
-```
+### Patterns to Follow
 
-### Phase 1: Database Schema (if needed)
-
-```yaml
-Task 1.1 - Create Migration:
-  file: supabase/migrations/[TIMESTAMP]_create_[TABLE].sql
-  content: |
-    CREATE TABLE [TABLE] (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-      [COLUMNS]
-      created_at TIMESTAMPTZ DEFAULT now(),
-      updated_at TIMESTAMPTZ DEFAULT now()
-    );
-
-    -- Enable RLS
-    ALTER TABLE [TABLE] ENABLE ROW LEVEL SECURITY;
-
-    -- RLS Policies
-    CREATE POLICY "[TABLE]_select_own" ON [TABLE]
-      FOR SELECT USING (auth.uid() = user_id);
-
-    CREATE POLICY "[TABLE]_insert_own" ON [TABLE]
-      FOR INSERT WITH CHECK (auth.uid() = user_id);
-
-    CREATE POLICY "[TABLE]_update_own" ON [TABLE]
-      FOR UPDATE USING (auth.uid() = user_id);
-
-    CREATE POLICY "[TABLE]_delete_own" ON [TABLE]
-      FOR DELETE USING (auth.uid() = user_id);
-
-Task 1.2 - Apply Migration:
-  commands:
-    - supabase db reset
-    - supabase gen types typescript --local > src/lib/types/database.types.ts
-```
-
-### Phase 2: Feature Slice - Schemas & Types
-
-```yaml
-Task 2.1 - Zod Schemas:
-  file: src/features/[FEATURE]/schemas/[FEATURE].schema.ts
-  content: |
-    import { z } from 'zod'
-
-    export const [item]Schema = z.object({
-      id: z.string().uuid(),
-      user_id: z.string().uuid(),
-      [FIELDS]
-      created_at: z.string().datetime(),
-      updated_at: z.string().datetime(),
-    })
-
-    export const create[Item]Schema = [item]Schema.omit({
-      id: true,
-      user_id: true,
-      created_at: true,
-      updated_at: true,
-    })
-
-    export const update[Item]Schema = create[Item]Schema.partial()
-
-    export type [Item] = z.infer<typeof [item]Schema>
-    export type Create[Item]Input = z.infer<typeof create[Item]Schema>
-    export type Update[Item]Input = z.infer<typeof update[Item]Schema>
-```
-
-### Phase 3: Feature Slice - Server Actions
-
-```yaml
-Task 3.1 - Server Actions:
-  file: src/features/[FEATURE]/actions/[FEATURE].ts
-  content: |
-    'use server'
-
-    import { revalidatePath } from 'next/cache'
-    import { createClient } from '@/lib/supabase/server'
-    import {
-      [item]Schema,
-      create[Item]Schema,
-      type [Item],
-      type Create[Item]Input,
-    } from '../schemas/[FEATURE].schema'
-
-    export async function fetch[Items](): Promise<[Item][]> {
-      const supabase = await createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
-
-      const { data, error } = await supabase
-        .from('[TABLE]')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      return [item]Schema.array().parse(data)
-    }
-
-    export async function fetch[Item](id: string): Promise<[Item]> {
-      const supabase = await createClient()
-      const { data, error } = await supabase
-        .from('[TABLE]')
-        .select('*')
-        .eq('id', id)
-        .single()
-
-      if (error) throw error
-      return [item]Schema.parse(data)
-    }
-
-    export async function create[Item](input: Create[Item]Input): Promise<void> {
-      const supabase = await createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
-
-      const validated = create[Item]Schema.parse(input)
-      const { error } = await supabase
-        .from('[TABLE]')
-        .insert({ ...validated, user_id: user.id })
-
-      if (error) throw error
-      revalidatePath('/[ROUTE]')
-    }
-
-    export async function delete[Item](id: string): Promise<void> {
-      const supabase = await createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
-
-      const { error } = await supabase
-        .from('[TABLE]')
-        .delete()
-        .eq('id', id)
-
-      if (error) throw error
-      revalidatePath('/[ROUTE]')
-    }
-```
-
-### Phase 4: Feature Slice - Components
-
-> Server Components receive data as typed props. Client Components handle interactivity.
-> Mark with `'use client'` ONLY when the component needs state, events, or browser APIs.
-
-```yaml
-Task 4.1 - Components:
-  description: Create components needed for the feature.
-  pattern_server_component: |
-    import type { [Item] } from '../schemas/[FEATURE].schema'
-
-    interface [Item]CardProps {
-      item: [Item]
-    }
-
-    export function [Item]Card({ item }: [Item]CardProps) {
-      return (
-        <div>
-          <h3>{item.[FIELD]}</h3>
-          <p>{item.[FIELD]}</p>
-        </div>
-      )
-    }
-
-  pattern_client_component: |
-    'use client'
-
-    import { type ReactElement } from 'react'
-    import { delete[Item] } from '../actions/[FEATURE]'
-    import type { [Item] } from '../schemas/[FEATURE].schema'
-
-    interface [Item]ListProps {
-      items: [Item][]
-    }
-
-    export function [Item]List({ items }: [Item]ListProps): ReactElement {
-      if (!items.length) {
-        return <div>No items yet.</div>
-      }
-
-      return (
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              {item.[FIELD]}
-              <form action={delete[Item].bind(null, item.id)}>
-                <button type="submit">Delete</button>
-              </form>
-            </li>
-          ))}
-        </ul>
-      )
-    }
-
-  pattern_form_component: |
-    'use client'
-
-    import { type ReactElement } from 'react'
-    import { useForm } from 'react-hook-form'
-    import { zodResolver } from '@hookform/resolvers/zod'
-    import { create[Item] } from '../actions/[FEATURE]'
-    import { create[Item]Schema, type Create[Item]Input } from '../schemas/[FEATURE].schema'
-
-    export function [Item]Form(): ReactElement {
-      const form = useForm<Create[Item]Input>({
-        resolver: zodResolver(create[Item]Schema),
-        defaultValues: { [FIELD]: '' },
-      })
-
-      const onSubmit = async (data: Create[Item]Input) => {
-        await create[Item](data)
-        form.reset()
-      }
-
-      return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <input {...form.register('[FIELD]')} placeholder="[PLACEHOLDER]" />
-          {form.formState.errors.[FIELD] && (
-            <p>{form.formState.errors.[FIELD]?.message}</p>
-          )}
-          <button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? 'Creating...' : 'Create'}
-          </button>
-        </form>
-      )
-    }
-```
-
-### Phase 5: Feature Slice - Public API
-
-```yaml
-Task 5.1 - Export Public API:
-  file: src/features/[FEATURE]/index.ts
-  content: |
-    export { fetch[Items], fetch[Item], create[Item], delete[Item] } from './actions/[FEATURE]'
-    export { [Item]List } from './components/[Item]List'
-    export { [Item]Form } from './components/[Item]Form'
-    export { [Item]Card } from './components/[Item]Card'
-    export type { [Item], Create[Item]Input } from './schemas/[FEATURE].schema'
-```
-
-### Phase 6: Route Integration with App Router
-
-> **CRITICAL**: Each page task MUST include:
-> 1. Full import list from feature slices
-> 2. Complete data fetching in Server Component
-> 3. Complete generateMetadata with title, description, og:tags (for SEO pages)
-> 4. **Full component JSX** - NO placeholder comments like `{/* TODO */}` or `{/* Content here */}`
-> 5. All data passed as typed props to components
-> 6. loading.tsx for pages with async data
-> 7. error.tsx for pages with data fetching
-
-```yaml
-Task 6.X - [Page Name] Page:
-  file: src/app/[ROUTE_PATH]/page.tsx
-  content: |
-    import type { Metadata } from 'next'
-    import { createClient } from '@/lib/supabase/server'
-    import { [Item]List, [Item]Form } from '@/features/[FEATURE]'
-
-    export const metadata: Metadata = {
-      title: '[TITLE] | AppName',
-      description: '[DESCRIPTION]',
-      openGraph: {
-        title: '[OG_TITLE]',
-        description: '[OG_DESC]',
-      },
-    }
-
-    export default async function [Name]Page() {
-      const supabase = await createClient()
-      const { data: items } = await supabase.from('[TABLE]').select('*')
-
-      return (
-        <main className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">[PAGE_HEADING]</h1>
-          <[Item]Form />
-          <[Item]List items={items ?? []} />
-        </main>
-      )
-    }
-
-Task 6.X - [Page Name] Loading:
-  file: src/app/[ROUTE_PATH]/loading.tsx
-  content: |
-    import { Skeleton } from '@/components/ui/skeleton'
-
-    export default function Loading() {
-      return (
-        <div className="container mx-auto p-4 space-y-4">
-          <Skeleton className="h-8 w-48" />
-          <Skeleton className="h-64 w-full" />
-        </div>
-      )
-    }
-
-Task 6.X - [Page Name] Error:
-  file: src/app/[ROUTE_PATH]/error.tsx
-  content: |
-    'use client'
-
-    export default function Error({
-      error,
-      reset,
-    }: {
-      error: Error & { digest?: string }
-      reset: () => void
-    }) {
-      return (
-        <div className="container mx-auto p-4">
-          <h2 className="text-xl font-bold text-red-600">Something went wrong</h2>
-          <p className="mt-2 text-gray-600">{error.message}</p>
-          <button
-            onClick={() => reset()}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            Try again
-          </button>
-        </div>
-      )
-    }
-```
+[Concrete conventions extracted from the codebase in Phase 2 — Server Action shape, revalidation,
+how actions validate input and use the server client, Server-vs-Client boundary. Include real
+file:line references.]
 
 ---
 
-## Route Completeness Checklist
+## TECHNOLOGY STACK
 
-> **MANDATORY**: Before proceeding to validation, verify EVERY page from the architecture diagram is complete.
-
-For EACH page in `pages_needed`:
-
-- [ ] Page file exists with complete implementation (no placeholders)
-- [ ] Server Component fetches ALL required data
-- [ ] `generateMetadata` includes: title, description, og:title, og:description (for SEO pages)
-- [ ] JSON-LD structured data (if SEO-critical page)
-- [ ] Component renders ACTUAL feature components (not comments/placeholders)
-- [ ] ALL data passed as typed props to child components
-- [ ] `loading.tsx` exists for async pages
-- [ ] `error.tsx` exists for pages with data fetching
-- [ ] Protected pages are inside `(dashboard)/` route group with auth layout
-
-**Missing or incomplete pages = incomplete plan. Do not proceed to validation.**
-
----
-
-## Validation Gates
-
-### Per-Phase Testing
-| Phase | Run Tests? | Command |
+| Layer | Technology | Version |
 |-------|------------|---------|
-| 0. Setup | No | `pnpm install` |
-| 1. Database | No | `supabase db reset` |
-| 2. Schemas | No | - |
-| 3. Server Actions | **YES** | `pnpm test src/features/[FEATURE]/__tests__/*action*` |
-| 4. Components | **YES** | `pnpm test src/features/[FEATURE]/__tests__/` |
-| 5. Public API | No | - |
-| 6. Pages | **YES** | `pnpm build && pnpm test --run` |
+| **Framework** | Next.js (App Router) | 16.x |
+| **UI** | React | ^19 |
+| **Package Manager** | pnpm | 10.x |
+| **UI Kit** | shadcn/ui + Lucide | Latest |
+| **Styling** | Tailwind CSS | ^4 |
+| **Forms** | React Hook Form + Zod | ^7 / ^3 |
+| **Backend** | Supabase (SSR) | ^2.97 |
+| **Linting** | Biome | 2.x |
+| **Testing** | Vitest + Testing Library | Latest |
 
-### Final Validation
-```bash
-pnpm build            # Next.js build must succeed
-pnpm tsc --noEmit     # Type check
-pnpm biome check .    # Lint
-pnpm test --run       # All tests
-```
-
-### SSR Validation
-- [ ] `pnpm build` succeeds
-- [ ] View page source shows rendered HTML (not empty div)
-- [ ] Meta tags appear in page source
-- [ ] No hydration mismatch warnings in console
-- [ ] Data loads without flicker on navigation
+Architecture: vertical slices + App Router — `src/app/` (thin route groups, layouts,
+loading/error) + `src/features/[feature]/` (`components/`, `actions/`, `schemas/`, `types/`,
+`__tests__/`, `index.ts`) + `src/lib/` (supabase clients) + `src/components/` (shared UI). Pages →
+Features via `index.ts`; Server Actions → `lib/` clients; Shared → Features NEVER. See
+`.agents/documentation/vertical-slice-architecture.md`.
 
 ---
 
-## Common Gotchas
+## IMPLEMENTATION PLAN
 
-### Next.js App Router
-- **Server Components are default**: Don't add `'use client'` unless you need state/events/browser APIs
-- **`'use client'` boundary**: Everything imported by a client component becomes client code
-- **Params are Promises**: Always `await params` and `await searchParams` in Next.js 16
-- **Server Actions**: Must be in files with `'use server'` directive at the top
-- **revalidatePath**: Must call after mutations to refresh cached data
-- **generateMetadata**: Can be async and access the same data as the page
-- **error.tsx**: Must be a Client Component (`'use client'`)
-- **loading.tsx**: Automatically wrapped in Suspense boundary
+> Name artifacts + their interfaces. Standard Next.js/React/Supabase code follows conventional
+> patterns; only spell out what's non-obvious or codebase-specific.
 
-### Supabase SSR
-- **Server**: Use `createClient()` from `@/lib/supabase/server` (handles cookies)
-- **Client**: Use `createClient()` from `@/lib/supabase/client` for subscriptions
-- Auth state verified in middleware (session refresh)
-- Use `getUser()` not `getSession()` for server-side auth
-- RLS returns empty array (not error) when blocking
+### Phase 1: Data Layer (Zod schemas + types + Supabase migration)
+Migration (if DB changes), Zod schema + create/update variants, inferred types.
 
-### Environment Variables
-- Client-side: Must have `NEXT_PUBLIC_` prefix
-- Server-side: No prefix needed, only available in Server Components/Actions
+### Phase 2: Server Actions
+`'use server'` reads + create/update/delete mutations; validate with Zod; `revalidatePath`.
 
-### SEO
-- Use `generateMetadata` or static `metadata` export, not external libraries
-- Dynamic metadata can use the same data-fetching as the page (auto-deduplicated)
-- Child routes override parent metadata
+### Phase 3: Components
+Server Components for reads; Client Components (`'use client'`) for interaction; RHF + Zod forms.
+
+### Phase 4: Public API + Route Integration
+`index.ts` exports; an `app/` page composing the feature (+ loading/error).
+
+### Phase 5: Testing & Validation
+Vitest + Testing Library; run tests after each phase.
 
 ---
 
-## Success Criteria
+## STEP-BY-STEP TASKS
 
-- [ ] All phases completed
-- [ ] Build passes (`pnpm build`)
-- [ ] SSR works (view page source shows content)
-- [ ] Meta tags render correctly
-- [ ] Tests pass (`pnpm test --run`)
-- [ ] No hydration mismatches
-- [ ] TypeScript compiles (`pnpm tsc --noEmit`)
-- [ ] Lint passes (`pnpm biome check .`)
+Execute in order, top to bottom. Each task is atomic and independently testable.
+Keywords: **CREATE / UPDATE / ADD / REMOVE / REFACTOR / MIRROR**.
+
+### Phase 1: Data Layer
+
+#### [CREATE] supabase/migrations/[TIMESTAMP]_[NAME].sql  (only if DB changes)
+- **IMPLEMENT**: table + `user_id` FK (cascade) + per-policy indexes + RLS policy set
+- **PATTERN**: [existing migration file:line]
+- **GOTCHA**: index every RLS-filtered column; RLS blocks return empty arrays, not errors
+- **VALIDATE**: `supabase db reset` succeeds, then
+  `supabase gen types typescript --local > src/lib/database.types.ts`
+
+#### [CREATE] src/features/[FEATURE]/schemas/[FEATURE].schema.ts
+- **IMPLEMENT**: Zod row schema + create/update variants (omit/partial)
+- **VALIDATE**: `pnpm tsc --noEmit`
+
+#### [CREATE] src/features/[FEATURE]/types/[FEATURE].types.ts
+- **IMPLEMENT**: `z.infer` type exports from the schema
+- **VALIDATE**: `pnpm tsc --noEmit`
+
+### Phase 2: Server Actions
+
+#### [CREATE] src/features/[FEATURE]/actions/[FEATURE].ts
+- **IMPLEMENT**: `'use server'`; list/get reads + create/update/delete mutations; validate input
+  with the Zod schema; use `lib/supabase/server`; `revalidatePath` after mutations
+- **PATTERN**: [similar action file:line]
+- **DOCS**: `.next-docs/.../08-updating-data.mdx`, `.../09-caching-and-revalidating.mdx`
+- **GOTCHA**: `getUser()` not `getSession()`; never share a client across requests
+- **VALIDATE**: `pnpm tsc --noEmit`
+
+### Phase 3: Components
+
+#### [CREATE] src/features/[FEATURE]/components/[FEATURE]-list.tsx
+- **IMPLEMENT**: Server Component reading via the action; renders empty/success states
+- **PATTERN**: [similar component file:line]
+- **VALIDATE**: `pnpm test src/features/[FEATURE]/__tests__/`
+
+#### [CREATE] src/features/[FEATURE]/components/[FEATURE]-form.tsx
+- **IMPLEMENT**: `'use client'`; React Hook Form + Zod resolver; calls the Server Action
+- **VALIDATE**: `pnpm test src/features/[FEATURE]/__tests__/`
+
+### Phase 4: Public API + Route
+
+#### [CREATE] src/features/[FEATURE]/index.ts
+- **IMPLEMENT**: export the components, actions, and types pages need — nothing more
+- **GOTCHA**: this is the ONLY entry point; no deep imports from outside the slice
+
+#### [CREATE] src/app/(group)/[ROUTE]/page.tsx
+- **IMPLEMENT**: import from the feature's `index.ts`; compose; `generateMetadata` if SEO; thin
+- **PATTERN**: [existing page file:line]
+- **VALIDATE**: `pnpm build`
+
+#### [CREATE] src/app/(group)/[ROUTE]/loading.tsx and error.tsx  (where the fetch warrants it)
+- **IMPLEMENT**: loading fallback + error boundary
+- **VALIDATE**: `pnpm build`
+
+### Phase 5: Tests
+- **IMPLEMENT**: co-located `__tests__/` — mock actions in component tests
+- **VALIDATE**: `pnpm test --run`
+
+---
+
+## VALIDATION COMMANDS
+
+Execute every command to ensure zero regressions and full feature correctness.
+
+### Level 1: Syntax & Types
+`pnpm tsc --noEmit && pnpm lint`
+
+### Level 2: Tests (per phase, then full)
+`pnpm test src/features/[FEATURE]/__tests__/` → `pnpm test --run`
+
+### Level 3: Database (if applicable)
+`supabase db reset && supabase gen types typescript --local > src/lib/database.types.ts`
+
+### Level 4: Build / Manual
+`pnpm build`; then click through the feature — loading/empty/error/success states render.
+
+---
+
+## ACCEPTANCE CRITERIA
+
+- [ ] All specified functionality implemented
+- [ ] All validation commands pass with zero errors
+- [ ] Feature self-contained in a slice; public API minimal; route(s) integrated
+- [ ] Tests co-located in `__tests__/`; pass per phase
+- [ ] Code follows codebase conventions; no `shared/ → features/` leakage
+- [ ] No regressions in existing functionality
+
+## NOTES
+
+[Design decisions, trade-offs, anything the execution agent should know]
+
+---
+
+**Confidence Score**: [#/10] that execution succeeds on the first attempt
+````
+
+## Quality Criteria
+
+- **Context Completeness**: patterns identified, docs linked w/ anchors, integration points mapped,
+  gotchas captured, every task has an executable validation command.
+- **Implementation Ready**: tasks ordered by dependency, atomic, with file:line pattern references.
+- **Pattern Consistency**: follows codebase conventions; no reinvention of existing utils/actions.
+- **No Prior Knowledge Test**: someone unfamiliar with the codebase could implement from the plan alone.
+
+## Output
+
+Created: `.agents/plans/<feature>.md` — execute with `/execute-plan .agents/plans/<feature>.md`.
+
+After creating the plan, report: feature summary + approach, full path, complexity, key risks,
+and a confidence score (#/10) for one-pass success.
