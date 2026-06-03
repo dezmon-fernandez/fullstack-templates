@@ -155,12 +155,20 @@ validity does **not** auto-merge into the parent:
 form(this.model, (p) => validateStandardSchema(p.address, AddressSchema));
 ```
 
-## Custom controls for non-native values
+## Custom controls
 
-When the displayed form differs from the model type — a percent/currency string, a custom
-date format — **format with `linkedSignal` and write the parsed value back on blur**. The
-control produces a value; it never validates (the schema judges parseability via `NaN`).
-For a plain `number`/`Date`, skip this and bind `<input type="number">`.
+`value = model.required<T>()` is the entire contract — `[formField]` two-way-binds it and
+syncs whatever optional state inputs (`dirty`, `required`, …) the control declares. The
+control produces a value and never validates; the schema judges it, parseability included.
+So a control wraps any UI over any type — and falls into one of two fundamentally different
+shapes, which differ in *when and how* the value gets written back.
+
+### Display ≠ model — format/parse with `linkedSignal`
+
+The value the user sees isn't the value you store: a percent/currency string, a masked
+date. Map model→view with `linkedSignal`, and write the parsed value back **on blur**, so a
+half-typed entry isn't reparsed mid-keystroke. (For a plain `number`/`Date`, don't bother —
+bind `<input type="number">`.)
 
 ```ts
 import { Component, linkedSignal, model } from '@angular/core';
@@ -179,16 +187,36 @@ export class PercentInputComponent implements FormValueControl<number> {
 }
 ```
 
-`value = model.required<T>()` is the only required member — `[formField]` two-way-binds
-it and syncs whatever optional state inputs (`dirty`, `required`, …) the control declares.
-That's the whole contract, so a control can wrap *any* UI over *any* type: a chip input is
-a `FormValueControl<string[]>` that does `value.set([...value(), chip])` on add; a
-date-range picker is a `FormValueControl<{ start: Date; end: Date }>`. `linkedSignal` only
-enters when the displayed form differs from the model — as in the percent control above; a
-chip input needs none.
+### Structured value — write on each interaction
+
+The value is a collection or object with no "half-typed" intermediate state: a chip picker,
+a multi-select, a toggle group. No display mapping, no `linkedSignal`, no blur — you
+`value.set(...)` immediately as the user acts.
+
+```ts
+import { Component, model } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
+
+@Component({
+  selector: 'app-chip-input',
+  template: `
+    @for (chip of value(); track chip) {
+      <span class="chip">{{ chip }} <button type="button" (click)="remove(chip)">×</button></span>
+    }
+    <input #box (keydown.enter)="add(box.value); box.value = ''" />
+  `,
+})
+export class ChipInputComponent implements FormValueControl<string[]> {
+  public readonly value = model.required<string[]>();                          // the whole contract
+  protected add(chip: string): void { if (chip) this.value.set([...this.value(), chip]); }
+  protected remove(chip: string): void { this.value.set(this.value().filter((c) => c !== chip)); }
+}
+```
+
+Same one-line contract; `linkedSignal` and blur belong only to the format/parse shape.
 
 > The typings expose `transformedValue` for the format/parse split, but the official guide
-> teaches the `linkedSignal` pattern above. Prefer the guide — see "Note on stability."
+> teaches `linkedSignal`. Prefer the guide — see "Note on stability."
 
 ## Array fields
 
