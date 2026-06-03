@@ -192,16 +192,17 @@ chip input needs none.
 
 ## Array fields
 
-When the model has an array field — say `tags: string[]` — its field node (`form.tags`)
-is iterable: loop it for one control per element, and use `applyEach` to apply a rule to
-every item. (`tags` is your model's field; `form.<field>` and `applyEach` are the API.)
+An array field is nothing special — it's a `string[]` (or object array) declared on your
+model. `form` hands you that array field; `applyEach` applies a rule to each element:
 
 ```ts
+interface ProfileModel { tags: string[]; }
 import { form, required, applyEach } from '@angular/forms/signals';
+
 form(this.model, (p) => applyEach(p.tags, (t) => required(t)));
 ```
 ```html
-@for (tag of form.tags; track $index) { <input [formField]="tag" /> }
+@for (tagField of form.tags; track $index) { <input [formField]="tagField" /> }
 ```
 
 ## When a form misbehaves
