@@ -28,7 +28,7 @@ Model signal, schema-backed validation, binding, error display, submit gate:
 
 ```ts
 import { Component, computed, signal } from '@angular/core';
-import { form, validateStandardSchema } from '@angular/forms/signals';
+import { form, FormField, validateStandardSchema } from '@angular/forms/signals';
 import { z } from 'zod';
 
 const LoginSchema = z.object({ email: z.string().email(), password: z.string().min(8) });
@@ -36,6 +36,7 @@ interface LoginModel { email: string; password: string; }
 
 @Component({
   selector: 'app-login-form',
+  imports: [FormField],
   template: `
     <form (submit)="$event.preventDefault(); onSubmit()">
       <input [formField]="form.email" data-testid="email" />
@@ -59,7 +60,8 @@ export class LoginFormComponent {
 }
 ```
 
-`form.email` is the field node — bind it. `form.email()` is its state — read it
+`[formField]` is a directive — add `FormField` to the component's `imports`. `form.email`
+is the field node — bind it. `form.email()` is its state — read it
 (`value()`, `valid()`, `invalid()`, `touched()`, `dirty()`, `errors()`, all signals). The
 `touched() && invalid()` gate stops a pristine field from showing errors before the user
 types; `touched` flips on blur.
@@ -177,12 +179,17 @@ import { FormValueControl } from '@angular/forms/signals';
 })
 export class PercentInputComponent implements FormValueControl<number> {
   public readonly value = model.required<number>();                     // the whole contract
+  public readonly touched = model<boolean>(false);                      // declare it or the error never shows
   protected readonly display = linkedSignal(() => `${this.value()}%`);  // model → view
   protected updateModel(): void {                                       // view → model, on blur
+    this.touched.set(true);                                             // flip touched so the parent's gate fires
     this.value.set(Number(this.display().replace('%', '').trim()));     // NaN if unparseable
   }
 }
 ```
+
+Declare a `touched` model and set it on blur — otherwise the field never flips `touched`
+and its error never shows.
 
 ### Structured value — write on each interaction
 
@@ -205,12 +212,19 @@ import { FormValueControl } from '@angular/forms/signals';
 })
 export class ChipInputComponent implements FormValueControl<string[]> {
   public readonly value = model.required<string[]>();                          // the whole contract
-  protected add(chip: string): void { if (chip) this.value.set([...this.value(), chip]); }
-  protected remove(chip: string): void { this.value.set(this.value().filter((c) => c !== chip)); }
+  public readonly touched = model<boolean>(false);                             // set it on interaction, not blur
+  protected add(chip: string): void {
+    if (chip) { this.touched.set(true); this.value.set([...this.value(), chip]); }
+  }
+  protected remove(chip: string): void {
+    this.touched.set(true);
+    this.value.set(this.value().filter((c) => c !== chip));
+  }
 }
 ```
 
-Same one-line contract; `linkedSignal` and blur belong only to the format/parse shape.
+Both shapes declare `value` and `touched`; `linkedSignal` and blur belong only to the
+format/parse shape — here you flip `touched` on the interaction.
 
 ## Array fields
 
