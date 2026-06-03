@@ -10,7 +10,7 @@ This file provides guidance to Claude Code when working with Angular 21 + Supaba
 | **Language** | TypeScript | 5.8 (strict) |
 | **Package Manager** | pnpm | 10.x |
 | **Styling** | Tailwind CSS | 4.x |
-| **Forms** | Angular Reactive Forms + Zod | Built-in + 3.24.x |
+| **Forms** | Angular Signal Forms + Zod | Built-in + 3.24.x |
 | **Backend** | Supabase | 2.97.x |
 | **Linting** | Biome | 2.x |
 | **Testing** | Vitest + Testing Library | Built-in + 17.x |
