@@ -286,16 +286,6 @@ harness.findTestId('save-button').click();
 await fixture.whenStable();
 ```
 
-### ❌ Forgetting `await fixture.whenStable()`
-```ts
-it('shows data', () => {
-  mockService.getData.mockReturnValue(of(data));
-  fixture.componentRef.setInput('id', '1');
-  // Missing await fixture.whenStable() — signals/effects haven't flushed
-  expect(harness.findTestIds('row').length).toBe(3); // Likely fails
-});
-```
-
 ### ❌ Not resetting spy calls when setup itself fires them
 ```ts
 // Bad: setup call pollutes count
@@ -316,14 +306,6 @@ beforeEach(async () => {
   await fixture.whenStable();
   mockService.getData.mockClear();
 });
-```
-
-### ❌ Brittle selectors
-```ts
-// Bad: breaks if classes or structure change
-harness.querySelector('.mat-row:nth-child(2) .action-btn');
-// Good: semantic test IDs
-harness.findTestId('row-action-button');
 ```
 
 ## Material CDK harnesses
