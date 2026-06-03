@@ -181,6 +181,11 @@ export class PercentInputComponent implements FormValueControl<number> {
 
 `value = model.required<T>()` is the only required member — `[formField]` two-way-binds
 it and syncs whatever optional state inputs (`dirty`, `required`, …) the control declares.
+That's the whole contract, so a control can wrap *any* UI over *any* type: a chip input is
+a `FormValueControl<string[]>` that does `value.set([...value(), chip])` on add; a
+date-range picker is a `FormValueControl<{ start: Date; end: Date }>`. `linkedSignal` only
+enters when the displayed form differs from the model — as in the percent control above; a
+chip input needs none.
 
 > The typings expose `transformedValue` for the format/parse split, but the official guide
 > teaches the `linkedSignal` pattern above. Prefer the guide — see "Note on stability."
