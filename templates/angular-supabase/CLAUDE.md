@@ -197,6 +197,11 @@ export class MyComponent {
 
 ### Reactive Forms with Zod Validation
 
+> **Signal Forms:** for Angular Signal Forms (`@angular/forms/signals`) — the
+> signal-native forms API — read `.agents/documentation/signal-forms-patterns.md`
+> before building or modifying a form. The reactive-forms pattern below is the
+> template's current default.
+
 ```typescript
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
