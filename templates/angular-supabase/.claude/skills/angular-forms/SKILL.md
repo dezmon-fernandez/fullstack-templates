@@ -187,14 +187,16 @@ it and syncs whatever optional state inputs (`dirty`, `required`, …) the contr
 
 ## Array fields
 
-Iterate `form.aliases` to render rows; use `applyEach` for per-item rules:
+When the model has an array field — say `tags: string[]` — its field node (`form.tags`)
+is iterable: loop it for one control per element, and use `applyEach` to apply a rule to
+every item. (`tags` is your model's field; `form.<field>` and `applyEach` are the API.)
 
 ```ts
 import { form, required, applyEach } from '@angular/forms/signals';
-form(this.model, (p) => applyEach(p.aliases, (a) => required(a)));
+form(this.model, (p) => applyEach(p.tags, (t) => required(t)));
 ```
 ```html
-@for (alias of form.aliases; track $index) { <input [formField]="alias" /> }
+@for (tag of form.tags; track $index) { <input [formField]="tag" /> }
 ```
 
 ## When a form misbehaves
