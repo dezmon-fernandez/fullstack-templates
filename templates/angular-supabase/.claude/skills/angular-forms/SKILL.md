@@ -144,9 +144,6 @@ public readonly form = input.required<FieldTree<EditModel>>();
 <app-editable-field [formField]="form().code" />
 ```
 
-> When `form` came from a local `form()` you bind `form.name`; when it arrived via
-> `input()` you bind `form().name`. Same field, different access.
-
 Graduate to **control-with-inner-form** only when a multi-field group is reused *and*
 validated as a unit — then bridge its validity up explicitly, because an inner form's
 validity does **not** auto-merge into the parent:
@@ -214,9 +211,6 @@ export class ChipInputComponent implements FormValueControl<string[]> {
 ```
 
 Same one-line contract; `linkedSignal` and blur belong only to the format/parse shape.
-
-> The typings expose `transformedValue` for the format/parse split, but the official guide
-> teaches `linkedSignal`. Prefer the guide — see "Note on stability."
 
 ## Array fields
 
