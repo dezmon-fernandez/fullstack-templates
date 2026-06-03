@@ -302,23 +302,6 @@ form(this.model, (p) => applyEach(p.aliases, (a) => required(a)));
 @if (form.email().touched() && form.email().invalid()) { … }
 ```
 
-### ❌ Expecting `form().reset()` to revert the value
-```ts
-// Bad: reset() clears touched/dirty but NOT the value — the edits stay
-form().reset();
-// Good: set the value, then reset the interaction state
-model.set(originalValues);
-form().reset();
-```
-
-### ❌ A parallel copy of form state
-```ts
-// Bad: a second source of truth that drifts the moment the field changes
-isValid = signal(false); // updated by hand somewhere
-// Good: derive off the form
-canSubmit = computed(() => form().valid() && form().dirty());
-```
-
 ### ❌ `value()` vs `valueOf` mixup in cross-field logic
 ```ts
 // Bad: valueOf returns the value directly — calling it throws / compares a value to nothing
