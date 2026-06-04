@@ -10,7 +10,7 @@ This file provides guidance to Claude Code when working with Angular 21 + Supaba
 | **Language** | TypeScript | 5.8 (strict) |
 | **Package Manager** | pnpm | 10.x |
 | **Styling** | Tailwind CSS | 4.x |
-| **Forms** | Angular Reactive Forms + Zod | Built-in + 3.24.x |
+| **Forms** | Angular Signal Forms + Zod | Built-in + 3.24.x |
 | **Backend** | Supabase | 2.97.x |
 | **Linting** | Biome | 2.x |
 | **Testing** | Vitest + Testing Library | Built-in + 17.x |
@@ -195,44 +195,51 @@ export class MyComponent {
 }
 ```
 
-### Reactive Forms with Zod Validation
+### Forms — Signal Forms
+
+This template uses **Signal Forms** (`@angular/forms/signals`) as its only forms
+paradigm. Reactive Forms (`FormGroup`/`FormBuilder`/`formControlName`) is not used —
+don't add `ReactiveFormsModule`.
+
+**On-demand reference:** before building or modifying a form (binding with `[formField]`,
+schema validation, cross-field rules, custom value controls, splitting a form across
+components, load/reset), invoke the `angular-forms` skill. The one principle that frames
+everything: your `signal<Model>` is the single source of truth, `form()` wraps it, and a
+control is a *view* of a field — never the owner of its value or validity.
 
 ```typescript
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed, signal } from '@angular/core';
+import { form, validateStandardSchema } from '@angular/forms/signals';
 import { z } from 'zod';
 
 const createItemSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().optional(),
 });
-
-type CreateItemInput = z.infer<typeof createItemSchema>;
+interface CreateItemModel { title: string; description: string; }
 
 @Component({
   selector: 'app-item-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input formControlName="title" placeholder="Title" />
-      <textarea formControlName="description"></textarea>
-      <button type="submit" [disabled]="form.invalid">Save</button>
+    <form (submit)="$event.preventDefault(); onSubmit()">
+      <input [formField]="form.title" placeholder="Title" />
+      @if (form.title().touched() && form.title().invalid()) {
+        <p>{{ form.title().errors()[0].message }}</p>
+      }
+      <textarea [formField]="form.description"></textarea>
+      <button type="submit" [disabled]="!canSubmit()">Save</button>
     </form>
   `,
 })
 export class ItemFormComponent {
-  private readonly fb = inject(FormBuilder);
+  private readonly model = signal<CreateItemModel>({ title: '', description: '' });
+  protected readonly form = form(this.model, (p) => validateStandardSchema(p, createItemSchema));
+  protected readonly canSubmit = computed(() => this.form().valid() && this.form().dirty());
 
-  form = this.fb.nonNullable.group({
-    title: ['', Validators.required],
-    description: [''],
-  });
-
-  onSubmit() {
-    const result = createItemSchema.safeParse(this.form.getRawValue());
-    if (!result.success) return;
-    // Use result.data (typed as CreateItemInput)
+  protected onSubmit() {
+    if (!this.form().valid()) return;
+    // this.model() is the validated value
   }
 }
 ```

@@ -267,65 +267,6 @@ it('hides error and shows data on retry success', async () => {
 });
 ```
 
-## Anti-patterns
-
-### ❌ Asserting on internal state instead of rendered output
-```ts
-// Bad: testing construction
-expect(component.loading()).toBe(false);
-// Good: testing what the user sees
-expect(harness.existsTestId('loader')).toBe(false);
-```
-
-### ❌ Calling component methods directly
-```ts
-// Bad: bypasses template binding, click handlers, the whole interaction surface
-component.handleSave();
-// Good: tests the full flow
-harness.findTestId('save-button').click();
-await fixture.whenStable();
-```
-
-### ❌ Forgetting `await fixture.whenStable()`
-```ts
-it('shows data', () => {
-  mockService.getData.mockReturnValue(of(data));
-  fixture.componentRef.setInput('id', '1');
-  // Missing await fixture.whenStable() — signals/effects haven't flushed
-  expect(harness.findTestIds('row').length).toBe(3); // Likely fails
-});
-```
-
-### ❌ Not resetting spy calls when setup itself fires them
-```ts
-// Bad: setup call pollutes count
-beforeEach(async () => {
-  mockService.getData.mockReturnValue(of(data));
-  await fixture.whenStable(); // getData called once during init
-});
-
-it('refetches on refresh', async () => {
-  harness.findTestId('refresh').click();
-  await fixture.whenStable();
-  expect(mockService.getData).toHaveBeenCalledTimes(1); // Fails: count is 2
-});
-
-// Good: clear after the setup-triggered call so the test starts at zero
-beforeEach(async () => {
-  mockService.getData.mockReturnValue(of(data));
-  await fixture.whenStable();
-  mockService.getData.mockClear();
-});
-```
-
-### ❌ Brittle selectors
-```ts
-// Bad: breaks if classes or structure change
-harness.querySelector('.mat-row:nth-child(2) .action-btn');
-// Good: semantic test IDs
-harness.findTestId('row-action-button');
-```
-
 ## Material CDK harnesses
 
 For Material components whose internals you can't reach with `data-testid` (`mat-paginator`, `mat-menu`, dialog content, autocomplete panels), fall back to `@angular/cdk/testing` — but only after confirming `TestHarness` doesn't already cover it.

@@ -195,7 +195,7 @@ handling, how services parse Supabase responses. Include real file:line referenc
 | **Language** | TypeScript | ~5.8 |
 | **Package Manager** | pnpm | 10.x |
 | **Styling** | Tailwind CSS | ^4 |
-| **Forms** | Angular Reactive Forms + Zod | Built-in / ^3.24 |
+| **Forms** | Angular Signal Forms + Zod | Built-in / ^3.24 |
 | **Backend** | Supabase JS | ^2.97 |
 | **Linting** | Biome | ^2.0 |
 | **Testing** | Vitest + Testing Library | Built-in / ^17.0 |
@@ -217,7 +217,7 @@ their own postfix-named subfolder at the slice root (`[child]/[child].component.
 Migration (if DB changes), Zod model, `@Injectable` service with signal-backed reads + mutations.
 
 ### Phase 2: Components
-Standalone components — `input()`/`output()` signals, `@if`/`@for`+track, OnPush, Reactive Forms.
+Standalone components — `input()`/`output()` signals, `@if`/`@for`+track, OnPush, Signal Forms.
 
 ### Phase 3: Route Integration
 Feature `[FEATURE].routes.ts` (lazy `loadComponent` + guard) wired into `app.routes.ts`.
@@ -270,7 +270,7 @@ Keywords: **CREATE / UPDATE / ADD / REMOVE / REFACTOR / MIRROR**.
 - **VALIDATE**: `ng test --include='**/[FEATURE]/**'`
 
 #### [CREATE] src/app/features/[FEATURE]/[FEATURE]-form/[FEATURE]-form.component.ts
-- **IMPLEMENT**: Reactive Form; submit runs Zod `safeParse`; emits via `output()` (parent calls the service)
+- **IMPLEMENT**: Signal Form (`form()` over a model signal, schema validation); submit runs Zod `safeParse`; emits via `output()` (parent calls the service)
 - **VALIDATE**: `ng test --include='**/[FEATURE]/**'`
 
 ### Phase 3: Route Integration
