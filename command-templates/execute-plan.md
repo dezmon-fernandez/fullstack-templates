@@ -1,7 +1,6 @@
 ---
 description: Execute an implementation plan
 argument-hint: [path-to-plan]
-allowed-tools: Read, Write, Edit, Bash(ruff:*), Bash(mypy:*), Bash(pytest:*), Bash(npm:*), Bash(bun:*)
 ---
 
 # Execute: Implement from Plan

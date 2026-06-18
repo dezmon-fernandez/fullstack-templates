@@ -20,9 +20,7 @@ Show directory structure:
 
 ### 2. Read Core Documentation
 
-- **Read the PRD (`.agents/PRD.md`) — project source of truth.** Product vision, MVP scope,
-  architecture, success criteria, risks. If it's missing, note the user should run `/create-prd`.
-- Skim `.agents/documentation/` (if present) — established codebase patterns.
+- **Read the PRD (`.agents/PRD.md`) — the project's source of truth** (vision, MVP scope, architecture, success criteria, risks). If it's missing, note the user should run `/create-prd`.
 - Read CLAUDE.md or similar global rules file
 - Read README files at project root and major directories
 - Read any architecture documentation
