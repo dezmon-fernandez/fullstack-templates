@@ -71,27 +71,39 @@ Before completing:
 
 ## Output Report
 
-Provide summary:
+Lead with what changed and what it now enables — not a file dump.
 
-### Completed Tasks
-- List of all tasks completed
-- Files created (with paths)
-- Files modified (with paths)
+### What was built
 
-### Tests Added
-- Test files created
-- Test cases implemented
-- Test results
+Per logical unit (slice / feature / phase): 1–3 plain sentences on what it *does* and how it
+fits — behavior, not a file list. A fresh reader should grasp the capability from this alone.
 
-### Validation Results
-```bash
-# Output from each validation command
-```
+### Data-model / schema / interface changes
 
-### Ready for Commit
-- Confirm all changes are complete
-- Confirm all validations pass
-- Ready for `/commit` command
+The shape changes, first-class and explicit — migrations / DDL, data-model or type changes,
+new or changed public signatures, config or env keys. Show the actual change (the DDL line, the
+field added). Write **none** for a unit that changed no shape — an explicit *none* is
+information. (This is the part a flat file list always loses.)
+
+### Files
+
+- Created (with paths)
+- Modified (with paths)
+- Removed (with paths)
+
+### Validation
+
+- Tests added (files + count) and their result
+- Each validation command from the plan, with its outcome
+
+### Net state
+
+What is now possible or unblocked that wasn't, and what remains gated or next — the capability
+delta ("so what").
+
+### Ready for commit
+
+- All plan tasks complete and all validations green → ready for `/commit`, or name the blocking gap.
 
 ## Notes
 
