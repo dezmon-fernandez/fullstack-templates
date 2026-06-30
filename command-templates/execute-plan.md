@@ -71,27 +71,38 @@ Before completing:
 
 ## Output Report
 
-Provide summary:
+When the work is done, report by filling the template below — every section, in order. Lead with what changed and what it now enables, not a file dump. Show, don't summarize. Write **none** for a section nothing touched. The plan and the repo's CLAUDE.md / docs drive the specifics — keep this to what the slice changed.
 
-### Completed Tasks
-- List of all tasks completed
-- Files created (with paths)
-- Files modified (with paths)
+````markdown
+### What was built
 
-### Tests Added
-- Test files created
-- Test cases implemented
-- Test results
+<Per functional unit: 1–3 plain sentences on what it does and how it fits — behavior, not a bare file list.>
+
+- `path/to/module` — what it does in one line; how it fits.
+
+### Data-model / schema / interface changes
+
+<Anything whose shape or contract changed, so other code must conform; "none" if nothing changed shape.>
+
+- `migration NNNN`: `<the DDL>` · `<Type>` + `<field: type>` · new surface `<name(args) -> Return>` · `<route / component props / config key + its shape>`
 
 ### Validation Results
+
 ```bash
-# Output from each validation command
+$ <lint && type-check && tests>
+<the actual output>
 ```
 
-### Ready for Commit
-- Confirm all changes are complete
-- Confirm all validations pass
-- Ready for `/commit` command
+### Net state
+
+<What is now possible or unblocked that wasn't, and what's gated or next.>
+
+- now unblocked: `<capability>` · next: `<what comes first>`
+
+### Ready for commit
+
+<**Yes** — all tasks done, checks green · **No** — `<the blocking gap>`>
+````
 
 ## Notes
 
