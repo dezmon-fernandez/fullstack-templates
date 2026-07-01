@@ -19,14 +19,12 @@ turns review into archaeology. The loop replaces that with three moves:
 
 ```
   Big or fuzzy feature? Zoom out first:
-  /decompose-feature ─▶ roadmap of slices ─▶ run the loop on each
+  /piv-loop:decompose-feature ─▶ roadmap of slices ─▶ run the loop on each
 
   Per slice — one session each:
-  /prime ─▶ talk it through ─▶ /generate-plan
-                                      │ ⟲ clear context
-                               /execute-plan
-                                      │ ⟲ clear context
-                               /review-plan-code ─▶ green gate ─▶ ship
+  /piv-loop:prime ─▶ talk it through ─▶ /piv-loop:generate-plan   (⟲ clear context)
+  /piv-loop:execute-plan   (⟲ clear context)
+  /piv-loop:review-plan-code ─▶ green gate ─▶ ship
 ```
 
 ## Run one slice
@@ -36,16 +34,16 @@ housekeeping (see below).
 
 | # | Step | Done when |
 |---|------|-----------|
-| 1 | `/prime` | Repo structure, conventions, and current state are in context. |
+| 1 | `/piv-loop:prime` | Repo structure, conventions, and current state are in context. |
 | 2 | Talk it through *(no command)* | You can state what to build and why. Read files, ask, gather — the richer the chat, the better the plan. |
-| 3 | `/generate-plan` | The plan names the full contract + a pseudocode sketch you'd approve. Push on it here — cheapest place to fix a mistake. **⟲ clear after.** |
-| 4 | `/execute-plan <plan>` | Code and tests written from the plan alone, gate green, behavioral report of what shipped. **⟲ clear after.** |
-| 5 | `/review-plan-code <plan> <diff>` | Every contract item is met and tested; each finding is classified (table below). |
+| 3 | `/piv-loop:generate-plan` | The plan names the full contract + a pseudocode sketch you'd approve. Push on it here — cheapest place to fix a mistake. **⟲ clear after.** |
+| 4 | `/piv-loop:execute-plan <plan>` | Code and tests written from the plan alone, gate green, behavioral report of what shipped. **⟲ clear after.** |
+| 5 | `/piv-loop:review-plan-code <plan> <diff>` | Every contract item is met and tested; each finding is classified (table below). |
 
 Green gate → ship the slice, then start the next in a fresh session, planned against what this one
 actually landed. Repeat until the roadmap is clear.
 
-> Small, well-understood change? Skip decompose — start at `/prime`. Seed the PRD once with
+> Small, well-understood change? Skip decompose — start at `/piv-loop:prime`. Seed the PRD once with
 > `/create-prd`.
 
 ## Why the two context clears
@@ -57,7 +55,7 @@ actually landed. Repeat until the roadmap is clear.
 
 ## What makes a good slice
 
-`/decompose-feature` enforces these:
+`/piv-loop:decompose-feature` enforces these:
 
 - **Slice 1 proves the inviolable property** end to end, with the fewest moving parts.
 - **One architecture decision per slice** — bundle several and review goes coarse.
@@ -84,7 +82,7 @@ every plan aligns to it; it grounds the loop rather than being a step in it.
 ```
 .agents/
 ├── PRD.md                              # source of truth — every plan aligns to it
-├── feature-ideas/<feature>-roadmap.md  # slice roadmap from /decompose-feature
+├── feature-ideas/<feature>-roadmap.md  # slice roadmap from /piv-loop:decompose-feature
 └── plans/<slice>.md                    # one contract + pseudocode plan per slice
 ```
 
