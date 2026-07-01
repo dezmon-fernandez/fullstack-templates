@@ -19,12 +19,16 @@ turns review into archaeology. The loop replaces that with three moves:
 
 ```
   Big or fuzzy feature? Zoom out first:
-  /piv-loop:decompose-feature ─▶ roadmap of slices ─▶ run the loop on each
+  /piv-loop:decompose-feature  ─▶  roadmap of slices  ─▶  run the loop on each
 
-  Per slice — one session each:
-  /piv-loop:prime ─▶ talk it through ─▶ /piv-loop:generate-plan   (⟲ clear context)
-  /piv-loop:execute-plan   (⟲ clear context)
-  /piv-loop:review-plan-code ─▶ green gate ─▶ ship
+  Then, per slice:
+  /piv-loop:prime  ─▶  talk it through  ─▶  /piv-loop:generate-plan
+        │
+        ▼   ⟲ clear context
+  /piv-loop:execute-plan
+        │
+        ▼   ⟲ clear context
+  /piv-loop:review-plan-code  ─▶  green gate  ─▶  ship
 ```
 
 ## Run one slice
