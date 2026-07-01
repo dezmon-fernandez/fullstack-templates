@@ -11,8 +11,9 @@ argument-hint: [feature, PRD section, or feature-idea doc]
 
 Break a feature into a phased roadmap of granular slices and the order to build them. Each slice is a
 single unit of work: one architecture decision to make, small enough to plan and implement in one
-session, large enough to ship and stand on its own. The roadmap is built one slice per session, so
-each session plans against what the previous one actually landed rather than a guess made up front.
+session, large enough to ship and stand on its own. Building them in order lets each be planned
+against what the earlier ones actually landed, not a guess made up front — plan one at a time, or
+batch a few when they come out fine-grained.
 
 A slice entry says **what it develops, the problem it solves, and any constraints it must respect** —
 and stops there. It does not specify signatures, data shapes, enums, file-level design, or tests:
@@ -67,11 +68,6 @@ Write the roadmap to `.agents/feature-ideas/<feature>-roadmap.md`:
 
 ```markdown
 # <Feature> — execution roadmap
-
-Each slice runs in its own session: `/piv-loop:prime`, read this roadmap, `/piv-loop:generate-plan
-<the slice's line>`, review and confirm the plan, `/piv-loop:execute-plan <plan>`,
-`/piv-loop:review-plan-code <plan> <diff>`, confirm the gate is green, then check the slice off and
-commit. One slice per session.
 
 ## Keystone
 <the deliverable this feature produces; the inviolable property it must never break; the docs to read
