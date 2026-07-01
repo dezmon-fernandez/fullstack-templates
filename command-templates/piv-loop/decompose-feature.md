@@ -67,7 +67,7 @@ Write the roadmap to `.agents/feature-ideas/<feature>-roadmap.md`:
 ```markdown
 # <Feature> — execution roadmap
 
-Each slice runs in its own session: `/prime`, read this roadmap, `/generate-plan-alt <the slice's
+Each slice runs in its own session: `/prime`, read this roadmap, `/generate-plan <the slice's
 generate line>`, review and confirm the plan, `/execute-plan <plan>`, `/review-code <plan> <diff>`,
 confirm the gate is green, then check the slice off and commit. One slice per session.
 
@@ -87,7 +87,7 @@ feature must never violate>
 ---
 
 ### A — <name>
-- **Generate with:** `/generate-plan-alt <terse statement of intent>`
+- **Generate with:** `/generate-plan <terse statement of intent>`
 - **Delivers:** <the single observable change>
 - **Decision to review:** <the one architecture decision this slice surfaces>
 - **Must honor:** <the business rules and edge cases this slice's plan has to specify>
@@ -101,7 +101,7 @@ feature must never violate>
 Filled example of one slice:
 
 ### pure core (independent)
-- **Generate with:** `/generate-plan-alt pure function mapping <input> → <output>, no I/O`
+- **Generate with:** `/generate-plan pure function mapping <input> → <output>, no I/O`
 - **Delivers:** a typed, tested pure function; no caller yet
 - **Decision to review:** the return/result shape downstream depends on
 - **Must honor:** the inviolable property; reject malformed input (fail loud)
