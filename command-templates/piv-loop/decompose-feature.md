@@ -68,7 +68,7 @@ Write the roadmap to `.agents/feature-ideas/<feature>-roadmap.md`:
 # <Feature> — execution roadmap
 
 Each slice runs in its own session: `/prime`, read this roadmap, `/generate-plan <the slice's
-generate line>`, review and confirm the plan, `/execute-plan <plan>`, `/review-code <plan> <diff>`,
+generate line>`, review and confirm the plan, `/execute-plan <plan>`, `/review-plan-code <plan> <diff>`,
 confirm the gate is green, then check the slice off and commit. One slice per session.
 
 ## Keystone
