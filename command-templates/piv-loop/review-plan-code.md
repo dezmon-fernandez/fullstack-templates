@@ -3,7 +3,7 @@ description: "Review an implementation against its plan — confirm every part o
 argument-hint: [path-to-plan] [diff or paths implemented]
 ---
 
-# Review code against its plan
+# Review plan and code
 
 ## Inputs: $ARGUMENTS
 
