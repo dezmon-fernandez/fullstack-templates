@@ -34,21 +34,9 @@ slices — or a plan wearing a roadmap's clothes.
   the repo's rules (CLAUDE.md) and PRD; do not invent it. The first slice proves it; every later
   slice preserves it.
 - Note the **docs to read before planning** — the design/PRD sections a slice's plan should start
-  from. This is a roadmap-level callout in the Keystone, not a per-slice field.
-- Establish user value, the systems touched, and a rough slice count.
+  from. A Keystone callout, not a per-slice field.
 
-### Phase 2: Map the current ground
-
-Slices build on what exists, not on assumption. Before cutting, determine:
-
-- What is already in place — modules, write paths, scaffolds, the existing regression floor.
-- What is stubbed or missing.
-- The seams the feature plugs into.
-
-Read the codebase and the feature's design docs — enough to cut the slices at real boundaries. What
-you learn shapes the *sequencing*; it does not become slice-level implementation notes.
-
-### Phase 3: Cut the slices
+### Phase 2: Cut the slices
 
 - **Slice 1 proves the inviolable property** end to end with the fewest moving parts — the thinnest
   path that shows the keystone holds. Widen from there.
@@ -61,8 +49,11 @@ you learn shapes the *sequencing*; it does not become slice-level implementation
 - **Settle the irreversible early.** A decision that ripples through everything downstream — a key
   type every reference depends on — is made and reviewed before anything builds on it. A decision
   that can be reshaped later from data already in hand can wait.
+- **Cut against what exists, don't assume.** Build on the modules and seams you already know; where
+  it's unclear whether something exists yet, record it as a sequencing question rather than guessing.
+  Deep code discovery is the plan's job, not the roadmap's.
 
-### Phase 4: Sequence and check
+### Phase 3: Sequence and check
 
 - Order the slices by dependency; mark which are independent and which integrate others.
 - Confirm each slice carries exactly one architecture decision, ends shippable, and ends at a green
@@ -85,10 +76,6 @@ commit. One slice per session.
 ## Keystone
 <the deliverable this feature produces; the inviolable property it must never break; the docs to read
 before planning any slice, each with what it provides>
-
-## Ground rules (every slice)
-<the repo rules the feature must never violate; every slice preserves the inviolable property and ends
-shippable, gate-green (lint · types · tests, plus a regression-floor test that pins its result)>
 
 ## Slices
 - [ ] **A** — <name> (independent)
