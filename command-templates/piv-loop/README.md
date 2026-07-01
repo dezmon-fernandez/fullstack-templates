@@ -26,7 +26,7 @@ turns review into archaeology. The loop replaces that with three moves:
                                       │ ⟲ clear context
                                /execute-plan
                                       │ ⟲ clear context
-                               /review-code ─▶ green gate ─▶ /commit
+                               /review-code ─▶ green gate ─▶ ship
 ```
 
 ## Run one slice
@@ -41,10 +41,9 @@ housekeeping (see below).
 | 3 | `/generate-plan` | The plan names the full contract + a pseudocode sketch you'd approve. Push on it here — cheapest place to fix a mistake. **⟲ clear after.** |
 | 4 | `/execute-plan <plan>` | Code and tests written from the plan alone, gate green, behavioral report of what shipped. **⟲ clear after.** |
 | 5 | `/review-code <plan> <diff>` | Every contract item is met and tested; each finding is classified (table below). |
-| 6 | `/commit` | One atomic, gate-green commit; the slice is checked off. |
 
-Then start the next slice in a fresh session, planned against what this one actually landed. Repeat
-until the roadmap is clear.
+Green gate → ship the slice, then start the next in a fresh session, planned against what this one
+actually landed. Repeat until the roadmap is clear.
 
 > Small, well-understood change? Skip decompose — start at `/prime`. Seed the PRD once with
 > `/create-prd`; when divergences recur, `/execution-report → /system-review` turns them into durable
