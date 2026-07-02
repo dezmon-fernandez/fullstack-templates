@@ -58,7 +58,7 @@ slices — or a plan wearing a roadmap's clothes.
 
 - Order the slices by dependency; mark which are independent and which integrate others.
 - Confirm each slice carries exactly one architecture decision, ends shippable, and ends at a green
-  gate. A slice carrying several decisions is split.
+  gate; split any slice carrying more than one decision.
 - Confirm each entry stays at the develops / problem / constraints altitude — no signatures, data
   shapes, enums, or tests have crept in. If they have, that content belongs in the plan, not here.
 
@@ -90,19 +90,21 @@ before planning any slice, each with what it provides>
 ### B — <name>  (same shape)
 ### C — <name>  (same shape; integrator)
 
-Filled example of one slice:
-
-### pure core (independent)
-- **Develops:** a typed, tested pure function mapping <input> → <output>; no caller yet.
-- **Solves:** downstream slices need a trustworthy primitive to build on before any I/O exists.
-- **Constraints:** no I/O, no DB, no network; malformed input fails loud.
-- **Depends on:** nothing · **Enables:** the writer slice that persists its output.
-
 ---
 
 ## Sequencing questions
 <decisions left to the moment a specific slice is planned — each with the current best answer and the
 doc that settles it>
+```
+
+A filled slice, for shape:
+
+```markdown
+### pure core (independent)
+- **Develops:** a typed, tested pure function mapping <input> → <output>; no caller yet.
+- **Solves:** downstream slices need a trustworthy primitive to build on before any I/O exists.
+- **Constraints:** no I/O, no DB, no network; malformed input fails loud.
+- **Depends on:** nothing · **Enables:** the writer slice that persists its output.
 ```
 
 ## Quality criteria
