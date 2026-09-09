@@ -22,7 +22,8 @@ Its contents:
 If that printed `(no pending handover)`, skip to step 1. Otherwise:
 
 1. Treat the handover as the current position for the rest of this priming. Its
-   "Do not" section states operator constraints that stay in force in this session.
+   constraints and prohibitions apply to prime's own reads in the steps below, not only
+   to the work after: a file the handover says not to read is not read during priming.
 2. Verify any claim in it before acting on that claim in a way that spends credits,
    writes to production, or cannot be undone. A handover records one moment, and the
    tree may have moved since.
@@ -62,11 +63,9 @@ Based on the structure, identify and read:
 ### 4. Understand Current State
 
 Recent activity:
-
 !`git log -10 --oneline`
 
 Current branch and working-tree state:
-
 !`git status`
 
 ## Output Report
@@ -106,10 +105,8 @@ Include this section only when step 0 consumed a handover; otherwise end the rep
 
 Brief the operator in two parts, both drawn from the handover.
 
-First the story, one prose paragraph: what we are building and why, and where it stands —
-the decision made, the assumption disproven, the constraint hit. Real names (files,
-branches, commands), never session shorthand; lead with what would surprise someone
-returning after a day away.
+First the story, one prose paragraph: what is being built, why, and where it stands —
+written so someone returning after a day away understands it without opening a file.
 
 Then the same-page check:
 
@@ -118,5 +115,4 @@ Then the same-page check:
 - **Next task(s)** — the immediate work, in order.
 - **Open decisions** — calls only the operator can make, and what each unblocks.
 
-If the operator can read it in thirty seconds and start working without opening another
-file, it worked.
+Current State describes the repository as it stands; this describes the work in motion.
